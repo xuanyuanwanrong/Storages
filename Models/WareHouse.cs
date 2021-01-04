@@ -12,24 +12,32 @@ namespace Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Customer
+    public partial class WareHouse
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Customer()
+        public WareHouse()
         {
-            this.Delivery = new HashSet<Delivery>();
+            this.MoveBank = new HashSet<MoveBank>();
             this.Product = new HashSet<Product>();
+            this.WareProduct = new HashSet<WareProduct>();
         }
     
-        public int CtId { get; set; }
-        public string CtName { get; set; }
-        public string CtIphone { get; set; }
-        public string CtAddress { get; set; }
-        public Nullable<System.DateTime> Time { get; set; }
+        public int WhId { get; set; }
+        public Nullable<int> WhTypeId { get; set; }
+        public string WhName { get; set; }
+        public Nullable<bool> IsForbidden { get; set; }
+        public Nullable<System.DateTime> WhTime { get; set; }
+        public Nullable<int> WhStateId { get; set; }
+        public Nullable<int> Stid { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Delivery> Delivery { get; set; }
+        public virtual ICollection<MoveBank> MoveBank { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Product> Product { get; set; }
+        public virtual Storehouse Storehouse { get; set; }
+        public virtual WareHouseType WareHouseType { get; set; }
+        public virtual WhState WhState { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<WareProduct> WareProduct { get; set; }
     }
 }

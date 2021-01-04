@@ -4,44 +4,66 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="6092bab1a79b4c0dbac75ac8bdfa90be" Name="Diagram1">
-        <EntityTypeShape EntityType="JooWMSModel.Admin" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="JooWMSModel.BadReport" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="JooWMSModel.BadReportDetail" Width="1.5" PointX="4.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="JooWMSModel.CheckData" Width="1.5" PointX="4.75" PointY="5.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="JooWMSModel.CheckStock" Width="1.5" PointX="6.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="JooWMSModel.CheckStockInfo" Width="1.5" PointX="0.75" PointY="6.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="JooWMSModel.CloneHistory" Width="1.5" PointX="6.75" PointY="6.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="JooWMSModel.CloneTemp" Width="1.5" PointX="8.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="JooWMSModel.CusAddress" Width="1.5" PointX="8.75" PointY="6.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="JooWMSModel.Customer" Width="1.5" PointX="0.75" PointY="9.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="JooWMSModel.Equipment" Width="1.5" PointX="10.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="JooWMSModel.InStorage" Width="1.5" PointX="2.75" PointY="10.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="JooWMSModel.InStorDetail" Width="1.5" PointX="10.75" PointY="4.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="JooWMSModel.InventoryBook" Width="1.5" PointX="8.75" PointY="10.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="JooWMSModel.LocalProduct" Width="1.5" PointX="10.75" PointY="9.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="JooWMSModel.Location" Width="1.5" PointX="12.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="JooWMSModel.Measure" Width="1.5" PointX="4.75" PointY="12.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="JooWMSModel.MeasureRel" Width="1.5" PointX="12.75" PointY="6.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="JooWMSModel.MoveOrder" Width="1.5" PointX="12.75" PointY="9.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="JooWMSModel.MoveOrderDetail" Width="1.5" PointX="14.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="JooWMSModel.OutStoDetail" Width="1.5" PointX="14.75" PointY="5.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="JooWMSModel.OutStorage" Width="1.5" PointX="14.75" PointY="10.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="JooWMSModel.Product" Width="1.5" PointX="4.75" PointY="15.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="JooWMSModel.ProductCategory" Width="1.5" PointX="6.75" PointY="15.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="JooWMSModel.ReportParams" Width="1.5" PointX="8.75" PointY="15.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="JooWMSModel.Reports" Width="1.5" PointX="10.75" PointY="15.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="JooWMSModel.ReturnDetail" Width="1.5" PointX="16.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="JooWMSModel.ReturnOrder" Width="1.5" PointX="16.75" PointY="5.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="JooWMSModel.Sequence" Width="1.5" PointX="16.75" PointY="12.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="JooWMSModel.Storage" Width="1.5" PointX="12.75" PointY="17.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="JooWMSModel.Supplier" Width="1.5" PointX="18.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="JooWMSModel.SysDepart" Width="1.5" PointX="0.75" PointY="18.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="JooWMSModel.sysdiagrams" Width="1.5" PointX="18.75" PointY="5.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="JooWMSModel.SysRelation" Width="1.5" PointX="18.75" PointY="8.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="JooWMSModel.SysResource" Width="1.5" PointX="18.75" PointY="11.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="JooWMSModel.SysRole" Width="1.5" PointX="14.75" PointY="18.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="JooWMSModel.TNum" Width="1.5" PointX="16.75" PointY="18.75" IsExpanded="true" />
+      <Diagram DiagramId="9b7d22cec3f346eca2149f2fb77404d6" Name="Diagram1">
+        <EntityTypeShape EntityType="StorageModel.Bad" Width="1.5" PointX="3" PointY="9.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="StorageModel.BadType" Width="1.5" PointX="0.75" PointY="7.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="StorageModel.Customer" Width="1.5" PointX="1.5" PointY="17.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="StorageModel.Delivery" Width="1.5" PointX="6" PointY="9.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="StorageModel.Department" Width="1.5" PointX="1.5" PointY="47.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="StorageModel.Jurisdiction" Width="1.5" PointX="1.5" PointY="50.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="StorageModel.Metering" Width="1.5" PointX="1.5" PointY="20.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="StorageModel.MoveBank" Width="1.5" PointX="3" PointY="5.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="StorageModel.Product" Width="1.5" PointX="1.5" PointY="23.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="StorageModel.ProductCategory" Width="1.5" PointX="1.5" PointY="28.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="StorageModel.Relation" Width="1.5" PointX="3.75" PointY="24.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="StorageModel.ReturnPrduct" Width="1.5" PointX="3" PointY="13.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="StorageModel.ReturnPrductType" Width="1.5" PointX="0.75" PointY="14.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="StorageModel.Storehouse" Width="1.5" PointX="1.5" PointY="37" IsExpanded="true" />
+        <EntityTypeShape EntityType="StorageModel.Supplier" Width="1.5" PointX="3.75" PointY="44.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="StorageModel.SupplierType" Width="1.5" PointX="1.5" PointY="45" IsExpanded="true" />
+        <EntityTypeShape EntityType="StorageModel.sysdiagrams" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="StorageModel.User" Width="1.5" PointX="3.75" PointY="48.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="StorageModel.WareHouse" Width="1.5" PointX="1.5" PointY="32.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="StorageModel.WareHouseType" Width="1.5" PointX="1.5" PointY="39.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="StorageModel.Warehousing" Width="1.5" PointX="6" PointY="4.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="StorageModel.WareProduct" Width="1.5" PointX="8.25" PointY="5" IsExpanded="true" />
+        <EntityTypeShape EntityType="StorageModel.WareState" Width="1.5" PointX="0.75" PointY="10.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="StorageModel.WareStateType" Width="1.5" PointX="3.75" PointY="32.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="StorageModel.WhState" Width="1.5" PointX="1.5" PointY="42.125" IsExpanded="true" />
+        <AssociationConnector Association="StorageModel.FK_Bad_BadType" ManuallyRouted="false" />
+        <AssociationConnector Association="StorageModel.FK_Bad_User" ManuallyRouted="false" />
+        <AssociationConnector Association="StorageModel.FK_Bad_Warehousing" ManuallyRouted="false" />
+        <AssociationConnector Association="StorageModel.FK_Bad_WareState" ManuallyRouted="false" />
+        <AssociationConnector Association="StorageModel.FK_Delivery_Customer" ManuallyRouted="false" />
+        <AssociationConnector Association="StorageModel.FK_Product_Customer" ManuallyRouted="false" />
+        <AssociationConnector Association="StorageModel.FK_Delivery_User" ManuallyRouted="false" />
+        <AssociationConnector Association="StorageModel.FK_Delivery_Warehousing" ManuallyRouted="false" />
+        <AssociationConnector Association="StorageModel.FK_Delivery_WareState" ManuallyRouted="false" />
+        <AssociationConnector Association="StorageModel.FK_User_Department" ManuallyRouted="false" />
+        <AssociationConnector Association="StorageModel.FK_User_Jurisdiction" ManuallyRouted="false" />
+        <AssociationConnector Association="StorageModel.FK_Product_Metering" ManuallyRouted="false" />
+        <AssociationConnector Association="StorageModel.FK_MoveBank_User" ManuallyRouted="false" />
+        <AssociationConnector Association="StorageModel.FK_MoveBank_WareHouse" ManuallyRouted="false" />
+        <AssociationConnector Association="StorageModel.FK_MoveBank_Warehousing" ManuallyRouted="false" />
+        <AssociationConnector Association="StorageModel.FK_MoveBank_WareState" ManuallyRouted="false" />
+        <AssociationConnector Association="StorageModel.FK_Product_ProductCategory" ManuallyRouted="false" />
+        <AssociationConnector Association="StorageModel.FK_Product_WareHouse" ManuallyRouted="false" />
+        <AssociationConnector Association="StorageModel.FK_Relation_Product" ManuallyRouted="false" />
+        <AssociationConnector Association="StorageModel.FK_Warehousing_Relation" ManuallyRouted="false" />
+        <AssociationConnector Association="StorageModel.FK_ReturnPrduct_ReturnPrductType" ManuallyRouted="false" />
+        <AssociationConnector Association="StorageModel.FK_ReturnPrduct_User" ManuallyRouted="false" />
+        <AssociationConnector Association="StorageModel.FK_ReturnPrduct_Warehousing" ManuallyRouted="false" />
+        <AssociationConnector Association="StorageModel.FK_ReturnPrduct_WareState" ManuallyRouted="false" />
+        <AssociationConnector Association="StorageModel.FK_WareHouse_Storehouse" ManuallyRouted="false" />
+        <AssociationConnector Association="StorageModel.FK_Supplier_SupplierType" ManuallyRouted="false" />
+        <AssociationConnector Association="StorageModel.FK_Warehousing_Supplier" ManuallyRouted="false" />
+        <AssociationConnector Association="StorageModel.FK_Warehousing_User" ManuallyRouted="false" />
+        <AssociationConnector Association="StorageModel.FK_WareHouse_WareHouseType" ManuallyRouted="false" />
+        <AssociationConnector Association="StorageModel.FK_WareHouse_WhState" ManuallyRouted="false" />
+        <AssociationConnector Association="StorageModel.FK_WareProduct_WareHouse" ManuallyRouted="false" />
+        <AssociationConnector Association="StorageModel.FK_Warehousing_WareState" ManuallyRouted="false" />
+        <AssociationConnector Association="StorageModel.FK_Warehousing_WareStateType" ManuallyRouted="false" />
+        <AssociationConnector Association="StorageModel.FK_WareProduct_Warehousing" ManuallyRouted="false" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

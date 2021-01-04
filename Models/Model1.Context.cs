@@ -13,10 +13,10 @@ namespace Models
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class JooWMSEntities : DbContext
+    public partial class StorageEntities : DbContext
     {
-        public JooWMSEntities()
-            : base("name=JooWMSEntities")
+        public StorageEntities()
+            : base("name=StorageEntities")
         {
         }
     
@@ -25,42 +25,30 @@ namespace Models
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<Admin> Admin { get; set; }
-        public virtual DbSet<BadReport> BadReport { get; set; }
-        public virtual DbSet<BadReportDetail> BadReportDetail { get; set; }
-        public virtual DbSet<CheckData> CheckData { get; set; }
-        public virtual DbSet<CheckStock> CheckStock { get; set; }
-        public virtual DbSet<CheckStockInfo> CheckStockInfo { get; set; }
-        public virtual DbSet<CloneHistory> CloneHistory { get; set; }
-        public virtual DbSet<CloneTemp> CloneTemp { get; set; }
-        public virtual DbSet<CusAddress> CusAddress { get; set; }
+        public virtual DbSet<Bad> Bad { get; set; }
+        public virtual DbSet<BadType> BadType { get; set; }
         public virtual DbSet<Customer> Customer { get; set; }
-        public virtual DbSet<Equipment> Equipment { get; set; }
-        public virtual DbSet<InStorage> InStorage { get; set; }
-        public virtual DbSet<InStorDetail> InStorDetail { get; set; }
-        public virtual DbSet<InventoryBook> InventoryBook { get; set; }
-        public virtual DbSet<LocalProduct> LocalProduct { get; set; }
-        public virtual DbSet<Location> Location { get; set; }
-        public virtual DbSet<Measure> Measure { get; set; }
-        public virtual DbSet<MeasureRel> MeasureRel { get; set; }
-        public virtual DbSet<MoveOrder> MoveOrder { get; set; }
-        public virtual DbSet<MoveOrderDetail> MoveOrderDetail { get; set; }
-        public virtual DbSet<OutStoDetail> OutStoDetail { get; set; }
-        public virtual DbSet<OutStorage> OutStorage { get; set; }
+        public virtual DbSet<Delivery> Delivery { get; set; }
+        public virtual DbSet<Department> Department { get; set; }
+        public virtual DbSet<Jurisdiction> Jurisdiction { get; set; }
+        public virtual DbSet<Metering> Metering { get; set; }
+        public virtual DbSet<MoveBank> MoveBank { get; set; }
         public virtual DbSet<Product> Product { get; set; }
         public virtual DbSet<ProductCategory> ProductCategory { get; set; }
-        public virtual DbSet<ReportParams> ReportParams { get; set; }
-        public virtual DbSet<Reports> Reports { get; set; }
-        public virtual DbSet<ReturnDetail> ReturnDetail { get; set; }
-        public virtual DbSet<ReturnOrder> ReturnOrder { get; set; }
-        public virtual DbSet<Sequence> Sequence { get; set; }
-        public virtual DbSet<Storage> Storage { get; set; }
+        public virtual DbSet<Relation> Relation { get; set; }
+        public virtual DbSet<ReturnPrduct> ReturnPrduct { get; set; }
+        public virtual DbSet<ReturnPrductType> ReturnPrductType { get; set; }
+        public virtual DbSet<Storehouse> Storehouse { get; set; }
         public virtual DbSet<Supplier> Supplier { get; set; }
-        public virtual DbSet<SysDepart> SysDepart { get; set; }
+        public virtual DbSet<SupplierType> SupplierType { get; set; }
         public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
-        public virtual DbSet<SysRelation> SysRelation { get; set; }
-        public virtual DbSet<SysResource> SysResource { get; set; }
-        public virtual DbSet<SysRole> SysRole { get; set; }
-        public virtual DbSet<TNum> TNum { get; set; }
+        public virtual DbSet<User> User { get; set; }
+        public virtual DbSet<WareHouse> WareHouse { get; set; }
+        public virtual DbSet<WareHouseType> WareHouseType { get; set; }
+        public virtual DbSet<Warehousing> Warehousing { get; set; }
+        public virtual DbSet<WareProduct> WareProduct { get; set; }
+        public virtual DbSet<WareState> WareState { get; set; }
+        public virtual DbSet<WareStateType> WareStateType { get; set; }
+        public virtual DbSet<WhState> WhState { get; set; }
     }
 }

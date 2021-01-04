@@ -12,24 +12,30 @@ namespace Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Customer
+    public partial class WareState
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Customer()
+        public WareState()
         {
+            this.Bad = new HashSet<Bad>();
             this.Delivery = new HashSet<Delivery>();
-            this.Product = new HashSet<Product>();
+            this.MoveBank = new HashSet<MoveBank>();
+            this.ReturnPrduct = new HashSet<ReturnPrduct>();
+            this.Warehousing = new HashSet<Warehousing>();
         }
     
-        public int CtId { get; set; }
-        public string CtName { get; set; }
-        public string CtIphone { get; set; }
-        public string CtAddress { get; set; }
-        public Nullable<System.DateTime> Time { get; set; }
+        public int Sid { get; set; }
+        public string Sname { get; set; }
     
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Bad> Bad { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Delivery> Delivery { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Product> Product { get; set; }
+        public virtual ICollection<MoveBank> MoveBank { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ReturnPrduct> ReturnPrduct { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Warehousing> Warehousing { get; set; }
     }
 }

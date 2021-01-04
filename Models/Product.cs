@@ -14,34 +14,29 @@ namespace Models
     
     public partial class Product
     {
-        public int ID { get; set; }
-        public string SnNum { get; set; }
-        public string BarCode { get; set; }
-        public string ProductName { get; set; }
-        public double Num { get; set; }
-        public double MinNum { get; set; }
-        public double MaxNum { get; set; }
-        public string UnitNum { get; set; }
-        public string UnitName { get; set; }
-        public string CateNum { get; set; }
-        public string CateName { get; set; }
-        public string Size { get; set; }
-        public string Color { get; set; }
-        public double InPrice { get; set; }
-        public double OutPrice { get; set; }
-        public double AvgPrice { get; set; }
-        public double NetWeight { get; set; }
-        public double GrossWeight { get; set; }
-        public string Description { get; set; }
-        public string PicUrl { get; set; }
-        public int IsDelete { get; set; }
-        public System.DateTime CreateTime { get; set; }
-        public string CreateUser { get; set; }
-        public string StorageNum { get; set; }
-        public string DefaultLocal { get; set; }
-        public string CusNum { get; set; }
-        public string CusName { get; set; }
-        public string Display { get; set; }
-        public string Remark { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Product()
+        {
+            this.Relation = new HashSet<Relation>();
+        }
+    
+        public int PId { get; set; }
+        public int MId { get; set; }
+        public string PName { get; set; }
+        public Nullable<double> PPrice { get; set; }
+        public string Pspecifications { get; set; }
+        public string PRemarks { get; set; }
+        public Nullable<int> PcId { get; set; }
+        public Nullable<int> PCount { get; set; }
+        public Nullable<int> WhId { get; set; }
+        public Nullable<int> CtId { get; set; }
+        public Nullable<int> PState { get; set; }
+    
+        public virtual Customer Customer { get; set; }
+        public virtual Metering Metering { get; set; }
+        public virtual ProductCategory ProductCategory { get; set; }
+        public virtual WareHouse WareHouse { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Relation> Relation { get; set; }
     }
 }

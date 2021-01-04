@@ -14,12 +14,19 @@ namespace Models
     
     public partial class ProductCategory
     {
-        public int ID { get; set; }
-        public string CateNum { get; set; }
-        public string CateName { get; set; }
-        public int IsDelete { get; set; }
-        public System.DateTime CreateTime { get; set; }
-        public string CreateUser { get; set; }
-        public string Remark { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public ProductCategory()
+        {
+            this.Product = new HashSet<Product>();
+        }
+    
+        public int Pcid { get; set; }
+        public string PcName { get; set; }
+        public Nullable<System.DateTime> time { get; set; }
+        public string PcRemarks { get; set; }
+        public Nullable<int> PcState { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Product> Product { get; set; }
     }
 }

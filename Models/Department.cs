@@ -12,24 +12,18 @@ namespace Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Supplier
+    public partial class Department
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Supplier()
+        public Department()
         {
-            this.Warehousing = new HashSet<Warehousing>();
+            this.User = new HashSet<User>();
         }
     
-        public int SlId { get; set; }
-        public Nullable<int> SlTypeId { get; set; }
-        public string SlrName { get; set; }
-        public string SlDescribe { get; set; }
-        public string SlContacts { get; set; }
-        public string SlIphone { get; set; }
-        public string SlAddress { get; set; }
+        public int did { get; set; }
+        public string Department1 { get; set; }
     
-        public virtual SupplierType SupplierType { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Warehousing> Warehousing { get; set; }
+        public virtual ICollection<User> User { get; set; }
     }
 }

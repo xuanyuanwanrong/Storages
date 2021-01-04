@@ -12,12 +12,17 @@ namespace Models
     using System;
     using System.Collections.Generic;
     
-    public partial class MeasureRel
+    public partial class WareProduct
     {
-        public int ID { get; set; }
-        public string SN { get; set; }
-        public string MeasureSource { get; set; }
-        public string MeasureTarget { get; set; }
-        public Nullable<double> Rate { get; set; }
+        public int WPid { get; set; }
+        public string WPname { get; set; }
+        public string WPsize { get; set; }
+        public Nullable<decimal> WPprice { get; set; }
+        public Nullable<int> WPnum { get; set; }
+        public Nullable<int> WhId { get; set; }
+        public Nullable<int> Wid { get; set; }
+    
+        public virtual WareHouse WareHouse { get; set; }
+        public virtual Warehousing Warehousing { get; set; }
     }
 }
