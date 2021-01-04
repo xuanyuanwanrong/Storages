@@ -10,6 +10,7 @@
         <link rel="stylesheet" href="../css/xadmin.css">
         <script src="../lib/layui/layui.js" charset="utf-8"></script>
         <script type="text/javascript" src="../js/xadmin.js"></script>
+        <script src="../Scripts/jquery-3.4.1.min.js"></script>
         <!--[if lt IE 9]>
           <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
           <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
@@ -66,7 +67,7 @@
 									<th>库存数</th>
 									</tr>
                                 </thead>
-                                <tbody>
+                                <tbody id="tbl">
                                   <tr>
                                   
                                     <td>1</td>
@@ -95,7 +96,32 @@
         </div> 
     </body>
 
-    <script type="text/javascript">
-      
-    </script>
+    
 </html>
+<script type="text/javascript">
+    var PageIndex = 1;
+    var PageSize = 5;
+    var Count = 0;
+    $(function () {
+        WhAll();
+    });
+    function WhAll() {
+        $.ajax({
+            url: "/Ma/WhAll",
+            data: "{PageIndex:" + PageIndex + ",PageSize:" + PageSize + "}",
+            type: "post",
+            dataType: "json",
+            contentType: "application/json",
+            success: function (result) {
+                $("#tbl").empty();
+              
+                $.each(result.DataList, function (index, data) {
+                    $("#tbl").append("<tr><td>" + data.wid + "</td><td>" + data.username + "</td><td>男</td><td>13000000000</td><td>北京市 海淀区</td><td>北京市 海淀区</td><td>北京市 海淀区</td><td>北京市 海淀区</td><td>北京市 海淀区</td></tr >")
+                });
+            },
+            error: function (ex) {
+                alert("Error:" + ex.responseText);
+            }
+        });
+    }
+</script>
