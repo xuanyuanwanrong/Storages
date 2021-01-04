@@ -41,12 +41,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Peng\MeasureManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Kevin\" />
     <Folder Include="Ma\" />
+    <Folder Include="Peng\" />
     <Folder Include="Qin\" />
     <Folder Include="Xuan\" />
     <Folder Include="Yu\" />
