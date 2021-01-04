@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Models;
-using BLL.Peng;
+
 namespace Storage.Controllers.Peng
 {
     public class PengController : Controller
@@ -14,8 +14,6 @@ namespace Storage.Controllers.Peng
         {
             return View();
         }
-        public ActionResult MeasureAll() {
-            return Json(MeasureManager.MeasureAll(), JsonRequestBehavior.AllowGet);
-        }
+       
     }
 }

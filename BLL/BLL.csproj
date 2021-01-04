@@ -43,14 +43,7 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Kevin\" />
-    <Folder Include="Ma\" />
-    <Folder Include="Peng\" />
-    <Folder Include="Qin\" />
-    <Folder Include="Xuan\" />
-    <Folder Include="Yu\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\DAL\DAL.csproj">
       <Project>{01cb6524-9396-43ad-bb74-b840a7f8da10}</Project>

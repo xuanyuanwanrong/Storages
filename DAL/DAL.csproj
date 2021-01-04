@@ -56,13 +56,6 @@
       <Name>Models</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Kevin\" />
-    <Folder Include="Ma\" />
-    <Folder Include="PengDAL\" />
-    <Folder Include="Qin\" />
-    <Folder Include="Xuan\" />
-    <Folder Include="Yu\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
