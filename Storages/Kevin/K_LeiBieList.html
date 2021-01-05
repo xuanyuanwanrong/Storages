@@ -97,7 +97,7 @@
                                 </tbody>
                             </table>
                             <div  id="fengYe">
-
+                                shgnhmjkijhgfd
                             </div>
                         </div>
                         
@@ -128,7 +128,7 @@
             success: function (result) {
                 $("#tb_ProductCategory").empty();
                 //获取总页数
-                pageCount = result.PageCount;
+               
                 //alert(result.PageCount);
                 
                 $.each(result.DataList, function (index, data) {
@@ -140,7 +140,7 @@
                     laypage.render({
                         elem: 'fengYe'
                         , count: result.PageCount
-                        , limit: PageSize
+                        , limit: pageSize
                         , limits: [5, 10, 15, 20, 25, 30,]
                         , layout: ['count', 'prev', 'page', 'next', 'limit', 'refresh', 'skip']
                         , jump: function (obj, first) {
