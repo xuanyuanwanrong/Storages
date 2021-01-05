@@ -343,7 +343,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BLL\BLL.csproj">
-      <Project>{8cfaf510-1ba6-44b9-8474-953717e004f5}</Project>
+      <Project>{4bf523ad-135c-4e47-80d5-61aa6a69905b}</Project>
       <Name>BLL</Name>
     </ProjectReference>
     <ProjectReference Include="..\Models\Models.csproj">

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Models;
-using BLL.LiuYingXuan;
+//using BLL.LiuYingXuan;
 
 namespace Storage.Controllers.Xuan
 {
@@ -16,9 +16,9 @@ namespace Storage.Controllers.Xuan
             return View();
         }
 
-        public ActionResult GetWareHouse()
-        {
-            return Json(WareHouseManager.GetWareHouse(), JsonRequestBehavior.AllowGet);
-        }
+        //public ActionResult GetWareHouse()
+        //{
+        //    return Json(WareHouseManager.GetWareHouse(), JsonRequestBehavior.AllowGet);
+        //}
     }
 }

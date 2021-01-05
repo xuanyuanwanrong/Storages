@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Models;
-using BLL.Qin;
+
 
 namespace Storage.Controllers.Qin
 {
@@ -15,9 +15,6 @@ namespace Storage.Controllers.Qin
         {
             return Redirect("Qin/Q_member-list");
         }
-        public ActionResult GetAll()
-        {
-            //return Json();
-        }
+       
     }
 }
