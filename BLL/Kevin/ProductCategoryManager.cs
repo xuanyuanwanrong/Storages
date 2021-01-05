@@ -14,5 +14,9 @@ namespace BLL.Kevin
         {
             return ProductCategoryService.ProductCategoryList(PageIndex, PageSize);
         }
+        public static int ProductCategoryAdd(ProductCategory pro)
+        {
+            return ProductCategoryService.ProductCategoryAdd(pro);
+        }
     }
 }
