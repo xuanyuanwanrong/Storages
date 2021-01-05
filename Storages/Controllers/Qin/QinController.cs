@@ -16,7 +16,7 @@ namespace Storage.Controllers.Qin
         }
         public ActionResult GetAll()
         {
-            //return Json();
+            return View();
         }
     }
 }
