@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-
+using Models;
+using BLL;
 namespace Storage.Controllers.Qin
 {
     public class QinController : Controller
@@ -13,5 +14,9 @@ namespace Storage.Controllers.Qin
         {
             return View();
         }
+        //public ActionResult GetAll()
+        //{
+        //    //return Json();
+        //}
     }
 }
