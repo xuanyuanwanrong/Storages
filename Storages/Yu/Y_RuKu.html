@@ -18,9 +18,7 @@
           <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
         <![endif]-->
     </head>
-<style>
-	
-</style>
+
 <body>
 	<div class="x-nav">
 		<span class="layui-breadcrumb">
@@ -123,14 +121,14 @@
 	</div>
 	<script src="../Scripts/jquery-3.4.1.min.js"></script>
 	<script src="../lib/layui/layui.js"></script>
-	<script>
+	<script type="text/javascript">
 		var pageIndex = 1;
 		var pageSize = 3;
 		var pageCount = 0;
 		var rows = 0;
 
 		$(function () {
-            GetRows();
+        GetRows();
 
             PageList(pageIndex, pageSize);
 
@@ -146,7 +144,7 @@
 				success: function (re) {
 					$("#box tr").remove();
 					$.each(re.DataList, function (index, data) {
-                        $("#box").append("<tr><td><input type='checkbox' name='' lay-skin='primary'></td><td>" + data.wid + "</td><td>" + data.tname + "</td><td>" + data.sname + "</td><td>" + data.rid + "</td><td>" + data.num + "</td><td>" + (data.num) * (data.price) + "</td><td>" + data.state + "</td><td>" + data.user + "</td><td>" + data.time + "</td><td class='td - manage'><button class='layui - btn layui - btn - warm layui - btn - xs' onclick='xadmin.open('编辑', 'admin-edit.html')'><i class='layui - icon'>&#xe642;</i>查看</button> < button class= 'layui-btn-danger layui-btn layui-btn-xs' onclick = 'member_del(this,'要删除的id')' href = 'javascript:;' > <i class='layui-icon'>&#xe640;</i>删除</button ></td></tr>");
+                        $("#box").append("<tr><td><input type=checkbox  lay-skin=primary /></td><td>" + data.wid + "</td><td>" + data.tname + "</td><td>" + data.sname + "</td><td>" + data.rid + "</td><td>" + data.num + "</td><td>" + (data.num) * (data.price) + "</td><td>" + data.state + "</td><td>" + data.user + "</td><td>" + data.time + "</td><td class='td - manage'><button class='layui - btn layui - btn - warm layui - btn - xs' onclick='xadmin.open('编辑', 'admin-edit.html')'><i class='layui - icon'>&#xe642;</i>查看</button> < button class= 'layui-btn-danger layui-btn layui-btn-xs' onclick = 'member_del(this,'要删除的id')' href = 'javascript:;' > <i class='layui-icon'>&#xe640;</i>删除</button ></td></tr>");
 					});
 				},
 				error: function (ex) {
