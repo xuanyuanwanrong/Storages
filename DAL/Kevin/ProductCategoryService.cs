@@ -32,10 +32,10 @@ namespace DAL.Kevin
                       };
             //设置分页数据
             list.DataList = obj.Skip((PageIndex - 1) * PageSize).Take(PageSize);
+             
             
-            int rows = entities.ProductCategory.Count();
             //设置总页数
-            list.PageCount = rows % PageSize == 0 ? rows / PageSize : rows / PageSize + 1;
+            list.PageCount = entities.ProductCategory.Count();
             return list;
         }
 
