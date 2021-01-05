@@ -9,12 +9,27 @@ namespace DAL.Qin
 {
     public class SupplierService
     {
+
+        public static IQueryable GetByName(string SlrName)
+        {
+            StorageEntities entity = new StorageEntities();
+            var obj = from p in entity.Supplier
+                      where p.SlrName == SlrName
+                      select new
+                      {
+                          SlId = p.SlId,
+                          SupplierTypeName = p.SupplierType.SupplierTypeName,
+                          SlrName = p.SlrName,
+                          SlDescribe = p.SlDescribe,
+                          SlContacts = p.SlContacts,
+                          SlIphone = p.SlIphone,
+                          SlAddress = p.SlAddress
+                      };
+            return obj;
+        }
+
         public static IQueryable GetAll()
         {
-
-
-
-
             StorageEntities entity = new StorageEntities();
             var obj = from p in entity.Supplier
                       select new
