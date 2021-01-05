@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="Kevin\ProductCategoryManager.cs" />
     <Compile Include="MaBLL\WarehousingManager.cs" />
+    <Compile Include="MaBLL\WareStateTypeManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />

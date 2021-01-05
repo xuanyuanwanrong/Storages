@@ -16,13 +16,18 @@ namespace DAL.MaDAL
         {
             PageList list = new PageList();
             StorageEntities entity = new StorageEntities();
-            var obj =from p in entity.Warehousing orderby p.Wid
+            var obj =from p in entity.Warehousing  where p.WState==2 orderby p.Wid
                       select new
                       {
                           wid = p.Wid,
                           username = p.User.UserName,
                           time = p.time,
-                          tname = p.WareStateType.TName
+                          tname = p.WareStateType.TName,
+                          gname=p.Supplier.SlrName,
+                          kleix=p.WareStateType.TName,
+                          chanping=p.Product.PName,
+                        dizhi=  p.Supplier.SlAddress
+                          
                       };
             
             list.DataList = obj.Skip((PageIndex - 1) * PageSize).Take(PageSize);

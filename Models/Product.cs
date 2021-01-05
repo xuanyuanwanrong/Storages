@@ -18,6 +18,7 @@ namespace Models
         public Product()
         {
             this.Relation = new HashSet<Relation>();
+            this.Warehousing = new HashSet<Warehousing>();
         }
     
         public int PId { get; set; }
@@ -38,5 +39,7 @@ namespace Models
         public virtual WareHouse WareHouse { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Relation> Relation { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Warehousing> Warehousing { get; set; }
     }
 }

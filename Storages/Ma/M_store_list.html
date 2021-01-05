@@ -18,94 +18,82 @@
     </head>
     <body>
         <div class="x-nav">
-          <a class="layui-btn layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right" onclick="location.reload()" title="刷新">
-            <i class="layui-icon layui-icon-refresh" style="line-height:30px"></i></a>
+            <a class="layui-btn layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right" onclick="location.reload()" title="刷新">
+                <i class="layui-icon layui-icon-refresh" style="line-height:30px"></i>
+            </a>
         </div>
         <div class="layui-fluid">
             <div class="layui-row layui-col-space15">
                 <div class="layui-col-md12">
                     <div class="layui-card">
                         <div class="layui-card-body ">
-                            <form class="layui-form layui-col-space5">
-								库位：
+                           
+                                产品名称：
                                 <div class="layui-inline layui-show-xs-block">
-									
-                                    <input class="layui-input"  autocomplete="off" placeholder="请输入仓库位置" name="warehouse_location" id="product_name" type="text">
+                                    <input class="layui-input" placeholder="请输入产品名称" name="product_name" id="product_name" type="text">
+                                   
                                 </div>
-								产品：
+                                入库类型：
                                 <div class="layui-inline layui-show-xs-block">
-									
-                                    <input class="layui-input"  placeholder="请输入产品名称" name="product_name" id="product_name" type="text">
+                                    <select name="city" lay-verify="" id="leixing">
+                                      
+                                    </select>
                                 </div>
-                               <div class="layui-inline layui-show-xs-block">
-                                  <select name="city" lay-verify="">
-									  <option value="1">hello</option>
-								</select>
-                               </div>
+
                                 <div class="layui-inline layui-show-xs-block">
-                                    <button class="layui-btn"  lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;</i></button>
+                                    <button class="layui-btn" lay-submit="" lay-filter="sreach" id="chaxun"><i class="layui-icon">&#xe615;</i></button>
                                 </div>
-								 <div class="layui-inline layui-show-xs-block" style="float: right;">
-								    <button class="layui-btn">导出Excel</button>
-								</div>
-                            </form>
+                                <div class="layui-inline layui-show-xs-block" style="float: right;">
+                                    <button class="layui-btn">导出Excel</button>
+                                </div>
+                           
                         </div>
-                       
+
                         <div class="layui-card-body layui-table-body layui-table-main">
                             <table class="layui-table layui-form">
                                 <thead>
-                                  <tr>
-                                   
-                                    <th>库位</th>
-                                    <th>库位类型</th>
-                                    <th>产品条形码</th>
-                                    <th>产品名称</th>
-                                    <th>类别</th>
-                                    <th>规格</th>
-                                    <th>预警值下线</th>
-									<th>预警值上线</th>
-									<th>库存数</th>
-									</tr>
+                                    <tr>
+                                        <th>编号</th>
+                                        <th>供应商名称</th>
+                                        <th>产品名称</th>
+                                        <th>类别</th>
+                                        <th>规格</th>
+                                        <th>供应商地址</th>
+                                        <th>库存数</th>
+                                        <th>入库时间</th>
+                                    </tr>
                                 </thead>
                                 <tbody id="tbl">
-                                  <tr>
-                                  
-                                    <td>1</td>
-                                    <td>小明</td>
-                                    <td>男</td>
-                                    <td>13000000000</td>
-                                    <td>北京市 海淀区</td>
-                                   <td>北京市 海淀区</td>
-								   <td>北京市 海淀区</td>
-								   <td>北京市 海淀区</td>
-								   <td>北京市 海淀区</td>
-                                  </tr>
                                 </tbody>
                             </table>
-                        </div>
-                        <div class="layui-card-body ">
-                            <div class="page">
-                                <div>
-                                 
-                                </div>
+                            <div id="fenye">
+
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div> 
+        </div>
+        
     </body>
 
     
 </html>
 <script type="text/javascript">
-    var PageIndex = 1;
-    var PageSize = 5;
+    var Index = 1;
+    var Size = 5;
     var Count = 0;
     $(function () {
-        WhAll();
+        WhAll(Index, Size);
+       WsTypeAll();
     });
-    function WhAll() {
+    //时间戳转日期
+    function GetDataTime(op) {
+        var date = new Date(parseInt(op.substring(6)));
+        return date.toLocaleDateString();
+    }
+    //分页查询
+    function WhAll(PageIndex, PageSize) {
         $.ajax({
             url: "/Ma/WhAll",
             data: "{PageIndex:" + PageIndex + ",PageSize:" + PageSize + "}",
@@ -114,12 +102,48 @@
             contentType: "application/json",
             success: function (result) {
                 $("#tbl").empty();
-              
                 $.each(result.DataList, function (index, data) {
-                    $("#tbl").append("<tr><td>" + data.wid + "</td><td>" + data.username + "</td><td>男</td><td>13000000000</td><td>北京市 海淀区</td><td>北京市 海淀区</td><td>北京市 海淀区</td><td>北京市 海淀区</td><td>北京市 海淀区</td></tr >")
+                    $("#tbl").append("<tr><td>" + data.wid + "</td>" + data.chanping + "<td>" + data.username + "</td><td></td><td>" + data.kleix + "</td><td>" + data.tname + "</td><td>" + data.dizhi + "</td><td>" + data.kleix + "</td><td>" + GetDataTime(data.time) + "</td></tr >")
+                });
+                layui.use(['laypage', 'layer'], function () {
+                    var laypage = layui.laypage
+                        , layer = layui.layer;
+                    laypage.render({
+                        elem: 'fenye'
+                        , count: result.PageCount
+                        , limit: PageSize
+                        , limits: [5, 10, 15, 20, 25, 30,]
+                        , layout: ['count', 'prev', 'page', 'next', 'limit', 'refresh', 'skip']
+                        , jump: function (obj, first) {
+                            if (!first) {
+                                WhAll(obj.curr, obj.limit);
+                            }
+                        }
+                    });
+
                 });
             },
             error: function (ex) {
+                alert("Error:" + ex.responseText);
+            }
+        });
+    }
+
+    //查询所有入库类型
+    function WsTypeAll() {
+        $.ajax({
+            url: "/Ma/WsTypeAll",
+            data: "{}",
+            type: "post",
+            dataType: "json",
+            contentType: "application/json",
+            success: function (result) {
+                $("#leixing").empty();
+                $("#leixing").prepend("<option type=0>请选择</option>")
+                $.each(result, function (index, data) {
+                    $("#leixing").append("<option type=" + data.tid + ">" + data.tname + "</option>")
+                });
+            }, error: function (ex) {
                 alert("Error:" + ex.responseText);
             }
         });
