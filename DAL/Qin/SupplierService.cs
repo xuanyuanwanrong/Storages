@@ -11,6 +11,10 @@ namespace DAL.Qin
     {
         public static IQueryable GetAll()
         {
+
+
+
+
             StorageEntities entity = new StorageEntities();
             var obj = from p in entity.Supplier
                       select new
