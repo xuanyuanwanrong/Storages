@@ -269,6 +269,8 @@
     <Content Include="lib\layui\lay\modules\tree.js" />
     <Content Include="lib\layui\lay\modules\upload.js" />
     <Content Include="lib\layui\lay\modules\util.js" />
+    <Content Include="LiuYingXuan\order-add.html" />
+    <Content Include="LiuYingXuan\order-list.html" />
     <Content Include="Ma\index.html" />
     <Content Include="Ma\M_breakage.html" />
     <Content Include="Ma\M_client.html" />
@@ -281,6 +283,7 @@
     <Content Include="Ma\M_store_list.html" />
     <Content Include="Ma\M_supplier.html" />
     <Content Include="Peng\O_KeHuList.html" />
+    <Content Include="Qin\Q_order-list.html" />
     <Content Include="Qin\Q_member-Jues.html" />
     <Content Include="Qin\Q_member-list.html" />
     <Content Include="Scripts\bootstrap.js" />
@@ -323,7 +326,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Models\" />
-    <Folder Include="Xuan\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

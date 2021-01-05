@@ -111,7 +111,7 @@
 <script type="text/javascript">
     var pageIndex = 1;
     var pageSize = 10;
-    var pageCount = 0;
+    
 
         ProductCategoryList();
 
@@ -137,7 +137,7 @@
                         , layer = layui.layer;
                     laypage.render({
                         elem: 'fengYe'
-                        , count: result.pageCount
+                        , count: result.PageCount
                         , limit: pageSize
                         , limits: [5, 10, 15, 20, 25, 30,]
                         , layout: ['count', 'prev', 'page', 'next', 'limit', 'refresh', 'skip']

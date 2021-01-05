@@ -42,7 +42,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Kevin\ProductCategoryManager.cs" />
+<<<<<<< HEAD
+    <Compile Include="LiuYingXuan\WareHouseManager.cs" />
+=======
     <Compile Include="Lxy\RuKumanager.cs" />
+>>>>>>> 71d8ceccf0b049f20a33e1c876b3ad9c440066c0
     <Compile Include="MaBLL\WarehousingManager.cs" />
     <Compile Include="MaBLL\WareStateTypeManager.cs" />
     <Compile Include="Peng\CustomerMangeng.cs" />
