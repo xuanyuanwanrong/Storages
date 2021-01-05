@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using BLL.Kevin;
+using Models;
 
 namespace Storage.Controllers.Kevin
 {
@@ -17,6 +18,10 @@ namespace Storage.Controllers.Kevin
         public ActionResult ProductCategoryList(int PageIndex,int PageSize)
         {
             return Json(ProductCategoryManager.ProductCategoryList(PageIndex, PageSize), JsonRequestBehavior.AllowGet);
+        }
+        public ActionResult ProductCategoryAdd(ProductCategory pro)
+        {
+            return Json(ProductCategoryManager.ProductCategoryAdd(pro), JsonRequestBehavior.AllowGet);
         }
     }
 }
