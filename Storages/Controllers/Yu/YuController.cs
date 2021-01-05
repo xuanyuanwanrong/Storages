@@ -12,7 +12,7 @@ namespace Storage.Controllers.Yu
     {
         public ActionResult Index()
         {
-            return View("Yu/Y_RuKu.html");
+            return View();
         }
 
         #region  入库单查询所有

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Models;
 using DAL.Lxy;
 
 namespace BLL.Lxy
@@ -19,7 +20,7 @@ namespace BLL.Lxy
             return RuKu.RuKuRows();
         }
 
-        public static IQueryable SelectRuKuAll(int pageIndex, int PageSize)
+        public static PageList SelectRuKuAll(int pageIndex, int PageSize)
         {
             return RuKu.SelectRuKuAll(pageIndex, PageSize);
         }
