@@ -48,6 +48,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Kevin\ProductCategoryService.cs" />
     <Compile Include="MaDAL\WarehousingService.cs" />
     <Compile Include="MaDAL\WareStateTypeService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
