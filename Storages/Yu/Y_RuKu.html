@@ -88,48 +88,26 @@
 													<th>总金额</th>
 													<th>状态</th>
 													<th>制单人</th>
-													<th>操作方式</th>
+													
 													<th>创建时间</th>
 													<th width="250">操作</th>
 											</thead>
-											<tbody class="x-cate">
+											<tbody class="x-cate" id="box">
 												<tr cate-id='1' fid='0'>
-													<td>
-														<input type="checkbox" name="" lay-skin="primary">
-													</td>
-													<td>1</td>
-													<td>
-
-														产品管理
-													</td>
-													<td>发v给对方</td>
-													<td>
-														0001
-													</td>
-													<td>56</td>
-													<td>75362.00</td>
-													<td>审核成功</td>
-													<td>ansdn</td>
-													<td>电脑</td>
-													<td>2020-12-29</td>
-
-													<td class="td-manage">
-														<button class="layui-btn layui-btn layui-btn-xs" onclick="xadmin.open('编辑','admin-edit.html')"><i class="layui-icon">&#xe642;</i>编辑</button>
-														<button class="layui-btn layui-btn-warm layui-btn-xs" onclick="xadmin.open('编辑','admin-edit.html')"><i class="layui-icon">&#xe642;</i>添加子栏目</button>
-														<button class="layui-btn-danger layui-btn layui-btn-xs" onclick="member_del(this,'要删除的id')" href="javascript:;"><i class="layui-icon">&#xe640;</i>删除</button>
-													</td>
 												</tr>
 
 											</tbody>
 										</table>
 									</div>
 									<div class="layui-card-body ">
-										<div class="pagelist">
+										<div id="pagelist">
 
 										</div>
 									</div>
 								</div>
-
+								<div class="layui-tab-item">2</div>
+								<div class="layui-tab-item">3</div>
+								<div class="layui-tab-item">4</div>
 
 							</div>
 						</div>
@@ -149,7 +127,12 @@
 		var pageIndex = 1;
 		var pageSize = 3;
 		var pageCount = 0;
+		var rows = 0;
+
 		$(function () {
+            GetRows();
+
+            PageList(pageIndex, pageSize);
 
 		});
 
@@ -161,9 +144,9 @@
 				dataType: "json",
 				contentType: "application/json",
 				success: function (re) {
-					$("#tb1 tr").remove();
-					$.each(result.DataList, function (index, data) {
-						$("#tb1").append("<tr><td>" + data.sid + "</td><td>" + data.name + "</td><td>" + data.age + "</td><td>" + data.dName + "</td><td><a href='#' class='layui-btn layui-btn-warm' onclick='return Del(" + data.sid + ")'>删除</a><a href='/DemoAJAX/Update?id=" + data.sid + "' class='layui-btn layui-btn-normal'>修改</a></td></tr>");
+					$("#box tr").remove();
+					$.each(re.DataList, function (index, data) {
+                        $("#box").append("<tr><td><input type='checkbox' name='' lay-skin='primary'></td><td>" + data.wid + "</td><td>" + data.tname + "</td><td>" + data.sname + "</td><td>" + data.rid + "</td><td>" + data.num + "</td><td>" + (data.num) * (data.price) + "</td><td>" + data.state + "</td><td>" + data.user + "</td><td>" + data.time + "</td><td class='td - manage'><button class='layui - btn layui - btn - warm layui - btn - xs' onclick='xadmin.open('编辑', 'admin-edit.html')'><i class='layui - icon'>&#xe642;</i>查看</button> < button class= 'layui-btn-danger layui-btn layui-btn-xs' onclick = 'member_del(this,'要删除的id')' href = 'javascript:;' > <i class='layui-icon'>&#xe640;</i>删除</button ></td></tr>");
 					});
 				},
 				error: function (ex) {
@@ -171,6 +154,46 @@
 				}
 			});
 		}
+
+        function GetRows() {
+            $.ajax({
+                type: "POST",
+                url: "/Yu/RuKuRows",
+                data: "{}",
+                dataType: "json",
+                contentType: "application/json",
+                success: function (result) {
+                    //获取总条数
+                    rows = result;
+                    layui.use(['laypage', 'layer'], function () {
+                        var laypage = layui.laypage
+                            , layer = layui.layer;
+                        //完整功能
+                        laypage.render({
+                            elem: 'pagelist'
+                            //设置总条数
+                            , count: rows
+                            , layout: ['count', 'prev', 'page', 'next', 'limit', 'refresh', 'skip']
+                            , jump: function (obj, first) {
+                                if (!first) {
+                                    //调用我们自己分页的方法
+                                    //obj.curr 当前页码
+                                    //obj.limit 每页显示条数
+                                    PageList(obj.curr, obj.limit);
+                                }
+
+                            }
+                        });
+
+                    });
+
+                },
+                error: function (ex) {
+                    alert(ex.responseText);
+                }
+            });
+
+        }
 	</script>
 </body>
 </html>
