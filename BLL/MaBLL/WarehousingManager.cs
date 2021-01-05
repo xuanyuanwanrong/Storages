@@ -13,8 +13,11 @@ namespace BLL.MaBLL
         /// 库存清单
         /// </summary>
         /// <returns></returns>
-        public static PageList WhAll(int PageIndex,int PageSize) {
-            return WarehousingService.WhAll(PageIndex,PageSize);
+        public static PageList WhAll(int PageIndex,int PageSize,int typeid,string name) {
+            if (typeid==0) {
+                return WarehousingService.WhAll2(PageIndex,PageSize,name);
+            }
+            return WarehousingService.WhAll(PageIndex,PageSize,typeid,name);
         }
     }
 }

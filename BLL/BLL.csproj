@@ -45,6 +45,7 @@
     <Compile Include="Lxy\RuKumanager.cs" />
     <Compile Include="MaBLL\WarehousingManager.cs" />
     <Compile Include="MaBLL\WareStateTypeManager.cs" />
+    <Compile Include="Peng\CustomerMangeng.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Qin\SupplierManager.cs" />
   </ItemGroup>
