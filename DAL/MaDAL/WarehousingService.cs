@@ -56,7 +56,9 @@ namespace DAL.MaDAL
                           kleix = p.WareStateType.TName,
                           chanping = p.Product.PName,
                           dizhi = p.Supplier.SlAddress,
-                          pname = p.Product.PName
+                          pname = p.Product.PName,
+                       
+
 
                       };
 
