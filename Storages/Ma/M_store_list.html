@@ -30,7 +30,7 @@
                            
                                 产品名称：
                                 <div class="layui-inline layui-show-xs-block">
-                                    <input class="layui-input" placeholder="请输入产品名称" name="product_name" id="product_name" type="text">
+                                    <input class="layui-input" placeholder="请输入产品名称" name="product_name" id="cpname" type="text">
                                    
                                 </div>
                                 入库类型：
@@ -56,7 +56,7 @@
                                         <th>编号</th>
                                         <th>供应商名称</th>
                                         <th>产品名称</th>
-                                        <th>类别</th>
+                                        <th>入库类别</th>
                                         <th>规格</th>
                                         <th>供应商地址</th>
                                         <th>库存数</th>
@@ -83,8 +83,28 @@
     var Index = 1;
     var Size = 5;
     var Count = 0;
+    var name = "";
+    var typeid = 0;
     $(function () {
-        WhAll(Index, Size);
+        
+        WhAll(Index, Size, typeid, name);
+        layui.use(['laypage', 'layer'], function () {
+            var laypage = layui.laypage
+             , layer = layui.layer;
+            laypage.render({
+                elem: 'fenye'
+                , count: Count
+                , limit: Size
+                , limits: [5, 10, 15, 20, 25, 30,]
+                , layout: ['count', 'prev', 'page', 'next', 'limit', 'refresh', 'skip']
+                , jump: function (obj, first) {
+                    if (!first) {
+                        WhAll(obj.curr, obj.limit, typeid, name);
+                    }
+                }
+            });
+
+        });
        WsTypeAll();
     });
     //时间戳转日期
@@ -93,34 +113,19 @@
         return date.toLocaleDateString();
     }
     //分页查询
-    function WhAll(PageIndex, PageSize) {
+    function WhAll(PageIndex, PageSize, typeid, name) {
         $.ajax({
             url: "/Ma/WhAll",
-            data: "{PageIndex:" + PageIndex + ",PageSize:" + PageSize + "}",
+            data: "{PageIndex:" + PageIndex + ",PageSize:" + PageSize + ",typeid:" + typeid + ",name:'" + name + "'}",
             type: "post",
             dataType: "json",
+            async: false,
             contentType: "application/json",
             success: function (result) {
                 $("#tbl").empty();
+                Count = result.PageCount;
                 $.each(result.DataList, function (index, data) {
-                    $("#tbl").append("<tr><td>" + data.wid + "</td>" + data.chanping + "<td>" + data.username + "</td><td></td><td>" + data.kleix + "</td><td>" + data.tname + "</td><td>" + data.dizhi + "</td><td>" + data.kleix + "</td><td>" + GetDataTime(data.time) + "</td></tr >")
-                });
-                layui.use(['laypage', 'layer'], function () {
-                    var laypage = layui.laypage
-                        , layer = layui.layer;
-                    laypage.render({
-                        elem: 'fenye'
-                        , count: result.PageCount
-                        , limit: PageSize
-                        , limits: [5, 10, 15, 20, 25, 30,]
-                        , layout: ['count', 'prev', 'page', 'next', 'limit', 'refresh', 'skip']
-                        , jump: function (obj, first) {
-                            if (!first) {
-                                WhAll(obj.curr, obj.limit);
-                            }
-                        }
-                    });
-
+                    $("#tbl").append("<tr><td>" + data.wid + "</td><td>" + data.gname + "</td><td>" + data.pname + "</td><td>" + data.pcname + "</td><td>" + data.tname + "</td><td>" + data.dizhi + "</td><td>" + data.kleix + "</td><td>" + GetDataTime(data.time) + "</td></tr >")
                 });
             },
             error: function (ex) {
@@ -128,6 +133,10 @@
             }
         });
     }
+
+    function GetCount() { 
+    }
+
 
     //查询所有入库类型
     function WsTypeAll() {
@@ -139,13 +148,19 @@
             contentType: "application/json",
             success: function (result) {
                 $("#leixing").empty();
-                $("#leixing").prepend("<option type=0>请选择</option>")
+                $("#leixing").prepend("<option value=0>请选择</option>")
                 $.each(result, function (index, data) {
-                    $("#leixing").append("<option type=" + data.tid + ">" + data.tname + "</option>")
+                    $("#leixing").append("<option value=" + data.tid + ">" + data.tname + "</option>")
                 });
             }, error: function (ex) {
                 alert("Error:" + ex.responseText);
             }
         });
     }
+    //点击查询按钮
+    $("#chaxun").click(function () {
+        name = $("#cpname").val();
+        typeid = $("#leixing").val();
+        WhAll(Index, Size, typeid, name);
+    });
 </script>

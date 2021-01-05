@@ -64,15 +64,13 @@
                         <div class="layui-card-header">
                             <button class="layui-btn layui-btn-danger" onclick="delAll()">
                                 <i class="layui-icon"></i>批量删除</button>
-                            <button class="layui-btn" onclick="xadmin.open('添加用户','./K_LeiBieAdd.html',800,600)">
+                            <button class="layui-btn" onclick="xadmin.open('添加用户','./K_LeiBieAdd.html',450,350)">
                                 <i class="layui-icon"></i>添加</button></div>
                         <div class="layui-card-body ">
                             <table class="layui-table layui-form">
                                 <thead>
                                     <tr>
-                                        <th>
-                                            <input type="checkbox" name="" lay-skin="primary">
-                                        </th>
+                                        
                                         <th>类型编号</th>
                                         <th>类别名称</th>
                                         <th>创建时间</th>
@@ -81,7 +79,7 @@
                                     </tr>
                                 </thead>
                                 <tbody id="tb_ProductCategory">
-                                    <tr>
+                                    <!--<tr>
                                         <td><input type="checkbox" name="" lay-skin="primary"></td>
                                         <td>2017009171822298053</td>
                                         <td>老王:18925139194</td>
@@ -93,11 +91,11 @@
                                             <a><i class="layui-icon">&#xe640;</i></a>
                                             <a><i class="layui-icon">&#xe698;</i></a>
                                         </td>
-                                    </tr>
+                                    </tr>-->
                                 </tbody>
                             </table>
                             <div  id="fengYe">
-                                shgnhmjkijhgfd
+                               
                             </div>
                         </div>
                         
@@ -114,9 +112,9 @@
     var pageIndex = 1;
     var pageSize = 10;
     var pageCount = 0;
-    $(function () {
+
         ProductCategoryList();
-    });
+
   
     function ProductCategoryList() {
         $.ajax({
@@ -132,14 +130,14 @@
                 //alert(result.PageCount);
                 
                 $.each(result.DataList, function (index, data) {
-                    $("#tb_ProductCategory").append("<tr><td><input type='checkbox' name='' lay-skin='primary'></td><td>" + data.Pcid + "</td><td>" + data.PcName + "</td><td>" + ChangeDateFormat(data.time) + "</td><td>" + data.PcRemarks + "</td><td class='td - manage'><a><i class='layui-icon'>&#xe640;</i></a><a><i class='layui-icon'>&#xe698;</i></a></td ></tr>");
+                    $("#tb_ProductCategory").append("<tr><td>" + data.Pcid + "</td><td>" + data.PcName + "</td><td>" + ChangeDateFormat(data.time) + "</td><td>" + data.PcRemarks + "</td><td><div class='layui - btn - group'><button type='button' class='layui-btn '><i class='layui-icon'>&#xe642;</i>编辑</button><button type='button' class='layui-btn  layui-btn-danger'><i class='layui-icon'>&#xe640;</i>删除</button></div ></td></tr>");
                 });
                 layui.use(['laypage', 'layer'], function () {
                     var laypage = layui.laypage
                         , layer = layui.layer;
                     laypage.render({
                         elem: 'fengYe'
-                        , count: result.PageCount
+                        , count: result.pageCount
                         , limit: pageSize
                         , limits: [5, 10, 15, 20, 25, 30,]
                         , layout: ['count', 'prev', 'page', 'next', 'limit', 'refresh', 'skip']

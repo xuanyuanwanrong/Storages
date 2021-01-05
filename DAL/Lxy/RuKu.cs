@@ -19,7 +19,7 @@ namespace DAL.Lxy
             return test.Warehousing.Count();
         }
 
-        public static IQueryable SelectRuKuAll(int pageIndex, int PageSize)
+        public static PageList SelectRuKuAll(int pageIndex, int PageSize)
         {
             StorageEntities test = new StorageEntities();
             //实例化分页类
@@ -38,7 +38,11 @@ namespace DAL.Lxy
                           user = p.User.UserName,
                           time = p.time
                       };
-            return obj.Skip((pageIndex - 1) * PageSize).Take(PageSize);
+            list.DataList= obj.Skip((pageIndex - 1) * PageSize).Take(PageSize);
+            int rows = test.Warehousing.Count();
+            //设置总页数
+            list.PageCount = rows % PageSize == 0 ? rows / PageSize : rows / PageSize + 1;
+            return list;
         }
         #endregion
     }
