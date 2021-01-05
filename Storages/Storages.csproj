@@ -281,6 +281,7 @@
     <Content Include="Ma\M_store_list.html" />
     <Content Include="Ma\M_supplier.html" />
     <Content Include="Peng\O_KeHuList.html" />
+    <Content Include="Qin\Q_order-list.html" />
     <Content Include="Qin\Q_member-Jues.html" />
     <Content Include="Qin\Q_member-list.html" />
     <Content Include="Scripts\bootstrap.js" />

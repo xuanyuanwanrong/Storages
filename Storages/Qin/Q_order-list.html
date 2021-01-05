@@ -6,10 +6,10 @@
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
-    <link rel="stylesheet" href="../css/font.css">
-    <link rel="stylesheet" href="../css/xadmin.css">
-    <script src="../lib/layui/layui.js" charset="utf-8"></script>
-    <script type="text/javascript" src="../js/xadmin.js"></script>
+    <link rel="stylesheet" href="./css/font.css">
+    <link rel="stylesheet" href="./css/xadmin.css">
+    <script src="./lib/layui/layui.js" charset="utf-8"></script>
+    <script type="text/javascript" src="./js/xadmin.js"></script>
     <!--[if lt IE 9]>
       <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
       <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
@@ -17,11 +17,11 @@
 </head>
 <body>
     <div class="x-nav">
-        <h4>用户管理</h4>
-        <a class="layui-btn layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right" onclick="location.reload()"
-           title="刷新">
-            <i class="layui-icon layui-icon-refresh" style="line-height:30px"></i>
-        </a>
+        <h4>部门管理</h4>
+        <div class="layui-card-header">
+            <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>删除</button>
+            <button class="layui-btn" onclick="xadmin.open('添加用户','./member-add.html',600,400)"><i class="layui-icon"></i>添加</button>
+        </div>
     </div>
     <div class="layui-fluid">
         <div class="layui-row layui-col-space15">
@@ -30,9 +30,9 @@
                     <div class="layui-card-body ">
                         <form class="layui-form layui-col-space5">
                             <div class="layui-inline layui-show-xs-block">
-                                <input type="text" name="username" placeholder="请输入用户名或者工号" autocomplete="off" class="layui-input">
+                                <input type="text" name="username" placeholder="请输入供应编号或者名称" autocomplete="off" class="layui-input" style="width: 150%;">
                             </div>
-                            <div class="layui-inline layui-show-xs-block">
+                            <div class="layui-inline layui-show-xs-block" style="right: -75px;">
                                 <button class="layui-btn" lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;</i></button>
                             </div>
                         </form>
@@ -48,18 +48,17 @@
                                     <th>
                                         <input type="checkbox" lay-filter="checkall" name="" lay-skin="primary">
                                     </th>
-                                    <th>用户名</th>
-                                    <th>编号m</th>
-                                    <th>真名</th>
-                                    <th>Email</th>
-                                    <th>联系方式</th>
-                                    <th>登录次数</th>
-                                    <th>部门</th>
-                                    <th>角色</th>
+                                    <th>供应商编号</th>
+                                    <th>供应商类型</th>
+                                    <th>供应商名称</th>
+                                    <th>电话</th>
+                                    <th>联系人</th>
+                                    <th>地址</th>
+                                    <th>描述</th>
                                     <th>操作</th>
                                 </tr>
                             </thead>
-                            <tbody id="tb1">
+                            <tbody>
                                 <tr>
                                     <td>
                                         <input type="checkbox" name="id" value="6" lay-skin="primary">
@@ -67,23 +66,16 @@
                                     <td>1</td>
                                     <td>小明</td>
                                     <td>男</td>
-                                    <td>13000000000</td>
                                     <td>北京市 海淀区</td>
-                                    <td></td>
-                                    <td></td>
-                                    <td class="td-status">
-                                        <span class="layui-btn layui-btn-normal layui-btn-mini">已启用</span>
-                                    </td>
+                                    <td>北京市 垃圾</td>
+                                    <td>北京市 略</td>
+                                    <td>北京市 略</td>
                                     <td class="td-manage">
-                                        <a onclick="member_stop(this,'10001')" href="javascript:;" title="启用">
-                                            <i class="layui-icon">&#xe601;</i>
-                                        </a>
+
                                         <a title="编辑" onclick="xadmin.open('编辑','member-edit.html',600,400)" href="javascript:;">
                                             <i class="layui-icon">&#xe642;</i>
                                         </a>
-                                        <a onclick="xadmin.open('修改密码','member-password.html',600,400)" title="修改密码" href="javascript:;">
-                                            <i class="layui-icon">&#xe631;</i>
-                                        </a>
+
                                         <a title="删除" onclick="member_del(this,'要删除的id')" href="javascript:;">
                                             <i class="layui-icon">&#xe640;</i>
                                         </a>
@@ -110,31 +102,7 @@
     </div>
 </body>
 </html>
-<script src="~/Scripts/jquery-3.4.1.min.js"></script>
 <script>
-    $(function () {
-        GetAll();
-
-    });
-
-    function GetAll() {
-        $.ajax({
-            type: "POST",
-            url: "/Qin/GetAll",
-            dataType: "json",
-            contentType: "application/json",
-            data: "{}",
-            success: function (result) {
-                $.each(result, function (index, data) {
-                    $("#tb1").append("<tr><td>" + data.sid + "</td><td>" + data.cid + "</td><td>" + data.fid + "</td><td>" + data.purchDate + "</td><td>" + data.quantity + "</td><td>" + data.price + "</td></tr>");
-
-                });
-            },
-            error: function (ex) {
-                alert("Error:" + ex.responseText);
-            }
-        });
-    }
     layui.use(['laydate', 'form'], function () {
         var laydate = layui.laydate;
         var form = layui.form;
@@ -227,3 +195,4 @@
         });
     }
 </script>
+
