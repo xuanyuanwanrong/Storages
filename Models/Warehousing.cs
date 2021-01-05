@@ -31,6 +31,7 @@ namespace Models
         public Nullable<int> Slid { get; set; }
         public Nullable<int> Tid { get; set; }
         public Nullable<int> Rid { get; set; }
+        public Nullable<int> Pid { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Bad> Bad { get; set; }
@@ -47,5 +48,6 @@ namespace Models
         public virtual WareStateType WareStateType { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<WareProduct> WareProduct { get; set; }
+        public virtual Product Product { get; set; }
     }
 }

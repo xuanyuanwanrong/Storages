@@ -25,7 +25,7 @@
         <EntityTypeShape EntityType="StorageModel.User" Width="1.5" PointX="3.75" PointY="48.125" IsExpanded="true" />
         <EntityTypeShape EntityType="StorageModel.WareHouse" Width="1.5" PointX="1.5" PointY="32.625" IsExpanded="true" />
         <EntityTypeShape EntityType="StorageModel.WareHouseType" Width="1.5" PointX="1.5" PointY="39.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="StorageModel.Warehousing" Width="1.5" PointX="6" PointY="4.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="StorageModel.Warehousing" Width="1.5" PointX="10.375" PointY="1.25" IsExpanded="true" />
         <EntityTypeShape EntityType="StorageModel.WareProduct" Width="1.5" PointX="8.25" PointY="5" IsExpanded="true" />
         <EntityTypeShape EntityType="StorageModel.WareState" Width="1.5" PointX="0.75" PointY="10.125" IsExpanded="true" />
         <EntityTypeShape EntityType="StorageModel.WareStateType" Width="1.5" PointX="3.75" PointY="32.5" IsExpanded="true" />
@@ -64,6 +64,7 @@
         <AssociationConnector Association="StorageModel.FK_Warehousing_WareState" ManuallyRouted="false" />
         <AssociationConnector Association="StorageModel.FK_Warehousing_WareStateType" ManuallyRouted="false" />
         <AssociationConnector Association="StorageModel.FK_WareProduct_Warehousing" ManuallyRouted="false" />
+        <AssociationConnector Association="StorageModel.FK_Warehousing_Product" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

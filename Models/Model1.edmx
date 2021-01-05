@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="StorageModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="StorageModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Bad">
           <Key>
             <PropertyRef Name="Bid" />
@@ -210,6 +210,7 @@
           <Property Name="Slid" Type="int" />
           <Property Name="Tid" Type="int" />
           <Property Name="Rid" Type="int" />
+          <Property Name="Pid" Type="int" />
         </EntityType>
         <EntityType Name="WareProduct">
           <Key>
@@ -568,6 +569,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Warehousing_Product">
+          <End Role="Product" Type="Self.Product" Multiplicity="0..1" />
+          <End Role="Warehousing" Type="Self.Warehousing" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="PId" />
+            </Principal>
+            <Dependent Role="Warehousing">
+              <PropertyRef Name="Pid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Warehousing_Relation">
           <End Role="Relation" Type="Self.Relation" Multiplicity="0..1" />
           <End Role="Warehousing" Type="Self.Warehousing" Multiplicity="*" />
@@ -786,6 +799,10 @@
             <End Role="WhState" EntitySet="WhState" />
             <End Role="WareHouse" EntitySet="WareHouse" />
           </AssociationSet>
+          <AssociationSet Name="FK_Warehousing_Product" Association="Self.FK_Warehousing_Product">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="Warehousing" EntitySet="Warehousing" />
+          </AssociationSet>
           <AssociationSet Name="FK_Warehousing_Relation" Association="Self.FK_Warehousing_Relation">
             <End Role="Relation" EntitySet="Relation" />
             <End Role="Warehousing" EntitySet="Warehousing" />
@@ -815,8 +832,7 @@
             <End Role="WareProduct" EntitySet="WareProduct" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="StorageModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -931,6 +947,7 @@
           <NavigationProperty Name="ProductCategory" Relationship="Self.FK_Product_ProductCategory" FromRole="Product" ToRole="ProductCategory" />
           <NavigationProperty Name="WareHouse" Relationship="Self.FK_Product_WareHouse" FromRole="Product" ToRole="WareHouse" />
           <NavigationProperty Name="Relation" Relationship="Self.FK_Relation_Product" FromRole="Product" ToRole="Relation" />
+          <NavigationProperty Name="Warehousing" Relationship="StorageModel.FK_Warehousing_Product" FromRole="Product" ToRole="Warehousing" />
         </EntityType>
         <EntityType Name="ProductCategory">
           <Key>
@@ -1084,6 +1101,8 @@
           <NavigationProperty Name="WareState" Relationship="Self.FK_Warehousing_WareState" FromRole="Warehousing" ToRole="WareState" />
           <NavigationProperty Name="WareStateType" Relationship="Self.FK_Warehousing_WareStateType" FromRole="Warehousing" ToRole="WareStateType" />
           <NavigationProperty Name="WareProduct" Relationship="Self.FK_WareProduct_Warehousing" FromRole="Warehousing" ToRole="WareProduct" />
+          <Property Name="Pid" Type="Int32" />
+          <NavigationProperty Name="Product" Relationship="StorageModel.FK_Warehousing_Product" FromRole="Warehousing" ToRole="Product" />
         </EntityType>
         <EntityType Name="WareProduct">
           <Key>
@@ -1697,7 +1716,23 @@
             <End Role="Warehousing" EntitySet="Warehousing" />
             <End Role="WareProduct" EntitySet="WareProduct" />
           </AssociationSet>
+          <AssociationSet Name="FK_Warehousing_Product" Association="StorageModel.FK_Warehousing_Product">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="Warehousing" EntitySet="Warehousing" />
+          </AssociationSet>
         </EntityContainer>
+        <Association Name="FK_Warehousing_Product">
+          <End Type="StorageModel.Product" Role="Product" Multiplicity="0..1" />
+          <End Type="StorageModel.Warehousing" Role="Warehousing" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="PId" />
+            </Principal>
+            <Dependent Role="Warehousing">
+              <PropertyRef Name="Pid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1921,6 +1956,7 @@
           <EntitySetMapping Name="Warehousing">
             <EntityTypeMapping TypeName="StorageModel.Warehousing">
               <MappingFragment StoreEntitySet="Warehousing">
+                <ScalarProperty Name="Pid" ColumnName="Pid" />
                 <ScalarProperty Name="Wid" ColumnName="Wid" />
                 <ScalarProperty Name="WState" ColumnName="WState" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
