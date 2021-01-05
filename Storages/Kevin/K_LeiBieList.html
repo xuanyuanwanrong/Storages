@@ -77,36 +77,30 @@
                                         <th>类别名称</th>
                                         <th>创建时间</th>
                                         <th>备注</th>
-                                        <th>操作</th></tr>
+                                        <th>操作</th>
+                                    </tr>
                                 </thead>
                                 <tbody id="tb_ProductCategory">
                                     <tr>
-										<td><input type="checkbox" name="" lay-skin="primary"></td>
+                                        <td><input type="checkbox" name="" lay-skin="primary"></td>
                                         <td>2017009171822298053</td>
                                         <td>老王:18925139194</td>
-                                       
+
                                         <td>7854.10</td>
                                         <td>待确认</td>
                                         <td class="td-manage">
-                                           
+
                                             <a><i class="layui-icon">&#xe640;</i></a>
-											<a><i class="layui-icon">&#xe698;</i></a>
+                                            <a><i class="layui-icon">&#xe698;</i></a>
                                         </td>
                                     </tr>
                                 </tbody>
                             </table>
-                        </div>
-                        <div class="layui-card-body ">
-                            <div class="page">
-                                <div>
-                                    <a class="prev" href="">&lt;&lt;</a>
-                                    <a class="num" href="">1</a>
-                                    <span class="current">2</span>
-                                    <a class="num" href="">3</a>
-                                    <a class="num" href="">489</a>
-                                    <a class="next" href="">&gt;&gt;</a></div>
+                            <div  id="fengYe">
+
                             </div>
                         </div>
+                        
                     </div>
                 </div>
             </div>
@@ -116,7 +110,7 @@
 
 </html>
 <script src="../Scripts/jquery-3.4.1.min.js"></script>
-<script>
+<script type="text/javascript">
     var pageIndex = 1;
     var pageSize = 10;
     var pageCount = 0;
@@ -140,6 +134,22 @@
                 $.each(result.DataList, function (index, data) {
                     $("#tb_ProductCategory").append("<tr><td><input type='checkbox' name='' lay-skin='primary'></td><td>" + data.Pcid + "</td><td>" + data.PcName + "</td><td>" + ChangeDateFormat(data.time) + "</td><td>" + data.PcRemarks + "</td><td class='td - manage'><a><i class='layui-icon'>&#xe640;</i></a><a><i class='layui-icon'>&#xe698;</i></a></td ></tr>");
                 });
+                layui.use(['laypage', 'layer'], function () {
+                    var laypage = layui.laypage
+                        , layer = layui.layer;
+                    laypage.render({
+                        elem: 'fengYe'
+                        , count: result.PageCount
+                        , limit: PageSize
+                        , limits: [5, 10, 15, 20, 25, 30,]
+                        , layout: ['count', 'prev', 'page', 'next', 'limit', 'refresh', 'skip']
+                        , jump: function (obj, first) {
+                            if (!first) {
+                                WhAll(obj.curr, obj.limit);
+                            }
+                        }
+                    });
+                });
             },
             error: function (ex) {
                 alert(ex.responseText);
@@ -161,18 +171,5 @@
         var currentDate = date.getDate() < 10 ? "0" + date.getDate() : date.getDate();
         return date.getFullYear() + "-" + month + "-" + currentDate;
     }
-    layui.use(['laydate', 'form'],
-        function () {
-            var laydate = layui.laydate;
-
-            //执行一个laydate实例
-            laydate.render({
-                elem: '#start' //指定元素
-            });
-
-            //执行一个laydate实例
-            laydate.render({
-                elem: '#end' //指定元素
-            });
-        });
+    
 </script>
