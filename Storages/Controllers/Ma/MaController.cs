@@ -15,8 +15,8 @@ namespace Storage.Controllers.Ma
             return Redirect("Ma/index.html");
         }
         //查询库存清单
-        public ActionResult WhAll(int PageIndex,int PageSize) {
-            return Json(WarehousingManager.WhAll(PageIndex,PageSize), JsonRequestBehavior.AllowGet);
+        public ActionResult WhAll(int PageIndex,int PageSize,int typeid,string name) {
+            return Json(WarehousingManager.WhAll(PageIndex,PageSize,typeid,name), JsonRequestBehavior.AllowGet);
         }
         //查询所有入库类型
         public ActionResult WsTypeAll() {

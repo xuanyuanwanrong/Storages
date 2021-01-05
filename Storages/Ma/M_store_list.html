@@ -30,7 +30,7 @@
                            
                                 产品名称：
                                 <div class="layui-inline layui-show-xs-block">
-                                    <input class="layui-input" placeholder="请输入产品名称" name="product_name" id="product_name" type="text">
+                                    <input class="layui-input" placeholder="请输入产品名称" name="product_name" id="cpname" type="text">
                                    
                                 </div>
                                 入库类型：
@@ -83,8 +83,10 @@
     var Index = 1;
     var Size = 5;
     var Count = 0;
+    var name = "";
+    var typeid = 0;
     $(function () {
-        WhAll(Index, Size);
+        WhAll(Index, Size, typeid, name);
        WsTypeAll();
     });
     //时间戳转日期
@@ -93,17 +95,17 @@
         return date.toLocaleDateString();
     }
     //分页查询
-    function WhAll(PageIndex, PageSize) {
+    function WhAll(PageIndex, PageSize,TypeId,Name) {
         $.ajax({
             url: "/Ma/WhAll",
-            data: "{PageIndex:" + PageIndex + ",PageSize:" + PageSize + "}",
+            data: "{PageIndex:" + PageIndex + ",PageSize:" + PageSize + ",typeid:" + TypeId + ",name:'" + Name + "'}",
             type: "post",
             dataType: "json",
             contentType: "application/json",
             success: function (result) {
                 $("#tbl").empty();
                 $.each(result.DataList, function (index, data) {
-                    $("#tbl").append("<tr><td>" + data.wid + "</td>" + data.chanping + "<td>" + data.username + "</td><td></td><td>" + data.kleix + "</td><td>" + data.tname + "</td><td>" + data.dizhi + "</td><td>" + data.kleix + "</td><td>" + GetDataTime(data.time) + "</td></tr >")
+                    $("#tbl").append("<tr><td>" + data.wid + "</td><td>" + data.chanping + "</td><td>" + data.wid + "</td><td>" + data.kleix + "</td><td>" + data.tname + "</td><td>" + data.dizhi + "</td><td>" + data.kleix + "</td><td>" + GetDataTime(data.time) + "</td></tr >")
                 });
                 layui.use(['laypage', 'layer'], function () {
                     var laypage = layui.laypage
@@ -139,13 +141,20 @@
             contentType: "application/json",
             success: function (result) {
                 $("#leixing").empty();
-                $("#leixing").prepend("<option type=0>请选择</option>")
+                $("#leixing").prepend("<option value=0>请选择</option>")
                 $.each(result, function (index, data) {
-                    $("#leixing").append("<option type=" + data.tid + ">" + data.tname + "</option>")
+                    $("#leixing").append("<option value=" + data.tid + ">" + data.tname + "</option>")
                 });
             }, error: function (ex) {
                 alert("Error:" + ex.responseText);
             }
         });
     }
+
+    $("#chaxun").click(function () {
+        name = $("#cpname").val();
+        typeid = $("#leixing").val();
+        alert(typeid+"========="+name);
+        WhAll(PageIndex, PageSize, typeid, name);
+    });
 </script>
