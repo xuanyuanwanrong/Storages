@@ -34,8 +34,8 @@
 	</div>
 	<div class="layui-fluid">
 		<div class="layui-row layui-col-space15">
-			<div class="layui-col-md12">
-				<div class="layui-card">
+			<div class="layui-col-md12" >
+				<div class="layui-card"style="height:900px;">
 					<div class="layui-card-body ">
 						<blockquote class="layui-elem-quote" style="font-size: 20px;">入库管理</blockquote>
 						<div class="layui-tab layui-tab-card">
@@ -56,17 +56,20 @@
 							</div>
 							<div class="layui-tab-content" style="height: 500px;">
 								<form class="layui-form layui-col-space5">
+									<label class="layui-form-label">入库单号</label>
 									<div class="layui-input-inline layui-show-xs-block">
+
 										<input class="layui-input" placeholder="请输入入库单号" name="cate_name">
 									</div>
-									时间<div class="layui-input-inline layui-show-xs-block">
-										<input class="layui-input" name="cate_name">
-									</div>
-									——<div class="layui-input-inline layui-show-xs-block">
-										<input class="layui-input" name="cate_name">
+
+									<div class="layui-inline">
+										<label class="layui-form-label">日期范围</label>
+										<div class="layui-input-inline">
+											<input type="text" class="layui-input" id="test6" placeholder=" - ">
+										</div>
 									</div>
 
-									<div class="layui-input-inline layui-show-xs-block">
+									<div class="layui-input-inline layui-show-xs-block" style=" margin-bottom: 10px;">
 										<button class="layui-btn" lay-submit="" lay-filter="sreach"><i class="layui-icon layui-icon-search"></i>搜索</button>
 									</div>
 								</form>
@@ -75,8 +78,8 @@
 										<table class="layui-table layui-form">
 											<thead>
 												<tr>
-													<th width="5">
-														<input type="checkbox" name="" lay-skin="primary">
+													<th >
+                                                        <input id="Checkbox1" type="checkbox" style="display:block;" />
 													</th>
 													<th width="10">入库单号</th>
 													<th>入库类型</th>
@@ -121,12 +124,15 @@
 	</div>
 	<script src="../Scripts/jquery-3.4.1.min.js"></script>
 	<script src="../lib/layui/layui.js"></script>
-	<script type="text/javascript">
+	<script>
 		var pageIndex = 1;
 		var pageSize = 3;
 		var pageCount = 0;
 		var rows = 0;
-
+        function GetTime(op) {
+            var time = new Date(parseInt(op.substr(6)));
+            return time.toLocaleString();
+        }
 		$(function () {
         GetRows();
 
@@ -144,7 +150,7 @@
 				success: function (re) {
 					$("#box tr").remove();
 					$.each(re.DataList, function (index, data) {
-                        $("#box").append("<tr><td><input type=checkbox  lay-skin=primary /></td><td>" + data.wid + "</td><td>" + data.tname + "</td><td>" + data.sname + "</td><td>" + data.rid + "</td><td>" + data.num + "</td><td>" + (data.num) * (data.price) + "</td><td>" + data.state + "</td><td>" + data.user + "</td><td>" + data.time + "</td><td class='td - manage'><button class='layui - btn layui - btn - warm layui - btn - xs' onclick='xadmin.open('编辑', 'admin-edit.html')'><i class='layui - icon'>&#xe642;</i>查看</button> < button class= 'layui-btn-danger layui-btn layui-btn-xs' onclick = 'member_del(this,'要删除的id')' href = 'javascript:;' > <i class='layui-icon'>&#xe640;</i>删除</button ></td></tr>");
+                        $("#box").append("<tr><td><input type='checkbox' name='' lay-skin='primary'></td><td>" + data.wid + "</td><td>" + data.tname + "</td><td>" + data.sname + "</td><td>" + data.rid + "</td><td>" + data.num + "</td><td>" + (data.num) * (data.price) + "</td><td>" + data.state + "</td><td>" + data.user + "</td><td>" + data.time + "</td><td class='td - manage'><button class='layui - btn layui - btn - warm layui - btn - xs' onclick='xadmin.open('编辑', 'admin-edit.html')'><i class='layui - icon'>&#xe642;</i>查看</button> < button class= 'layui-btn-danger layui-btn layui-btn-xs' onclick = 'member_del(this,'要删除的id')' href = 'javascript:;' > <i class='layui-icon'>&#xe640;</i>删除</button ></td></tr>");
 					});
 				},
 				error: function (ex) {
@@ -153,7 +159,7 @@
 			});
 		}
 
-        function GetRows() {
+        function GetRows() { 
             $.ajax({
                 type: "POST",
                 url: "/Yu/RuKuRows",
