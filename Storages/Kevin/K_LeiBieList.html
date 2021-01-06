@@ -17,10 +17,7 @@
     <body>
         <div class="x-nav">
             <span class="layui-breadcrumb">
-                <a href="">首页</a>
-                <a href="">演示</a>
-                <a>
-                    <cite>导航元素</cite></a>
+                
             </span>
             <a class="layui-btn layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right" onclick="location.reload()" title="刷新">
                 <i class="layui-icon layui-icon-refresh" style="line-height:30px"></i>
@@ -31,7 +28,7 @@
                 <div class="layui-col-md12">
                     <div class="layui-card">
                         <div class="layui-card-body ">
-                            <form class="layui-form layui-col-space5">
+                            
                                <!-- <div class="layui-input-inline layui-show-xs-block">
                                     <input class="layui-input" placeholder="开始日" name="start" id="start"></div>
                                 <div class="layui-input-inline layui-show-xs-block">
@@ -54,18 +51,18 @@
                                         <option value="5">已作废</option></select>
                                 </div> -->
                                 <div class="layui-input-inline layui-show-xs-block">
-                                    <input type="text" name="username" placeholder="请输入订单号" autocomplete="off" class="layui-input"></div>
+                                    <input type="text" id="PcName" name="username" placeholder="请输入产品类别名" autocomplete="off" class="layui-input"></div>
                                 <div class="layui-input-inline layui-show-xs-block">
-                                    <button class="layui-btn" lay-submit="" lay-filter="sreach">
-                                        <i class="layui-icon">&#xe615;</i></button>
+                                    <button class="layui-btn" id="mhcx">
+                                        <i class="layui-icon">&#xe615;</i>
+                                    </button>
+                                    <button class="layui-btn" onclick="Add()">
+                                        <i class="layui-icon"></i>添加
+                                    </button>
                                 </div>
-                            </form>
+                            
                         </div>
-                        <div class="layui-card-header">
-                            <button class="layui-btn layui-btn-danger" onclick="delAll()">
-                                <i class="layui-icon"></i>批量删除</button>
-                            <button class="layui-btn" onclick="xadmin.open('添加用户','./K_LeiBieAdd.html',450,350)">
-                                <i class="layui-icon"></i>添加</button></div>
+                        
                         <div class="layui-card-body ">
                             <table class="layui-table layui-form">
                                 <thead>
@@ -111,43 +108,96 @@
 <script type="text/javascript">
     var pageIndex = 1;
     var pageSize = 10;
+    var count = 0;
+    var pcName = "";
+    $(function () {
+
+        ProductCategoryList(pageIndex, pageSize, pcName);
+        layui.use(['laypage', 'layer'], function () {
+            var laypage = layui.laypage
+                , layer = layui.layer;
+            laypage.render({
+                elem: 'fengYe'
+                , count: count
+                , limit: pageSize
+                , limits: [5, 10, 15, 20, 25, 30,]
+                , layout: ['count', 'prev', 'page', 'next', 'limit', 'refresh', 'skip']
+                , jump: function (obj, first) {
+                    if (!first) {
+                        ProductCategoryList(obj.curr, obj.limit, pcName);
+                    }
+                }
+            });
+        });
+    });
+    $("#mhcx").click(function () {
+        ProductCategoryListGet();
+        layui.use(['laypage', 'layer'], function () {
+            var laypage = layui.laypage
+                , layer = layui.layer;
+            laypage.render({
+                elem: 'fengYe'
+                , count: count
+                , limit: pageSize
+                , limits: [5, 10, 15, 20, 25, 30,]
+                , layout: ['count', 'prev', 'page', 'next', 'limit', 'refresh', 'skip']
+                , jump: function (obj, first) {
+                    if (!first) {
+                        ProductCategoryList(obj.curr, obj.limit, pcName);
+                    }
+                }
+            });
+        });
+    });
+
+    function ProductCategoryDel(PcId) {
+        if (confirm('确定删除?')) {
+            $.ajax({
+                type: "POST",
+                url: "/Kevin/ProductCategoryDel",
+                data: "{PcId:'" + PcId + "'}",
+                dataType: "json",
+                contentType: "application/json",
+                success: function (result) {
+                    if (result > 0) {
+                        alert("删除成功！");
+                        location.reload();
+                    }
+                    else {
+                        alert("删除失败！");
+                    }
+                },
+                error: function (ex) {
+                    alert(ex.responseText);
+                }
+            });
+        }
+        return false;
+    }
     
-
-        ProductCategoryList();
-
   
-    function ProductCategoryList() {
+    function ProductCategoryList(index,size,name) {
         $.ajax({
             type: "POST",
             url: "/Kevin/ProductCategoryList",
-            data: "{PageIndex:" + pageIndex + ",PageSize:" + pageSize + "}",
+            data: "{PageIndex:" + index + ",PageSize:" + size + ",PcName:'" + name + "'}",
             dataType: "json",
+            async: false,
             contentType: "application/json",
             success: function (result) {
                 $("#tb_ProductCategory").empty();
                 //获取总页数
                
                 //alert(result.PageCount);
-                
+                count = result.PageCount;
                 $.each(result.DataList, function (index, data) {
-                    $("#tb_ProductCategory").append("<tr><td>" + data.Pcid + "</td><td>" + data.PcName + "</td><td>" + ChangeDateFormat(data.time) + "</td><td>" + data.PcRemarks + "</td><td><div class='layui - btn - group'><button type='button' class='layui-btn '><i class='layui-icon'>&#xe642;</i>编辑</button><button type='button' class='layui-btn  layui-btn-danger'><i class='layui-icon'>&#xe640;</i>删除</button></div ></td></tr>");
+                    if (data.PcRemarks == null) {
+                        $("#tb_ProductCategory").append("<tr><td>" + data.Pcid + "</td><td>" + data.PcName + "</td><td>" + ChangeDateFormat(data.time) + "</td><td></td><td><div class='layui - btn - group'><button type='button' class='layui-btn ' onclick = 'Upd(" + data.Pcid + ")'><i class='layui-icon'>&#xe642;</i>编辑</button><button type='button' class='layui-btn  layui-btn-danger' onclick='ProductCategoryDel(" + data.Pcid + ")'><i class='layui-icon'>&#xe640;</i>删除</button></div ></td></tr>");
+                    } else {
+                        $("#tb_ProductCategory").append("<tr><td>" + data.Pcid + "</td><td>" + data.PcName + "</td><td>" + ChangeDateFormat(data.time) + "</td><td>" + data.PcRemarks + "</td><td><div class='layui - btn - group'><button type='button' class='layui-btn ' onclick = 'Upd(" + data.Pcid + ")'><i class='layui-icon'>&#xe642;</i>编辑</button><button type='button' class='layui-btn  layui-btn-danger' onclick='ProductCategoryDel(" + data.Pcid + ")'><i class='layui-icon'>&#xe640;</i>删除</button></div ></td></tr>");
+                    }
                 });
-                layui.use(['laypage', 'layer'], function () {
-                    var laypage = layui.laypage
-                        , layer = layui.layer;
-                    laypage.render({
-                        elem: 'fengYe'
-                        , count: result.PageCount
-                        , limit: pageSize
-                        , limits: [5, 10, 15, 20, 25, 30,]
-                        , layout: ['count', 'prev', 'page', 'next', 'limit', 'refresh', 'skip']
-                        , jump: function (obj, first) {
-                            if (!first) {
-                                ProductCategoryList(obj.curr, obj.limit);
-                            }
-                        }
-                    });
-                });
+                
             },
             error: function (ex) {
                 alert(ex.responseText);
@@ -169,5 +219,52 @@
         var currentDate = date.getDate() < 10 ? "0" + date.getDate() : date.getDate();
         return date.getFullYear() + "-" + month + "-" + currentDate;
     }
-    
+    function Add() {
+        //xadmin.open('添加产品类别', './K_LeiBieAdd.html', 450, 350);
+        //window.parent.location.reload();
+        parent.layer.open({//占坑！
+            type: 2,
+            title: "添加产品类别",
+            content: "/Kevin/K_LeiBieAdd.html",
+            area: ["450px", "350px"],
+            end: function () {
+                $("#PcName").val("");
+                ProductCategoryListGet(pageIndex, pageSize, name);
+                layui.use(['laypage', 'layer'], function () {
+                    var laypage = layui.laypage
+                        , layer = layui.layer;
+                    laypage.render({
+                        elem: 'fengYe'
+                        , count: count
+                        , limit: pageSize
+                        , limits: [5, 10, 15, 20, 25, 30,]
+                        , layout: ['count', 'prev', 'page', 'next', 'limit', 'refresh', 'skip']
+                        , jump: function (obj, first) {
+                            if (!first) {
+                                ProductCategoryList(obj.curr, obj.limit, pcName);
+                            }
+                        }
+                    });
+                });
+            }
+        });
+    }
+
+    function Upd(Pcid) {
+        parent.layer.open({//占坑！
+            type: 2,
+            title: "修改  产品类别",
+            content: "/Kevin/K_LeiBieUpd.html?Pcid=" + Pcid,
+            area: ["450px", "350px"],
+            end: function () {
+                
+                ProductCategoryListGet(pageIndex, pageSize, name);
+                
+            }
+        });
+    }
+    function ProductCategoryListGet() {
+        pcName = $("#PcName").val();
+        ProductCategoryList(pageIndex, pageSize, pcName);
+    }
 </script>

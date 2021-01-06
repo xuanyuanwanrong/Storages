@@ -10,13 +10,30 @@ namespace BLL.Kevin
 {
     public class ProductCategoryManager
     {
-        public static PageList ProductCategoryList(int PageIndex, int PageSize)
+        public static PageList ProductCategoryList(int PageIndex, int PageSize,string PcName)
         {
-            return ProductCategoryService.ProductCategoryList(PageIndex, PageSize);
+            return ProductCategoryService.ProductCategoryList(PageIndex, PageSize,PcName);
         }
         public static int ProductCategoryAdd(ProductCategory pro)
         {
             return ProductCategoryService.ProductCategoryAdd(pro);
+        }
+        /// <summary>
+        /// 删除产品类别（改状态）
+        /// </summary>
+        /// <param name="PcId"></param>
+        /// <returns></returns>
+        public static int ProductCategoryDel(int PcId)
+        {
+            return ProductCategoryService.ProductCategoryDel(PcId);
+        }
+        public static IQueryable ProductCategoryByPcid(int Pcid)
+        {
+            return ProductCategoryService.ProductCategoryByPcid(Pcid);
+        }
+        public static int ProductCategoryUpd(ProductCategory pro)
+        {
+            return ProductCategoryService.ProductCategoryUpd(pro);
         }
     }
 }
