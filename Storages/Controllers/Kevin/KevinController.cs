@@ -15,9 +15,9 @@ namespace Storage.Controllers.Kevin
         {
             return View();
         }
-        public ActionResult ProductCategoryList(int PageIndex,int PageSize)
+        public ActionResult ProductCategoryList(int PageIndex,int PageSize, string PcName)
         {
-            return Json(ProductCategoryManager.ProductCategoryList(PageIndex, PageSize), JsonRequestBehavior.AllowGet);
+            return Json(ProductCategoryManager.ProductCategoryList(PageIndex, PageSize,PcName), JsonRequestBehavior.AllowGet);
         }
         public ActionResult ProductCategoryAdd(ProductCategory pro)
         {
