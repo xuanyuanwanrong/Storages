@@ -53,7 +53,7 @@
     </Reference>
     <Reference Include="Git.Storage.Common, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>D:\桌面\新建文件夹\WebApplication1\WebApplication1\bin\Git.Storage.Common.dll</HintPath>
+      <HintPath>bin\Git.Storage.Common.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
