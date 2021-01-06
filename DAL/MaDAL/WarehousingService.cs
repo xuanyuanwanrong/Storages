@@ -64,17 +64,17 @@ namespace DAL.MaDAL
         public static List<Warehousing> Excel(int typeid, string name)
         {
             StorageEntities entity = new StorageEntities();
-            if (typeid != 0)
+            
+            if (typeid == 0)
             {
-                var obj = from p in entity.Warehousing where p.Tid == typeid && p.Product.PName.Contains(name) && p.WState == 2 select p;
+                var obj1 = from p in entity.Warehousing where p.Product.PName.Contains(name) && p.WState == 2 select p;
+                return obj1.ToList();
 
             }
-            else
-            {
-                var obj = from p in entity.Warehousing where p.Product.PName.Contains(name) && p.WState == 2 select p;
-
-            }
-            return entity.Warehousing.ToList();
+            
+                var obj2 = from p in entity.Warehousing where p.Tid == typeid && p.Product.PName.Contains(name) && p.WState == 2 select p;
+                return obj2.ToList();
+            
         }
 
 

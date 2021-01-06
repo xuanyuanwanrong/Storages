@@ -30,7 +30,7 @@ namespace Storage.Controllers.Ma
         }
 
         //导出Excel
-        public string Excel(int typeid = 0, string cname = "")
+        public string Excel(int typeid, string cname)
         {
             DataTable dt = new DataTable();
             dt.Columns.Add(new DataColumn("序号 "));

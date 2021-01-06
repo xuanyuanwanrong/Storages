@@ -12,10 +12,7 @@
     <script src="../lib/layui/layui.js" charset="utf-8"></script>
     <script type="text/javascript" src="../js/xadmin.js"></script>
     <script src="../Scripts/jquery-3.4.1.min.js"></script>
-    <!--[if lt IE 9]>
-      <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
-      <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
+
 </head>
 <body>
     <div class="x-nav">
@@ -86,6 +83,7 @@
     var name = "";
     var typeid = 0;
     $("#excel").click(function () {
+      
         $.ajax({
             url: "/Ma/Excel",
             data: "{typeid:" + typeid + ",cname:'" + name + "'}",
@@ -99,7 +97,7 @@
         });
     });
     $(function () {
-
+        WsTypeAll();
         WhAll(Index, Size, typeid, name);
         layui.use(['laypage', 'layer'], function () {
             var laypage = layui.laypage
@@ -118,7 +116,7 @@
             });
 
         });
-        WsTypeAll();
+       
     });
     //时间戳转日期
     function GetDataTime(op) {
@@ -128,6 +126,7 @@
 
     //分页查询
     function WhAll(PageIndex, PageSize, typeid, name) {
+      
         $.ajax({
             url: "/Ma/WhAll",
             data: "{PageIndex:" + PageIndex + ",PageSize:" + PageSize + ",typeid:" + typeid + ",name:'" + name + "'}",
@@ -138,6 +137,7 @@
             success: function (result) {
                 $("#tbl").empty();
                 Count = result.PageCount;
+             
                 $.each(result.DataList, function (index, data) {
                     $("#tbl").append("<tr><td>" + data.wid + "</td><td>" + data.gname + "</td><td>" + data.pname + "</td><td>" + data.tname + "</td><td>" + data.dizhi + "</td><td>" + data.pcount + "</td><td>" + GetDataTime(data.time) + "</td></tr >")
                 });
@@ -147,9 +147,6 @@
             }
         });
     }
-
-
-
     //查询所有入库类型
     function WsTypeAll() {
         $.ajax({
@@ -174,5 +171,22 @@
         name = $("#cpname").val();
         typeid = $("#leixing").val();
         WhAll(Index, Size, typeid, name);
+        layui.use(['laypage', 'layer'], function () {
+            var laypage = layui.laypage
+                , layer = layui.layer;
+            laypage.render({
+                elem: 'fenye'
+                , count: Count
+                , limit: Size
+                , limits: [5, 10, 15, 20, 25, 30,]
+                , layout: ['count', 'prev', 'page', 'next', 'limit', 'refresh', 'skip']
+                , jump: function (obj, first) {
+                    if (!first) {
+                        WhAll(obj.curr, obj.limit, typeid, name);
+                    }
+                }
+            });
+
+        });
     });
 </script>
