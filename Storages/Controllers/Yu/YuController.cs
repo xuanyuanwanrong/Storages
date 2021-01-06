@@ -76,10 +76,7 @@ namespace Storage.Controllers.Yu
         #region  入库单条件查询
 
         #region 根据入库单号查询
-        public ActionResult RuKuIDRows(int id)
-        {
-            return Json(RuKumanager.RuKuIDRows(id), JsonRequestBehavior.AllowGet);
-        }
+       
 
         public ActionResult SelectRuKuID(int pageIndex, int PageSize, int id)
         {

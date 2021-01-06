@@ -69,10 +69,7 @@ namespace BLL.Lxy
         #region  入库单条件查询
 
         #region 根据入库单号查询
-        public static int RuKuIDRows(int id)
-        {
-            return RuKu.RuKuIDRows(id);
-        }
+        
 
         public static PageList SelectRuKuID(int pageIndex, int PageSize, int id)
         {
