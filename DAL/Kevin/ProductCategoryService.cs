@@ -15,13 +15,13 @@ namespace DAL.Kevin
         /// <param name="PageIndex"></param>
         /// <param name="PageSize"></param>
         /// <returns>PageList</returns>
-        public static PageList ProductCategoryList(int PageIndex,int PageSize)
+        public static PageList ProductCategoryList(int PageIndex,int PageSize,string PcName)
         {
             StorageEntities entities = new StorageEntities();
             PageList list = new PageList();
             var obj = from p in entities.ProductCategory
                       orderby p.Pcid
-                      where p.PcState == 0
+                      where p.PcState == 0 && p.PcName.Contains(PcName)
                       select new
                       {
                           Pcid = p.Pcid,
@@ -32,10 +32,10 @@ namespace DAL.Kevin
                       };
             //设置分页数据
             list.DataList = obj.Skip((PageIndex - 1) * PageSize).Take(PageSize);
-             
-            
+
+
             //设置总页数
-            list.PageCount = entities.ProductCategory.Count();
+            list.PageCount = obj.Count();
             return list;
         }
 
