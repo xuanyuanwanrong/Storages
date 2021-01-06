@@ -1,10 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using BLL.MaBLL;
+using Git.Storage.Common.Excel;
 using Models;
+
 namespace Storage.Controllers.Ma
 {
     public class MaController : Controller
@@ -15,12 +19,50 @@ namespace Storage.Controllers.Ma
             return Redirect("Ma/index.html");
         }
         //查询库存清单
-        public ActionResult WhAll(int PageIndex,int PageSize,int typeid,string name) {
-            return Json(WarehousingManager.WhAll(PageIndex,PageSize,typeid,name), JsonRequestBehavior.AllowGet);
+        public ActionResult WhAll(int PageIndex, int PageSize, int typeid, string name)
+        {
+            return Json(WarehousingManager.WhAll(PageIndex, PageSize, typeid, name), JsonRequestBehavior.AllowGet);
         }
         //查询所有入库类型
-        public ActionResult WsTypeAll() {
+        public ActionResult WsTypeAll()
+        {
             return Json(WareStateTypeManager.WsTypeAll(), JsonRequestBehavior.AllowGet);
         }
+
+        //导出Excel
+        public string Excel(int typeid = 0, string cname = "")
+        {
+            DataTable dt = new DataTable();
+            dt.Columns.Add(new DataColumn("序号 "));
+            dt.Columns.Add(new DataColumn("供应商名称"));
+            dt.Columns.Add(new DataColumn("产品名称"));
+            dt.Columns.Add(new DataColumn("入库类别"));
+            dt.Columns.Add(new DataColumn("供应商地址"));
+            dt.Columns.Add(new DataColumn("产品数量"));
+            dt.Columns.Add(new DataColumn("入库时间"));
+            List<Warehousing> list = WarehousingManager.Excel(typeid, cname);
+            foreach (var item in list)
+            {
+                DataRow row = dt.NewRow();
+                row[0] = item.Wid;
+                row[1] = item.Supplier.SlTypeId;
+                row[2] = item.Product.PName;
+                row[3] = item.WareStateType.TName;
+                row[4] = item.Supplier.SlAddress;
+                row[5] = item.Product.PCount;
+                row[6] = item.time;
+                dt.Rows.Add(row);
+            }
+            var name = string.Format("库存清单报表{0}.xls", DateTime.Now.ToString("yyyyMMddHHmmss"));
+            string path = Server.MapPath("~/Excel/");
+            var pathname = string.Format("/Excel/{0}", name);
+            AsposeExcel excel = new AsposeExcel(System.IO.Path.Combine(path, name), "");
+            excel.DatatableToExcel(dt, "库存清单报表", "库存清单报表");
+            FileStream fs = new FileStream(System.IO.Path.Combine(path, name), FileMode.Open, FileAccess.Read);
+            File(fs, "application/vnd.ms-excel", name);
+            fs.Close();
+            return pathname;
+        }
+
     }
 }
