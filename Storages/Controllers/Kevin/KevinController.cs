@@ -23,5 +23,17 @@ namespace Storage.Controllers.Kevin
         {
             return Json(ProductCategoryManager.ProductCategoryAdd(pro), JsonRequestBehavior.AllowGet);
         }
+        public ActionResult ProductCategoryDel(int PcId)
+        {
+            return Json(ProductCategoryManager.ProductCategoryDel(PcId), JsonRequestBehavior.AllowGet);
+        }
+        public ActionResult ProductCategoryByPcid(int Pcid)
+        {
+            return Json(ProductCategoryManager.ProductCategoryByPcid(Pcid), JsonRequestBehavior.AllowGet);
+        }
+        public ActionResult ProductCategoryUpd(ProductCategory pro)
+        {
+            return Json(ProductCategoryManager.ProductCategoryUpd(pro), JsonRequestBehavior.AllowGet);
+        }
     }
 }
