@@ -65,6 +65,9 @@
         <AssociationConnector Association="StorageModel.FK_Warehousing_WareStateType" ManuallyRouted="false" />
         <AssociationConnector Association="StorageModel.FK_WareProduct_Warehousing" ManuallyRouted="false" />
         <AssociationConnector Association="StorageModel.FK_Warehousing_Product" />
+        <EntityTypeShape EntityType="StorageModel.WhereDepot" Width="1.5" PointX="0.75" PointY="33.875" />
+        <AssociationConnector Association="StorageModel.FK_WareHouse_WareHouse" />
+        <AssociationConnector Association="StorageModel.FK_WareHouse_WhereDepot" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
