@@ -6,7 +6,6 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using BLL.MaBLL;
-using Git.Storage.Common.Excel;
 //using Git.Storage.Common.Excel;
 using Models;
 
@@ -14,15 +13,19 @@ namespace Storage.Controllers.Ma
 {
     public class MaController : Controller
     {
-        //跳转主页
-        public ActionResult Index()
-        {
-            return Redirect("Ma/index.html");
-        }
-        public ActionResult Index1()
-        {
-            return View();
-        }
+        //protected override void OnActionExecuting(ActionExecutingContext filterContext)
+        //{
+        //    if (Session["jurisdiction"] == null) //判断session是否为空
+        //    {
+        //        //filterContext.Result = new RedirectResult(Url.Action("Index", "Home"));//方法名，控制器名
+        //        filterContext.Result =new RedirectResult("/Ma/Index.html");//方法名，控制器名
+                 
+        //        return;
+        //    }
+
+        //    base.OnActionExecuting(filterContext);
+        //}
+
         //查询库存清单
         public ActionResult WhAll(int PageIndex, int PageSize, int typeid, string name)
         {
