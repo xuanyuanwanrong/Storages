@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿
+<!DOCTYPE html>
 <html class="x-admin-sm">
 
 <head>
@@ -11,6 +12,7 @@
     <link rel="stylesheet" href="../css/xadmin.css">
     <!--<script src="./lib/layui/layui.js" charset="utf-8"></script>-->
     <!--<script type="text/javascript" src="./js/xadmin.js"></script>-->
+    <script src="../js/xadmin.js"></script>
 </head>
 
 <body>
@@ -31,7 +33,7 @@
             <div class="layui-col-md12">
                 <div class="layui-card">
                     <div class="layui-card-body ">
-                        <form class="layui-form layui-col-space5">
+                       
                             <!-- <div class="layui-input-inline layui-show-xs-block">
                                  <input class="layui-input" placeholder="开始日" name="start" id="start"></div>
                              <div class="layui-input-inline layui-show-xs-block">
@@ -54,20 +56,20 @@
                                      <option value="5">已作废</option></select>
                              </div> -->
                             <div class="layui-input-inline layui-show-xs-block">
-                                <input type="text" name="username" placeholder="请输入订单号" autocomplete="off" class="layui-input">
+                                <input type="text" id="name" placeholder="请输入客户编号或者客户姓名" autocomplete="off" class="layui-input">
                             </div>
                             <div class="layui-input-inline layui-show-xs-block">
-                                <button class="layui-btn" lay-submit="" lay-filter="sreach">
+                                <button class="layui-btn" lay-submit="" lay-filter="sreach" id="input">
                                     <i class="layui-icon">&#xe615;</i>
                                 </button>
                             </div>
-                        </form>
+                        
                     </div>
                     <div class="layui-card-header" style="float: right;margin-top: -45px;">
-                        <button class="layui-btn layui-btn-danger" onclick="delAll()">
+                        <!--<button class="layui-btn layui-btn-danger" onclick="delAll()">
                             <i class="layui-icon"></i>批量删除
-                        </button>
-                        <button class="layui-btn" onclick="xadmin.open('添加用户','./O_KeHuListAdd.html',800,600)">
+                        </button>-->
+                        <button class="layui-btn" onclick="xadmin.open('添加用户','/Peng/O_KeHuListAdd.html',800,600)">
                             <i class="layui-icon"></i>添加
                         </button>
 
@@ -85,11 +87,10 @@
                                     <th>操作</th>
                                 </tr>
                             </thead>
-
+                            
                             <tbody id="td1"></tbody>
-
                         </table>
-                        <div id="demoPageList"></div>
+                        <div id="demoPageList" onclick=""></div>
                     </div>
                     <div class="layui-card-body ">
                         <div class="page">
@@ -131,12 +132,13 @@
         $.ajax({
             type: "POST",
             url: "/Peng/CustomerAll",
-            data: "{pageIndex:'"+index+"',pageSize:'"+size+"'}",
+            data: "{pageIndex:'"+index+"',pageSize:'" + size + "'}",
             dataType: "json",
             contentType: "application/json",
             success: function (result) {
+                $("#td1 tr").remove();
                 $.each(result.DataList, function (index, data) {
-                    $("#td1").append("<tr><th>" + data.CtId + "</th><th>" + data.CtName + "</th><th>" + data.CtIphone + "</th><th>" + data.CtAddress + "</th><th>" + dateTome(data.Time) + "</th></tr>");
+                    $("#td1").append("<tr><th>" + data.CtId + "</th><th>" + data.CtName + "</th><th>" + data.CtIphone + "</th><th>" + data.CtAddress + "</th><th>" + dateTome(data.Time) + "</th><th><a type='button' class='layui-btn layui-btn-normal layui-btn-sm'><i class='layui-icon'></i></a><button onclick='return Del(" + data.id + ")' type='button' class='layui-btn layui-btn-danger'><i class='layui-icon'></i></button></th></th></tr>");
                 });
             },
             error: function (ex) {
@@ -154,7 +156,7 @@
                 contentType: "application/json",
                 success: function (retult) {
                     Rows = retult;
-                    //$("#tdl tr").remove();
+                    $("#tdl tr").remove();
                     layui.use(['laypage', 'layer'], function () {
                         var laypage = layui.laypage
                             , layer = layui.layer;
@@ -162,7 +164,6 @@
                         laypage.render({
                             elem: 'demoPageList'
                             , count: Rows
-                            
                             , layout: ['count', 'prev', 'page', 'next', 'limit', 'refresh', 'skip']
                             , jump: function (obj, first) {
                                 if (!first) {
@@ -174,4 +175,62 @@
                 },
             });
     }
-</script>
+
+
+
+    ///查询客户和编号
+    $("#input").click(function () {
+        var name = $("#name").val();
+        //alert(name);
+        $.ajax({
+            type: "POST",
+            async: false,
+            url: "/Peng/CustomerCxx",
+            data: "{CtName:'" +name + "'}",
+            dataType: "json",
+            contentType: "application/json",
+            success: function (result) {
+                $("#td1 tr").remove();
+                if (result.length > 0) {
+                    $.each(result, function (index, data) {
+                        $("#td1").append("<tr><th>" + data.CtId + "</th><th>" + data.CtName + "</th><th>" + data.CtIphone + "</th><th>" + data.CtAddress + "</th><th>" + dateTome(data.Time) + "</th><th><button type='button' class='layui-btn layui-btn-normal layui-btn-sm'><i class='layui-icon'></i><button type='button' class='layui-btn layui-btn-danger'><i class='layui-icon'></i></button></th></th></tr>");
+                    });
+                }
+                else {
+                    alert("查询失败");
+                }
+            },
+            error: function (ex) {
+                alert("Error" + ex.responseText);
+            }
+        });
+
+    });
+
+    //删除客户Id
+    //function Del(id) {
+    //    $.ajax({
+    //        type: "POST",
+    //        async: false,
+    //        url: "/Peng/Del",
+    //        data: "{id:'" + id + "'}",
+    //        dataType: "json",
+    //        contentType: "application/json",
+    //        success: function (result) {
+               
+    //            if (result > 0) {
+
+    //                alert("删除成功");
+    //            }
+    //            else {
+    //                alert("删除失败");
+    //            }
+    //        },
+    //        error: function (ex) {
+    //            alert("Error" + ex.responseText);
+    //        }
+    //    });
+
+  
+    //}
+</script>

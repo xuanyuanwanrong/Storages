@@ -12,25 +12,18 @@ namespace Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Customer
+    public partial class WhereDepot
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Customer()
+        public WhereDepot()
         {
-            this.Delivery = new HashSet<Delivery>();
-            this.Product = new HashSet<Product>();
+            this.WareHouse = new HashSet<WareHouse>();
         }
     
-        public int CtId { get; set; }
-        public string CtName { get; set; }
-        public string CtIphone { get; set; }
-        public string CtAddress { get; set; }
-        public Nullable<System.DateTime> Time { get; set; }
-        public Nullable<int> CtState { get; set; }
+        public int Wdid { get; set; }
+        public string Inwarehouse { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Delivery> Delivery { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Product> Product { get; set; }
+        public virtual ICollection<WareHouse> WareHouse { get; set; }
     }
 }

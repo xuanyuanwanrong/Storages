@@ -55,10 +55,13 @@
     <Compile Include="Kevin\WareHouseService.cs" />
     <Compile Include="LiuYingXuan\WareHouseService.cs" />
     <Compile Include="Lxy\RuKu.cs" />
+    <Compile Include="MaDAL\DeliveryService.cs" />
     <Compile Include="MaDAL\ProductService.cs" />
+    <Compile Include="MaDAL\UserService.cs" />
     <Compile Include="MaDAL\WarehousingService.cs" />
     <Compile Include="MaDAL\WareStateTypeService.cs" />
     <Compile Include="Peng\CustomerServicer.cs" />
+    <Compile Include="Peng\MeteringServicer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Qin\SupplierService.cs" />
   </ItemGroup>

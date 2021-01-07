@@ -39,5 +39,8 @@ namespace Models
         public virtual WhState WhState { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<WareProduct> WareProduct { get; set; }
+        public virtual WareHouse WareHouse1 { get; set; }
+        public virtual WareHouse WareHouse2 { get; set; }
+        public virtual WhereDepot WhereDepot { get; set; }
     }
 }

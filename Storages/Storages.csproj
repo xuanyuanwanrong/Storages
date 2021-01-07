@@ -282,6 +282,7 @@
     <Content Include="Ma\M_client.html" />
     <Content Include="Ma\M_enter.html" />
     <Content Include="Ma\M_goods_statistical.html" />
+    <Content Include="Ma\M_login.html" />
     <Content Include="Ma\M_Out.html" />
     <Content Include="Ma\M_out_enter.html" />
     <Content Include="Ma\M_retreat_goods.html" />
@@ -289,6 +290,10 @@
     <Content Include="Ma\M_store_list.html" />
     <Content Include="Ma\M_supplier.html" />
     <Content Include="Peng\O_KeHuList.html" />
+    <Content Include="Peng\O_KeHuListAdd.html" />
+    <Content Include="Peng\O_KeHuListUpdate.html" />
+    <Content Include="Peng\O_Measuring.html" />
+    <Content Include="Peng\O_MeasuringAdd.html" />
     <Content Include="Qin\Q_order-list.html" />
     <Content Include="Qin\Q_member-Jues.html" />
     <Content Include="Qin\Q_member-list.html" />
@@ -332,6 +337,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Models\" />
+    <Folder Include="Views\Ma\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
