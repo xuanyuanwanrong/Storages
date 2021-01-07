@@ -6,7 +6,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using BLL.MaBLL;
-using Git.Storage.Common.Excel;
+//using Git.Storage.Common.Excel;
 using Models;
 
 namespace Storage.Controllers.Ma
@@ -56,8 +56,8 @@ namespace Storage.Controllers.Ma
             var name = string.Format("库存清单报表{0}.xls", DateTime.Now.ToString("yyyyMMddHHmmss"));
             string path = Server.MapPath("~/Excel/");
             var pathname = string.Format("/Excel/{0}", name);
-            AsposeExcel excel = new AsposeExcel(System.IO.Path.Combine(path, name), "");
-            excel.DatatableToExcel(dt, "库存清单报表", "库存清单报表");
+            //AsposeExcel excel = new AsposeExcel(System.IO.Path.Combine(path, name), "");
+            //excel.DatatableToExcel(dt, "库存清单报表", "库存清单报表");
             FileStream fs = new FileStream(System.IO.Path.Combine(path, name), FileMode.Open, FileAccess.Read);
             File(fs, "application/vnd.ms-excel", name);
             fs.Close();

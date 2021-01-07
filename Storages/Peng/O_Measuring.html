@@ -9,8 +9,9 @@
     <!--<meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />-->
     <!--<link rel="stylesheet" href="./css/font.css">-->
     <link rel="stylesheet" href="../css/xadmin.css">
-    <!--<script src="./lib/layui/layui.js" charset="utf-8"></script>-->
-    <!--<script type="text/javascript" src="./js/xadmin.js"></script>-->
+    <script src="../lib/layui/layui.js"></script>
+    <!--<script src="./lib/layui/layui.js" charset="utf-8"></script>
+    <script type="text/javascript" src="./js/xadmin.js"></script>-->
     <script src="../js/xadmin.js"></script>
 </head>
 
@@ -68,27 +69,21 @@
                         <button class="layui-btn layui-btn-danger" onclick="delAll()">
                             <i class="layui-icon"></i>批量删除
                         </button>
-                        <button class="layui-btn" onclick="xadmin.open('添加用户','/Peng/O_KeHuListAdd.html',800,600)">
+                        <button class="layui-btn" onclick="xadmin.open('添加用户','/Peng/O_MeasuringAdd.html')">
                             <i class="layui-icon"></i>添加
                         </button>
-
                     </div>
                     <div class="layui-card-body ">
                         <table class="layui-table layui-form">
                             <thead>
                                 <tr>
-
-                                    <th>客户编号</th>
-                                    <th>客户姓名</th>
-                                    <th>电话</th>
-                                    <th>地址</th>
-                                    <th>时间</th>
+                                    <th>编号</th>
+                                    <th>名称</th>
+                                    <th>计量单位</th>
                                     <th>操作</th>
                                 </tr>
                             </thead>
-
                             <tbody id="td1"></tbody>
-
                         </table>
                         <div id="demoPageList"></div>
                     </div>
@@ -110,6 +105,7 @@
     </div>
 </body>
 </html>
+
 <script src="../Scripts/jquery-3.4.1.min.js"></script>
 <script src="../lib/layui/layui.js"></script>
 <script>
@@ -120,24 +116,20 @@
 
     $(function () {
         Count();
-        CustomeerAll(pageIndex, pageSize);
+        MeteringAll(pageIndex,pageSize);
     });
-
-    function dateTome(op) {
-        var data = new Date(parseInt(op.substring(6)));
-        return data.toLocaleDateString();
-    }
-
-    function CustomeerAll(index, size) {
+    function MeteringAll(index, size) {
         $.ajax({
             type: "POST",
-            url: "/Peng/CustomerAll",
-            data: "{pageIndex:'"+index+"',pageSize:'"+size+"'}",
+            url: "/Peng/MeteringAll",
+            data: "{pageIndex:" + index + ",pageSize:" + size + "}",
             dataType: "json",
             contentType: "application/json",
             success: function (result) {
+                $("#td1 th").remove();
                 $.each(result.DataList, function (index, data) {
-                    $("#td1").append("<tr><th>" + data.CtId + "</th><th>" + data.CtName + "</th><th>" + data.CtIphone + "</th><th>" + data.CtAddress + "</th><th>" + dateTome(data.Time) + "</th><th><button type='button' class='layui-btn layui-btn-normal layui-btn-sm'><i class='layui-icon'></i><button type='button' class='layui-btn layui-btn-danger'><i class='layui-icon'></i></button></th></th></tr>");
+
+                    $("#td1").append("<tr><th>" + data.Mid + "</th><th>" + data.Mname + "</th><th>" + data.MId + "</th><th><button type='button' class='layui-btn layui-btn-normal layui-btn-sm'><i class='layui-icon'></i></button><button type='button' class='layui-btn layui-btn-danger'><i class='layui-icon'></i></button></th></tr>");
                 });
             },
             error: function (ex) {
@@ -148,31 +140,30 @@
 
     function Count() {
         $.ajax({
-                type: "POST",
-                url: "/Peng/Rows",
-                data: "{}",
-                dataType: "json",
-                contentType: "application/json",
-                success: function (retult) {
-                    Rows = retult;
-                    //$("#tdl tr").remove();
-                    layui.use(['laypage', 'layer'], function () {
-                        var laypage = layui.laypage
-                            , layer = layui.layer;
-                        //完整功能
-                        laypage.render({
-                            elem: 'demoPageList'
-                            , count: Rows
-                            
-                            , layout: ['count', 'prev', 'page', 'next', 'limit', 'refresh', 'skip']
-                            , jump: function (obj, first) {
-                                if (!first) {
-                                    CustomeerAll(obj.curr,obj.limit);
-                                }
+            type: "POST",
+            url: "/Peng/Rowss",
+            data: "{}",
+            dataType: "json",
+            contentType: "application/json",
+            success: function (retult) {
+                Rows = retult;
+                $("#tdl th").remove();
+                layui.use(['laypage', 'layer'], function () {
+                    var laypage = layui.laypage
+                        , layer = layui.layer;
+                    //完整功能
+                    laypage.render({
+                        elem: 'demoPageList'
+                        , count: Rows
+                        , layout: ['count', 'prev', 'page', 'next', 'limit', 'refresh', 'skip']
+                        , jump: function (obj, first) {
+                            if (!first) {
+                                MeteringAll(obj.curr, obj.limit);
                             }
-                        });
+                        }
                     });
-                },
-            });
+                });
+            },
+        });
     }
 </script>

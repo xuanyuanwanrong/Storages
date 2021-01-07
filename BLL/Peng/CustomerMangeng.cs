@@ -7,15 +7,19 @@ using Models;
 using DAL.Peng;
 namespace BLL.Peng
 {
-   public class CustomerMangeng
+    public class CustomerMangeng
     {
         public static PageList CustomerAll(int pageindex, int pageSize)
         {
-            return CustomerServicer.CustomerAll( pageindex, pageSize);
+            return CustomerServicer.CustomerAll(pageindex, pageSize);
         }
         public static int Rows()
         {
             return CustomerServicer.Rows();
         }
+        public static int CustomerAdd(Customer C)
+        {
+            return CustomerServicer.CustomerAdd(C);
         }
+    }
 }
