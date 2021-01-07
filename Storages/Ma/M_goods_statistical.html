@@ -24,19 +24,19 @@
             <div class="layui-col-md12">
                 <div class="layui-card">
                     <div class="layui-card-body ">
-                        <form class="layui-form layui-col-space5">
-                            产品/编号/条码/名称
+                        
+                            产品名称
                             <div class="layui-inline layui-show-xs-block">
-                                <input class="layui-input" placeholder="请输入产品/编号/条码/名称 " name="product_name" id="product_name" type="text">
+                                <input class="layui-input" placeholder="请输入产品名称 " name="product_name" id="product_name" type="text">
                             </div>
 
                             <div class="layui-inline layui-show-xs-block">
-                                <button class="layui-btn" lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;</i></button>
+                                <button class="layui-btn" lay-submit="" lay-filter="sreach" id="chaxun"><i class="layui-icon">&#xe615;</i></button>
                             </div>
                             <div class="layui-inline layui-show-xs-block" style="float: right;">
-                                <button class="layui-btn">导出Excel</button>
+                                <button class="layui-btn" id="ProduceExcel">导出Excel</button>
                             </div>
-                        </form>
+                       
                     </div>
 
                     <div class="layui-card-body layui-table-body layui-table-main">
@@ -59,7 +59,7 @@
                         </table>
                     </div>
                     <div class="layui-card-body ">
-                        <div class="page">
+                        <div id="page">
                             <div>
 
                             </div>
@@ -75,25 +75,82 @@
 <script type="text/javascript">
     var PageIndex = 1;
     var PageSize = 5;
+    var pname = "";
+    var Count = 0;
     $(function () {
+        ProductAll(PageIndex, PageSize, pname);
+        layui.use(['laypage', 'layer'], function () {
+            var laypage = layui.laypage
+                , layer = layui.layer;
+            laypage.render({
+                elem: 'page'
+                , count: Count
+                , limit: PageSize
+                , limits: [5, 10, 15, 20, 25, 30,]
+                , layout: ['count', 'prev', 'page', 'next', 'limit', 'refresh', 'skip']
+                , jump: function (obj, first) {
+                    if (!first) {
+                        ProductAll(obj.curr, obj.limit,pname);
+                    }
+                }
+            });
 
+        });
     });
- 
-    function ProductAll() {
+
+    //导出货品Excel
+    $("#ProduceExcel").click(function () {
         $.ajax({
-            url: "",
+            url: "/Ma/ProductExcel",
             type: "post",
-            data: "{ }",
+            data: "{pname:'" + pname + "'}",
+            dataType: "text",
+            contentType: "application/json",
+            success: function (result) {
+                window.location.href = result;
+                return true;
+            }
+        });
+    });
+    //查询货品
+    function ProductAll(index, size, name) {
+        $.ajax({
+            url: "/Ma/ProductAll",
+            type: "post",
+            data: "{PageIndex:" + index + ",PageSize:" + size + ",pname:'" + name + "'}",
             dataType: "json",
-            contentType: "lication/json",
+            async: false,
+            contentType: "application/json",
             success: function (result) {
                 $("#tbl").empty();
-                $.each(result,function (index,data) {
-
+                Count = result.PageCount;
+                $.each(result.DataList, function (index, data) {
+                    $("#tbl").append("<tr><td>" + data.pid + "</td><td>" + data.pname + "</td><td>" + data.pcname + "</td><td>" + data.guige + "</td><td>" + data.pcount + "</td><td>" + data.ctname +"</td></tr>");
                 });
             }, error: function (ex) {
                 alert("Error:" + ex.responseText);
             }
         });
     }
+    $("#chaxun").click(function () {
+        pname = $("#product_name").val();
+        ProductAll(PageIndex, PageSize, pname);
+        layui.use(['laypage', 'layer'], function () {
+            var laypage = layui.laypage
+                , layer = layui.layer;
+            laypage.render({
+                elem: 'page'
+                , count: Count
+                , limit: PageSize
+                , limits: [5, 10, 15, 20, 25, 30,]
+                , layout: ['count', 'prev', 'page', 'next', 'limit', 'refresh', 'skip']
+                , jump: function (obj, first) {
+                    if (!first) {
+                        ProductAll(obj.curr, obj.limit, pname);
+                    }
+                }
+            });
+
+        });
+    });
 </script>

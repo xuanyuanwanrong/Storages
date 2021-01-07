@@ -44,6 +44,7 @@
     <Compile Include="Class1.cs" />
     <Compile Include="Kevin\ProductCategoryManager.cs" />
     <Compile Include="Lxy\RuKumanager.cs" />
+    <Compile Include="MaBLL\ProductManager.cs" />
     <Compile Include="MaBLL\WarehousingManager.cs" />
     <Compile Include="MaBLL\WareStateTypeManager.cs" />
     <Compile Include="Peng\CustomerMangeng.cs" />
