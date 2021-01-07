@@ -293,6 +293,7 @@
     <Content Include="Peng\O_KeHuListUpdate.html" />
     <Content Include="Peng\O_Measuring.html" />
     <Content Include="Peng\O_MeasuringAdd.html" />
+    <Content Include="Peng\O_MeasuringUpdate.html" />
     <Content Include="Qin\Q_order-list.html" />
     <Content Include="Qin\Q_member-Jues.html" />
     <Content Include="Qin\Q_member-list.html" />

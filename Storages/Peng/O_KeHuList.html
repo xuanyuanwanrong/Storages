@@ -56,7 +56,7 @@
                                      <option value="5">已作废</option></select>
                              </div> -->
                             <div class="layui-input-inline layui-show-xs-block">
-                                <input type="text" id="name" placeholder="请输入客户编号或者客户姓名" autocomplete="off" class="layui-input">
+                                <input type="text" id="name" placeholder="请输入客户姓名" autocomplete="off" class="layui-input">
                             </div>
                             <div class="layui-input-inline layui-show-xs-block">
                                 <button class="layui-btn" lay-submit="" lay-filter="sreach" id="input">
@@ -113,6 +113,7 @@
 <script src="../Scripts/jquery-3.4.1.min.js"></script>
 <script src="../lib/layui/layui.js"></script>
 <script>
+    
     var pageIndex = 1;
     var pageSize = 10;
     var pageCount = 0;
@@ -137,8 +138,9 @@
             contentType: "application/json",
             success: function (result) {
                 $("#td1 tr").remove();
-                $.each(result.DataList, function (index, data) {
-                    $("#td1").append("<tr><th>" + data.CtId + "</th><th>" + data.CtName + "</th><th>" + data.CtIphone + "</th><th>" + data.CtAddress + "</th><th>" + dateTome(data.Time) + "</th><th><a type='button' class='layui-btn layui-btn-normal layui-btn-sm'><i class='layui-icon'></i></a><button onclick='return Del(" + data.id + ")' type='button' class='layui-btn layui-btn-danger'><i class='layui-icon'></i></button></th></th></tr>");
+                    $.each(result.DataList, function (index, data) {
+                        $("#td1").append("<tr><th>" + data.CtId + "</th><th>" + data.CtName + "</th><th>" + data.CtIphone + "</th><th>" + data.CtAddress + "</th><th>" + dateTome(data.Time) +
+                            "</th><th><button class='layui-btn layui-btn-normal layui-btn-sm' onclick=xadmin.open('修改客户','/Peng/O_KeHuListUpdate.html?id=" + data.CtId + "',800,600)> <i class='layui-icon'></i></button></button><button type='button' class='layui-btn layui-btn-danger'><i class='layui-icon'></i></button></th></th ></tr > ");
                 });
             },
             error: function (ex) {
@@ -215,7 +217,7 @@
     //        url: "/Peng/Del",
     //        data: "{id:'" + id + "'}",
     //        dataType: "json",
-    //        contentType: "application/json",
+    //        contentType: "application/json"g,
     //        success: function (result) {
                
     //            if (result > 0) {
