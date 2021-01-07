@@ -48,7 +48,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Kevin\CustomerService.cs" />
+    <Compile Include="Kevin\MeteringService.cs" />
     <Compile Include="Kevin\ProductCategoryService.cs" />
+    <Compile Include="Kevin\ProductService.cs" />
+    <Compile Include="Kevin\WareHouseService.cs" />
     <Compile Include="LiuYingXuan\WareHouseService.cs" />
     <Compile Include="Lxy\RuKu.cs" />
     <Compile Include="MaDAL\ProductService.cs" />

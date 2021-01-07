@@ -42,7 +42,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Class1.cs" />
+    <Compile Include="Kevin\CustomerManger.cs" />
+    <Compile Include="Kevin\MeteringManager.cs" />
     <Compile Include="Kevin\ProductCategoryManager.cs" />
+    <Compile Include="Kevin\ProductManager.cs" />
+    <Compile Include="Kevin\WareHouseManager.cs" />
     <Compile Include="Lxy\RuKumanager.cs" />
     <Compile Include="MaBLL\WarehousingManager.cs" />
     <Compile Include="MaBLL\WareStateTypeManager.cs" />
