@@ -53,6 +53,7 @@
     <Compile Include="Lxy\RuKu.cs" />
     <Compile Include="MaDAL\DeliveryService.cs" />
     <Compile Include="MaDAL\ProductService.cs" />
+    <Compile Include="MaDAL\UserService.cs" />
     <Compile Include="MaDAL\WarehousingService.cs" />
     <Compile Include="MaDAL\WareStateTypeService.cs" />
     <Compile Include="Peng\CustomerServicer.cs" />
