@@ -22,7 +22,7 @@
 <body>
     <div class="layui-fluid">
         <div class="layui-row">
-            
+            <form class="layui-form">
                 <!--<div class="layui-form-item">
                     <label for="username" class="layui-form-label">
                         <span class="x-red">*</span>客户编号
@@ -55,57 +55,13 @@
                         <input type="text" id="CtAddress" name="CtAddress" required="" lay-verify="phone" autocomplete="off" class="layui-input">
                     </div>
                 </div>
-                
-                    <div class="layui-form-item">
-                        <label for="L_repass" class="layui-form-label"></label>
-                        <button class="layui-btn" lay-filter="" lay-submit="" onclick="CustomerrAdd()">增加</button>
-                    </div>
-                
-    </div>
+
+                <div class="layui-form-item">
+                    <label for="L_repass" class="layui-form-label"></label>
+                    <button class="layui-btn" lay-filter="" lay-submit="" onclick="CustomerrAdd()">增加</button>
+                </div>
+            </form>
+        </div>
     </div>
 </body>
 </html>
-<script src="../Scripts/jquery-3.4.1.min.js"></script>
-<!--<script src="../lib/layui/layui.js"></script>-->
-<script>
-    function getCurrentDate() {
-        var timeStr = '-';
-        var curDate = new Date();
-        var curYear = curDate.getFullYear();  //获取完整的年份(4位,1970-????)
-        var curMonth = curDate.getMonth() + 1;  //获取当前月份(0-11,0代表1月)
-        var curDay = curDate.getDate();       //获取当前日(1-31)
-        var curWeekDay = curDate.getDay();    //获取当前星期X(0-6,0代表星期天)
-        var curHour = curDate.getHours();      //获取当前小时数(0-23)
-        var curMinute = curDate.getMinutes();   // 获取当前分钟数(0-59)
-        var curSec = curDate.getSeconds();      //获取当前秒数(0-59)
-        var Current = curYear + timeStr + curMonth + timeStr + curDay + ' ' + curHour + ':' + curMinute + ':' + curSec;
-        console.log(Current);
-        // this.datetime=Current;
-        return Current;
-    }
-    ///添加客户
-    function CustomerrAdd() {
-        $.ajax({
-            type: "POST",
-            url: "/Peng/CustomerAdd",
-            data: "{CtName:'" + $("#CtName").val() + "',CtIphone:'" + $("#CtIphone").val() + "',CtAddress:'" + $("#CtAddress").val() + "',Time:'" + getCurrentDate() + "'}",
-            dataType: "json",
-            contentType: "application/json",
-            success: function (result) {
-                if (result > 0) {
-                    alert("添加成功");
-                }
-                else {
-                    alert("添加失败");
-                }
-            },
-            error: function (ex) {
-                alert("Error" + ex.responseText);
-            }
-        });
-    }
-   
-
-   
-
-</script>

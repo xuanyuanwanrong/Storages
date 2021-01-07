@@ -29,6 +29,7 @@ namespace DAL.Peng
             list.PageCount = rows;
             return list;
         }
+       
         public static int Rows()
         {
             StorageEntities entit = new StorageEntities();
@@ -40,7 +41,33 @@ namespace DAL.Peng
             entit.Customer.Add(C);
             return entit.SaveChanges();
         }
+        /// <summary>
+        /// 查询客户或者客户编号
+        /// </summary>
+
+        public static IQueryable CustomerCxx(string CtName)
+        {
+            StorageEntities entit = new StorageEntities();
+            var obj = from p in entit.Customer
+                      where p.CtName.Contains(CtName)
+                      select new
+                      {
+                          CtId = p.CtId,
+                          CtName = p.CtName,
+                          CtIphone = p.CtIphone,
+                          CtAddress = p.CtAddress,
+                          Time = p.Time
+                      };
+
+            return obj;
+        }
+        ///删除客户
+        //public static int Del(int id)
+        //{
+        //    StorageEntities entit = new StorageEntities();
+        //    var obj = (from p in entit.Customer where p.CtId == id select p).First();
+        //    obj.PState = 1;
+        //    return entit.SaveChanges();
+        //}
     }
 }
-
-

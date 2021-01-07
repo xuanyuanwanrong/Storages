@@ -97,8 +97,8 @@ namespace Storage.Controllers.Ma
             var name = string.Format("货品清单报表{0}.xls", DateTime.Now.ToString("yyyyMMddHHmmss"));
             string path = Server.MapPath("~/Excel/");
             var pathname = string.Format("/Excel/{0}", name);
-            AsposeExcel excel = new AsposeExcel(System.IO.Path.Combine(path, name), "");
-            excel.DatatableToExcel(dt, "货品清单报表", "货品清单报表");
+            //AsposeExcel excel = new AsposeExcel(System.IO.Path.Combine(path, name), "");
+            //excel.DatatableToExcel(dt, "货品清单报表", "货品清单报表");
             FileStream fs = new FileStream(System.IO.Path.Combine(path, name), FileMode.Open, FileAccess.Read);
             File(fs, "application/vnd.ms-excel", name);
             fs.Close();

@@ -52,5 +52,18 @@ namespace Storage.Controllers.Peng
         {
             return Json(CustomerMangeng.CustomerAdd(C), JsonRequestBehavior.AllowGet);
         }
+
+        public ActionResult CustomerCxx(string CtName)
+        {
+            return Json(CustomerMangeng.CustomerCxx(CtName), JsonRequestBehavior.AllowGet);
+        }
+
+      
+        //删除
+        //public ActionResult Del(int id)
+        //{
+        //    return Json(CustomerMangeng.Del(id), JsonRequestBehavior.AllowGet);
+
+        //}
     }
 }
