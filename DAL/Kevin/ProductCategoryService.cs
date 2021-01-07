@@ -15,13 +15,13 @@ namespace DAL.Kevin
         /// <param name="PageIndex"></param>
         /// <param name="PageSize"></param>
         /// <returns>PageList</returns>
-        public static PageList ProductCategoryList(int PageIndex,int PageSize,string PcName)
+        public static PageList ProductCategoryList(int PageIndex,int PageSize)
         {
             StorageEntities entities = new StorageEntities();
             PageList list = new PageList();
             var obj = from p in entities.ProductCategory
                       orderby p.Pcid
-                      where p.PcState == 0 && p.PcName.Contains(PcName)
+                      where p.PcState == 0
                       select new
                       {
                           Pcid = p.Pcid,
