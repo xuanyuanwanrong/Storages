@@ -41,9 +41,9 @@
                         <div class="layui-tab layui-tab-card">
                             <ul class="layui-tab-title" style="display: inline-block;">
                                 <li class="layui-this" id="all">所有</li>
-                                <li>待审核</li>
-                                <li>审核成功</li>
-                                <li>审核失败</li>
+                                <li onclick="DSH()">待审核</li>
+                                <li onclick="SHCG()">审核成功</li>
+                                <li onclick="SHSB()">审核失败</li>
 
                             </ul>
                             <div style="display:inline-block; width: 126px;height: 40px;background-color: #F0F0F0;margin-left: -3px;padding-top: 2px;">
@@ -80,7 +80,7 @@
                                             <thead>
                                                 <tr>
                                                     <th>
-                                                        <input id="Checkbox1" type="checkbox" style="display:block;" />
+                                                        <input id="CheckAll" type="checkbox" style="display:block;" />
                                                     </th>
                                                     <th width="10">入库单号</th>
                                                     <th>入库类型</th>
@@ -131,7 +131,7 @@
                                             <thead>
                                                 <tr>
                                                     <th>
-                                                        <input id="Checkbox1" type="checkbox" style="display:block;" />
+                                                        <input id="Checkbox1" type="checkbox" style="display:block;" name="CheckAllA" />
                                                     </th>
                                                     <th width="10">入库单号</th>
                                                     <th>入库类型</th>
@@ -182,7 +182,7 @@
                                             <thead>
                                                 <tr>
                                                     <th>
-                                                        <input id="Checkbox1" type="checkbox" style="display:block;" />
+                                                        <input id="Checkbox1" type="checkbox" style="display:block;"name="CheckAllB" />
                                                     </th>
                                                     <th width="10">入库单号</th>
                                                     <th>入库类型</th>
@@ -233,7 +233,7 @@
                                             <thead>
                                                 <tr>
                                                     <th>
-                                                        <input id="Checkbox1" type="checkbox" style="display:block;" />
+                                                        <input id="Checkbox1" type="checkbox" style="display:block;"  name="CheckAllC"/>
                                                     </th>
                                                     <th width="10">入库单号</th>
                                                     <th>入库类型</th>
@@ -313,21 +313,57 @@
             return time.toLocaleString();
         }
 
+        //$("#CheckAll").click(function () {
+        //    var cf = $("#CheckAll").prop("checked");
+        //    $("[name=chkObj]").prop("checked", cf);//prop设置属性值
+        //});
+        //批量删除
+        //function dels() {
+        //    if (confirm('确定删除多条入库单吗')) {
+        //        var count = 0;
+        //        $("input[name='chkObj']:checked").each(function () {
+        //            var n = $(this).parents("tr").index();//tr所在行
+        //            var name = document.getElementById("tabInfo").getElementsByTagName("tr")[n + 1].getElementsByTagName("td")[1].innerHTML;//获取id
+        //            alert(name);
+        //            $.ajax({
+        //                type: "post",
+        //                url: "/LJY/del",
+        //                data: "{id:'" + name + "'}",
+        //                dataType: "json",
+        //                contentType: "application/json",
+        //                success: function (result) {
+        //                    getrows();
+        //                }, error: function (ex) {
+        //                    alert("Error:" + ex.responseText);
+        //                }
+        //            });
+        //            count++;
+        //        });
+        //        if (count > 0) {
+        //            alert("有" + count + "项数据删除成功！");
+        //        } else {
+        //            alert("删除失败！");
+        //        }
+        //    }
+        //}
         $(function () {
             GetRows();
-
             PageList(pageIndex, pageSize);
-            PageListDSH(pageIndex, pageSize);
-            GetRowsDSH();
-            PageListSHCG(pageIndex, pageSize);
-            GetRowsSHCG();
-
-            
-            GetRowsSHSB();
-
-            PageListSHSB(pageIndex, pageSize);
+           
         });
 
+        function DSH() {
+            PageListDSH(pageIndex, pageSize);
+            GetRowsDSH();
+        }
+        function SHCG() {
+            PageListSHCG(pageIndex, pageSize);
+            GetRowsSHCG();
+        }
+        function SHSB() {
+            PageListSHSB(pageIndex, pageSize);
+            GetRowsSHSB();
+        }
         function PageList(pIndex, pSize) {
             $.ajax({
                 type: "POST",
@@ -338,8 +374,12 @@
                 success: function (re) {
                     $("#box tr").remove();
                     $.each(re.DataList, function (index, data) {
-                        $("#box").append("<tr><td><input type='checkbox' style='display: block;' lay-skin='primary'></td><td>" + data.wid + "</td><td>" + data.tname + "</td><td>" + data.sname + "</td><td>" + data.rid + "</td><td>" + data.num + "</td><td>" + (data.num) * (data.price) + "</td><td>" + data.state + "</td><td>" + data.user + "</td><td>" + GetTime(data.time) + "</td><td><div class='layui - btn - group'><button type='button' class='layui-btn layui-btn-warm'><i class='layui-icon'>&#xe642;</i>查看</button><button type='button' class='layui-btn  layui-btn-danger'><i class='layui-icon'>&#xe640;</i>删除</button></div ></td></tr>");
-                    });
+                        if (data.stateid!= 1) {
+                            $("#box").append("<tr><td><input type='checkbox'name='chkObj' style='display: block;' lay-skin='primary'></td><td>" + data.wid + "</td><td>" + data.tname + "</td><td>" + data.sname + "</td><td>" + data.rid + "</td><td>" + data.num + "</td><td>" + (data.num) * (data.price) + "</td><td>" + data.state + "</td><td>" + data.user + "</td><td>" + GetTime(data.time) + "</td><td><div class='layui - btn - group'><button type='button' class='layui-btn layui-btn-warm'><i class='layui-icon'>&#xe642;</i>查看</button><button type='button' class='layui-btn  layui-btn-danger'><i class='layui-icon'>&#xe640;</i>删除</button></div ></td></tr>");
+                        } else if (data.stateid== 1) {
+                            $("#box").append("<tr><td><input type='checkbox'name='chkObj' style='display: block;' lay-skin='primary'></td><td>" + data.wid + "</td><td>" + data.tname + "</td><td>" + data.sname + "</td><td>" + data.rid + "</td><td>" + data.num + "</td><td>" + (data.num) * (data.price) + "</td><td>" + data.state + "</td><td>" + data.user + "</td><td>" + GetTime(data.time) + "</td><td><div class='layui - btn - group'><button type='button' class='layui-btn layui-btn-warm'><i class='layui-icon'>&#xe642;</i>查看</button><button type='button' class='layui-btn  layui-btn-danger'><i class='layui-icon'>&#xe640;</i>删除</button><button type='button' class='layui-btn  layui-btn-danger'><i class='layui-icon'>&#xe640;</i>审核</button></div ></td></tr>");
+                        }
+                        });
                 },
                 error: function (ex) {
                     alert(ex.responseText);
@@ -399,7 +439,7 @@
                     pageCount = re.PageCount;
                     $.each(re.DataList, function (index, data) {
 
-                        $("#boxA").append("<tr><td><input type='checkbox' style='display: block;' lay-skin='primary'></td><td>" + data.wid + "</td><td>" + data.tname + "</td><td>" + data.sname + "</td><td>" + data.rid + "</td><td>" + data.num + "</td><td>" + (data.num) * (data.price) + "</td><td>" + data.state + "</td><td>" + data.user + "</td><td>" + GetTime(data.time) + "</td><td><div class='layui - btn - group'><button type='button' class='layui-btn layui-btn-warm'><i class='layui-icon'>&#xe642;</i>查看</button><button type='button' class='layui-btn  layui-btn-danger'><i class='layui-icon'>&#xe640;</i>删除</button></div ></td></tr>");
+                        $("#boxA").append("<tr><td><input type='checkbox' name='chkObjA' style='display: block;' lay-skin='primary'></td><td>" + data.wid + "</td><td>" + data.tname + "</td><td>" + data.sname + "</td><td>" + data.rid + "</td><td>" + data.num + "</td><td>" + (data.num) * (data.price) + "</td><td>" + data.state + "</td><td>" + data.user + "</td><td>" + GetTime(data.time) + "</td><td><div class='layui - btn - group'><button type='button' class='layui-btn layui-btn-warm'><i class='layui-icon'>&#xe642;</i>查看</button><button type='button' class='layui-btn  layui-btn-danger'><i class='layui-icon'>&#xe640;</i>删除</button></div ></td></tr>");
 
                     });
                 },
@@ -436,12 +476,13 @@
                 dataType: "json",
                    async: false,
                 contentType: "application/json",
-                success: function (re) {
+                success: function (ret) {
                     $("#boxB tr").empty();
-                    pageCount = re.PageCount;
-                    $.each(re.DataList, function (index, data) {
+                    
+                    pageCount = ret.PageCount;
+                    $.each(ret.DataList, function (index, data) {
 
-                        $("#boxB").append("<tr><td><input type='checkbox' style='display: block;' lay-skin='primary'></td><td>" + data.wid + "</td><td>" + data.tname + "</td><td>" + data.sname + "</td><td>" + data.rid + "</td><td>" + data.num + "</td><td>" + (data.num) * (data.price) + "</td><td>" + data.state + "</td><td>" + data.user + "</td><td>" + GetTime(data.time) + "</td><td><div class='layui - btn - group'><button type='button' class='layui-btn layui-btn-warm'><i class='layui-icon'>&#xe642;</i>查看</button><button type='button' class='layui-btn  layui-btn-danger'><i class='layui-icon'>&#xe640;</i>删除</button></div ></td></tr>");
+                        $("#boxB").append("<tr><td><input type='checkbox'name='chkObjB' style='display: block;' lay-skin='primary'></td><td>" + data.wid + "</td><td>" + data.tname + "</td><td>" + data.sname + "</td><td>" + data.rid + "</td><td>" + data.num + "</td><td>" + (data.num) * (data.price) + "</td><td>" + data.state + "</td><td>" + data.user + "</td><td>" + GetTime(data.time) + "</td><td><div class='layui - btn - group'><button type='button' class='layui-btn layui-btn-warm'><i class='layui-icon'>&#xe642;</i>查看</button><button type='button' class='layui-btn  layui-btn-danger'><i class='layui-icon'>&#xe640;</i>删除</button></div ></td></tr>");
 
                     });
                 },
@@ -483,7 +524,7 @@
                     pageCount = re.PageCount;
                     $.each(re.DataList, function (index, data) {
 
-                        $("#boxC").append("<tr><td><input type='checkbox' style='display: block;' lay-skin='primary'></td><td>" + data.wid + "</td><td>" + data.tname + "</td><td>" + data.sname + "</td><td>" + data.rid + "</td><td>" + data.num + "</td><td>" + (data.num) * (data.price) + "</td><td>" + data.state + "</td><td>" + data.user + "</td><td>" + GetTime(data.time) + "</td><td><div class='layui - btn - group'><button type='button' class='layui-btn layui-btn-warm'><i class='layui-icon'>&#xe642;</i>查看</button><button type='button' class='layui-btn  layui-btn-danger'><i class='layui-icon'>&#xe640;</i>删除</button></div ></td></tr>");
+                        $("#boxC").append("<tr><td><input type='checkbox'name='chkObjC' style='display: block;' lay-skin='primary'></td><td>" + data.wid + "</td><td>" + data.tname + "</td><td>" + data.sname + "</td><td>" + data.rid + "</td><td>" + data.num + "</td><td>" + (data.num) * (data.price) + "</td><td>" + data.state + "</td><td>" + data.user + "</td><td>" + GetTime(data.time) + "</td><td><div class='layui - btn - group'><button type='button' class='layui-btn layui-btn-warm'><i class='layui-icon'>&#xe642;</i>查看</button><button type='button' class='layui-btn  layui-btn-danger'><i class='layui-icon'>&#xe640;</i>删除</button></div ></td></tr>");
 
                     });
                 },
@@ -531,7 +572,7 @@
                     pageCount = re.PageCount;
                     $.each(re.DataList, function (index, data) {
 
-                        $("#box").append("<tr><td><input type='checkbox' style='display: block;' lay-skin='primary'></td><td>" + data.wid + "</td><td>" + data.tname + "</td><td>" + data.sname + "</td><td>" + data.rid + "</td><td>" + data.num + "</td><td>" + (data.num) * (data.price) + "</td><td>" + data.state + "</td><td>" + data.user + "</td><td>" + GetTime(data.time) + "</td><td><div class='layui - btn - group'><button type='button' class='layui-btn layui-btn-warm'><i class='layui-icon'>&#xe642;</i>查看</button><button type='button' class='layui-btn  layui-btn-danger'><i class='layui-icon'>&#xe640;</i>删除</button></div ></td></tr>");
+                        $("#box").append("<tr><td><input type='checkbox'name='chkObj' style='display: block;' lay-skin='primary'></td><td>" + data.wid + "</td><td>" + data.tname + "</td><td>" + data.sname + "</td><td>" + data.rid + "</td><td>" + data.num + "</td><td>" + (data.num) * (data.price) + "</td><td>" + data.state + "</td><td>" + data.user + "</td><td>" + GetTime(data.time) + "</td><td><div class='layui - btn - group'><button type='button' class='layui-btn layui-btn-warm'><i class='layui-icon'>&#xe642;</i>查看</button><button type='button' class='layui-btn  layui-btn-danger'><i class='layui-icon'>&#xe640;</i>删除</button></div ></td></tr>");
 
                     });
                 },
@@ -555,7 +596,7 @@
                     pageCount = re.PageCount;
                     $.each(re.DataList, function (index, data) {
 
-                        $("#box").append("<tr><td><input type='checkbox' style='display: block;' lay-skin='primary'></td><td>" + data.wid + "</td><td>" + data.tname + "</td><td>" + data.sname + "</td><td>" + data.rid + "</td><td>" + data.num + "</td><td>" + (data.num) * (data.price) + "</td><td>" + data.state + "</td><td>" + data.user + "</td><td>" + GetTime(data.time) + "</td><td><div class='layui - btn - group'><button type='button' class='layui-btn layui-btn-warm'><i class='layui-icon'>&#xe642;</i>查看</button><button type='button' class='layui-btn  layui-btn-danger'><i class='layui-icon'>&#xe640;</i>删除</button></div ></td></tr>");
+                        $("#box").append("<tr><td><input type='checkbox'name='chkObj' style='display: block;' lay-skin='primary'></td><td>" + data.wid + "</td><td>" + data.tname + "</td><td>" + data.sname + "</td><td>" + data.rid + "</td><td>" + data.num + "</td><td>" + (data.num) * (data.price) + "</td><td>" + data.state + "</td><td>" + data.user + "</td><td>" + GetTime(data.time) + "</td><td><div class='layui - btn - group'><button type='button' class='layui-btn layui-btn-warm'><i class='layui-icon'>&#xe642;</i>查看</button><button type='button' class='layui-btn  layui-btn-danger'><i class='layui-icon'>&#xe640;</i>删除</button></div ></td></tr>");
 
                     });
                 },
@@ -579,7 +620,7 @@
                     pageCount = re.PageCount;
                     $.each(re.DataList, function (index, data) {
 
-                        $("#box").append("<tr><td><input type='checkbox' style='display: block;' lay-skin='primary'></td><td>" + data.wid + "</td><td>" + data.tname + "</td><td>" + data.sname + "</td><td>" + data.rid + "</td><td>" + data.num + "</td><td>" + (data.num) * (data.price) + "</td><td>" + data.state + "</td><td>" + data.user + "</td><td>" + GetTime(data.time) + "</td><td><div class='layui - btn - group'><button type='button' class='layui-btn layui-btn-warm'><i class='layui-icon'>&#xe642;</i>查看</button><button type='button' class='layui-btn  layui-btn-danger'><i class='layui-icon'>&#xe640;</i>删除</button></div ></td></tr>");
+                        $("#box").append("<tr><td><input type='checkbox'name='chkObj' style='display: block;' lay-skin='primary'></td><td>" + data.wid + "</td><td>" + data.tname + "</td><td>" + data.sname + "</td><td>" + data.rid + "</td><td>" + data.num + "</td><td>" + (data.num) * (data.price) + "</td><td>" + data.state + "</td><td>" + data.user + "</td><td>" + GetTime(data.time) + "</td><td><div class='layui - btn - group'><button type='button' class='layui-btn layui-btn-warm'><i class='layui-icon'>&#xe642;</i>查看</button><button type='button' class='layui-btn  layui-btn-danger'><i class='layui-icon'>&#xe640;</i>删除</button></div ></td></tr>");
 
                     });
                 },
@@ -693,7 +734,7 @@
                     pageCount = re.PageCount;
                     $.each(re.DataList, function (index, data) {
 
-                        $("#boxA").append("<tr><td><input type='checkbox' style='display: block;' lay-skin='primary'></td><td>" + data.wid + "</td><td>" + data.tname + "</td><td>" + data.sname + "</td><td>" + data.rid + "</td><td>" + data.num + "</td><td>" + (data.num) * (data.price) + "</td><td>" + data.state + "</td><td>" + data.user + "</td><td>" + GetTime(data.time) + "</td><td><div class='layui - btn - group'><button type='button' class='layui-btn layui-btn-warm'><i class='layui-icon'>&#xe642;</i>查看</button><button type='button' class='layui-btn  layui-btn-danger'><i class='layui-icon'>&#xe640;</i>删除</button></div ></td></tr>");
+                        $("#boxA").append("<tr><td><input type='checkbox'  name='chkObjA'style='display: block;' lay-skin='primary'></td><td>" + data.wid + "</td><td>" + data.tname + "</td><td>" + data.sname + "</td><td>" + data.rid + "</td><td>" + data.num + "</td><td>" + (data.num) * (data.price) + "</td><td>" + data.state + "</td><td>" + data.user + "</td><td>" + GetTime(data.time) + "</td><td><div class='layui - btn - group'><button type='button' class='layui-btn layui-btn-warm'><i class='layui-icon'>&#xe642;</i>查看</button><button type='button' class='layui-btn  layui-btn-danger'><i class='layui-icon'>&#xe640;</i>删除</button></div ></td></tr>");
 
                     });
                 },
@@ -717,7 +758,7 @@
                     pageCount = re.PageCount;
                     $.each(re.DataList, function (index, data) {
 
-                        $("#boxA").append("<tr><td><input type='checkbox' style='display: block;' lay-skin='primary'></td><td>" + data.wid + "</td><td>" + data.tname + "</td><td>" + data.sname + "</td><td>" + data.rid + "</td><td>" + data.num + "</td><td>" + (data.num) * (data.price) + "</td><td>" + data.state + "</td><td>" + data.user + "</td><td>" + GetTime(data.time) + "</td><td><div class='layui - btn - group'><button type='button' class='layui-btn layui-btn-warm'><i class='layui-icon'>&#xe642;</i>查看</button><button type='button' class='layui-btn  layui-btn-danger'><i class='layui-icon'>&#xe640;</i>删除</button></div ></td></tr>");
+                        $("#boxA").append("<tr><td><input type='checkbox'name='chkObjA' style='display: block;' lay-skin='primary'></td><td>" + data.wid + "</td><td>" + data.tname + "</td><td>" + data.sname + "</td><td>" + data.rid + "</td><td>" + data.num + "</td><td>" + (data.num) * (data.price) + "</td><td>" + data.state + "</td><td>" + data.user + "</td><td>" + GetTime(data.time) + "</td><td><div class='layui - btn - group'><button type='button' class='layui-btn layui-btn-warm'><i class='layui-icon'>&#xe642;</i>查看</button><button type='button' class='layui-btn  layui-btn-danger'><i class='layui-icon'>&#xe640;</i>删除</button></div ></td></tr>");
 
                     });
                 },
@@ -741,7 +782,7 @@
                     pageCount = re.PageCount;
                     $.each(re.DataList, function (index, data) {
 
-                        $("#boxA").append("<tr><td><input type='checkbox' style='display: block;' lay-skin='primary'></td><td>" + data.wid + "</td><td>" + data.tname + "</td><td>" + data.sname + "</td><td>" + data.rid + "</td><td>" + data.num + "</td><td>" + (data.num) * (data.price) + "</td><td>" + data.state + "</td><td>" + data.user + "</td><td>" + GetTime(data.time) + "</td><td><div class='layui - btn - group'><button type='button' class='layui-btn layui-btn-warm'><i class='layui-icon'>&#xe642;</i>查看</button><button type='button' class='layui-btn  layui-btn-danger'><i class='layui-icon'>&#xe640;</i>删除</button></div ></td></tr>");
+                        $("#boxA").append("<tr><td><input type='checkbox'name='chkObjA' style='display: block;' lay-skin='primary'></td><td>" + data.wid + "</td><td>" + data.tname + "</td><td>" + data.sname + "</td><td>" + data.rid + "</td><td>" + data.num + "</td><td>" + (data.num) * (data.price) + "</td><td>" + data.state + "</td><td>" + data.user + "</td><td>" + GetTime(data.time) + "</td><td><div class='layui - btn - group'><button type='button' class='layui-btn layui-btn-warm'><i class='layui-icon'>&#xe642;</i>查看</button><button type='button' class='layui-btn  layui-btn-danger'><i class='layui-icon'>&#xe640;</i>删除</button></div ></td></tr>");
 
                     });
                 },
@@ -855,7 +896,7 @@
                     pageCount = re.PageCount;
                     $.each(re.DataList, function (index, data) {
 
-                        $("#boxB").append("<tr><td><input type='checkbox' style='display: block;' lay-skin='primary'></td><td>" + data.wid + "</td><td>" + data.tname + "</td><td>" + data.sname + "</td><td>" + data.rid + "</td><td>" + data.num + "</td><td>" + (data.num) * (data.price) + "</td><td>" + data.state + "</td><td>" + data.user + "</td><td>" + GetTime(data.time) + "</td><td><div class='layui - btn - group'><button type='button' class='layui-btn layui-btn-warm'><i class='layui-icon'>&#xe642;</i>查看</button><button type='button' class='layui-btn  layui-btn-danger'><i class='layui-icon'>&#xe640;</i>删除</button></div ></td></tr>");
+                        $("#boxB").append("<tr><td><input type='checkbox'name='chkObjB' style='display: block;' lay-skin='primary'></td><td>" + data.wid + "</td><td>" + data.tname + "</td><td>" + data.sname + "</td><td>" + data.rid + "</td><td>" + data.num + "</td><td>" + (data.num) * (data.price) + "</td><td>" + data.state + "</td><td>" + data.user + "</td><td>" + GetTime(data.time) + "</td><td><div class='layui - btn - group'><button type='button' class='layui-btn layui-btn-warm'><i class='layui-icon'>&#xe642;</i>查看</button><button type='button' class='layui-btn  layui-btn-danger'><i class='layui-icon'>&#xe640;</i>删除</button></div ></td></tr>");
 
                     });
                 },
@@ -879,7 +920,7 @@
                     pageCount = re.PageCount;
                     $.each(re.DataList, function (index, data) {
 
-                        $("#boxB").append("<tr><td><input type='checkbox' style='display: block;' lay-skin='primary'></td><td>" + data.wid + "</td><td>" + data.tname + "</td><td>" + data.sname + "</td><td>" + data.rid + "</td><td>" + data.num + "</td><td>" + (data.num) * (data.price) + "</td><td>" + data.state + "</td><td>" + data.user + "</td><td>" + GetTime(data.time) + "</td><td><div class='layui - btn - group'><button type='button' class='layui-btn layui-btn-warm'><i class='layui-icon'>&#xe642;</i>查看</button><button type='button' class='layui-btn  layui-btn-danger'><i class='layui-icon'>&#xe640;</i>删除</button></div ></td></tr>");
+                        $("#boxB").append("<tr><td><input type='checkbox'name='chkObjB' style='display: block;' lay-skin='primary'></td><td>" + data.wid + "</td><td>" + data.tname + "</td><td>" + data.sname + "</td><td>" + data.rid + "</td><td>" + data.num + "</td><td>" + (data.num) * (data.price) + "</td><td>" + data.state + "</td><td>" + data.user + "</td><td>" + GetTime(data.time) + "</td><td><div class='layui - btn - group'><button type='button' class='layui-btn layui-btn-warm'><i class='layui-icon'>&#xe642;</i>查看</button><button type='button' class='layui-btn  layui-btn-danger'><i class='layui-icon'>&#xe640;</i>删除</button></div ></td></tr>");
 
                     });
                 },
@@ -903,7 +944,7 @@
                     pageCount = re.PageCount;
                     $.each(re.DataList, function (index, data) {
 
-                        $("#boxB").append("<tr><td><input type='checkbox' style='display: block;' lay-skin='primary'></td><td>" + data.wid + "</td><td>" + data.tname + "</td><td>" + data.sname + "</td><td>" + data.rid + "</td><td>" + data.num + "</td><td>" + (data.num) * (data.price) + "</td><td>" + data.state + "</td><td>" + data.user + "</td><td>" + GetTime(data.time) + "</td><td><div class='layui - btn - group'><button type='button' class='layui-btn layui-btn-warm'><i class='layui-icon'>&#xe642;</i>查看</button><button type='button' class='layui-btn  layui-btn-danger'><i class='layui-icon'>&#xe640;</i>删除</button></div ></td></tr>");
+                        $("#boxB").append("<tr><td><input type='checkbox'name='chkObjB' style='display: block;' lay-skin='primary'></td><td>" + data.wid + "</td><td>" + data.tname + "</td><td>" + data.sname + "</td><td>" + data.rid + "</td><td>" + data.num + "</td><td>" + (data.num) * (data.price) + "</td><td>" + data.state + "</td><td>" + data.user + "</td><td>" + GetTime(data.time) + "</td><td><div class='layui - btn - group'><button type='button' class='layui-btn layui-btn-warm'><i class='layui-icon'>&#xe642;</i>查看</button><button type='button' class='layui-btn  layui-btn-danger'><i class='layui-icon'>&#xe640;</i>删除</button></div ></td></tr>");
 
                     });
                 },
@@ -1017,7 +1058,7 @@
                     pageCount = re.PageCount;
                     $.each(re.DataList, function (index, data) {
 
-                        $("#boxC").append("<tr><td><input type='checkbox' style='display: block;' lay-skin='primary'></td><td>" + data.wid + "</td><td>" + data.tname + "</td><td>" + data.sname + "</td><td>" + data.rid + "</td><td>" + data.num + "</td><td>" + (data.num) * (data.price) + "</td><td>" + data.state + "</td><td>" + data.user + "</td><td>" + GetTime(data.time) + "</td><td><div class='layui - btn - group'><button type='button' class='layui-btn layui-btn-warm'><i class='layui-icon'>&#xe642;</i>查看</button><button type='button' class='layui-btn  layui-btn-danger'><i class='layui-icon'>&#xe640;</i>删除</button></div ></td></tr>");
+                        $("#boxC").append("<tr><td><input type='checkbox'name='chkObjC' style='display: block;' lay-skin='primary'></td><td>" + data.wid + "</td><td>" + data.tname + "</td><td>" + data.sname + "</td><td>" + data.rid + "</td><td>" + data.num + "</td><td>" + (data.num) * (data.price) + "</td><td>" + data.state + "</td><td>" + data.user + "</td><td>" + GetTime(data.time) + "</td><td><div class='layui - btn - group'><button type='button' class='layui-btn layui-btn-warm'><i class='layui-icon'>&#xe642;</i>查看</button><button type='button' class='layui-btn  layui-btn-danger'><i class='layui-icon'>&#xe640;</i>删除</button></div ></td></tr>");
 
                     });
                 },
@@ -1041,7 +1082,7 @@
                     pageCount = re.PageCount;
                     $.each(re.DataList, function (index, data) {
 
-                        $("#boxC").append("<tr><td><input type='checkbox' style='display: block;' lay-skin='primary'></td><td>" + data.wid + "</td><td>" + data.tname + "</td><td>" + data.sname + "</td><td>" + data.rid + "</td><td>" + data.num + "</td><td>" + (data.num) * (data.price) + "</td><td>" + data.state + "</td><td>" + data.user + "</td><td>" + GetTime(data.time) + "</td><td><div class='layui - btn - group'><button type='button' class='layui-btn layui-btn-warm'><i class='layui-icon'>&#xe642;</i>查看</button><button type='button' class='layui-btn  layui-btn-danger'><i class='layui-icon'>&#xe640;</i>删除</button></div ></td></tr>");
+                        $("#boxC").append("<tr><td><input type='checkbox'name='chkObjC' style='display: block;' lay-skin='primary'></td><td>" + data.wid + "</td><td>" + data.tname + "</td><td>" + data.sname + "</td><td>" + data.rid + "</td><td>" + data.num + "</td><td>" + (data.num) * (data.price) + "</td><td>" + data.state + "</td><td>" + data.user + "</td><td>" + GetTime(data.time) + "</td><td><div class='layui - btn - group'><button type='button' class='layui-btn layui-btn-warm'><i class='layui-icon'>&#xe642;</i>查看</button><button type='button' class='layui-btn  layui-btn-danger'><i class='layui-icon'>&#xe640;</i>删除</button></div ></td></tr>");
 
                     });
                 },
@@ -1065,7 +1106,7 @@
                     pageCount = re.PageCount;
                     $.each(re.DataList, function (index, data) {
 
-                        $("#boxC").append("<tr><td><input type='checkbox' style='display: block;' lay-skin='primary'></td><td>" + data.wid + "</td><td>" + data.tname + "</td><td>" + data.sname + "</td><td>" + data.rid + "</td><td>" + data.num + "</td><td>" + (data.num) * (data.price) + "</td><td>" + data.state + "</td><td>" + data.user + "</td><td>" + GetTime(data.time) + "</td><td><div class='layui - btn - group'><button type='button' class='layui-btn layui-btn-warm'><i class='layui-icon'>&#xe642;</i>查看</button><button type='button' class='layui-btn  layui-btn-danger'><i class='layui-icon'>&#xe640;</i>删除</button></div ></td></tr>");
+                        $("#boxC").append("<tr><td><input type='checkbox'name='chkObjC' style='display: block;' lay-skin='primary'></td><td>" + data.wid + "</td><td>" + data.tname + "</td><td>" + data.sname + "</td><td>" + data.rid + "</td><td>" + data.num + "</td><td>" + (data.num) * (data.price) + "</td><td>" + data.state + "</td><td>" + data.user + "</td><td>" + GetTime(data.time) + "</td><td><div class='layui - btn - group'><button type='button' class='layui-btn layui-btn-warm'><i class='layui-icon'>&#xe642;</i>查看</button><button type='button' class='layui-btn  layui-btn-danger'><i class='layui-icon'>&#xe640;</i>删除</button></div ></td></tr>");
 
                     });
                 },

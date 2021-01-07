@@ -37,7 +37,7 @@ namespace DAL.Lxy
                           num = from pp in p.WareProduct where p.Wid == pp.Wid select pp.WPnum,
                           price = from pp in p.WareProduct where p.Wid == pp.Wid select pp.WPprice,
                           state = p.WareState.Sname,
-                          stateid=p.Slid,
+                          stateid=p.WState,
                           user = p.User.UserName,
                           time = p.time
                       };
@@ -108,7 +108,7 @@ namespace DAL.Lxy
             list.DataList = obj.Skip((pageIndex - 1) * PageSize).Take(PageSize);
 
             //设置总页数
-            list.PageCount = obj.Count();
+            list.PageCount= obj.Count();
             return list;
         }
         #endregion
