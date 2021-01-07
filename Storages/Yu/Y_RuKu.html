@@ -164,13 +164,13 @@
                                             <label class="layui-form-label">入库单号</label>
                                             <div class="layui-input-inline layui-show-xs-block">
 
-                                                <input class="layui-input" placeholder="请输入入库单号" name="cate_name" id="name">
+                                                <input class="layui-input" placeholder="请输入入库单号" name="cate_name" id="nameB">
                                             </div>
 
                                             <div class="layui-inline">
                                                 <label class="layui-form-label">日期范围</label>
                                                 <div class="layui-input-inline">
-                                                    <input type="text" class="layui-input" id="time" placeholder=" - ">
+                                                    <input type="text" class="layui-input" id="timeB" placeholder=" - ">
                                                 </div>
                                             </div>
 
@@ -215,13 +215,13 @@
                                             <label class="layui-form-label">入库单号</label>
                                             <div class="layui-input-inline layui-show-xs-block">
 
-                                                <input class="layui-input" placeholder="请输入入库单号" name="cate_name" id="name">
+                                                <input class="layui-input" placeholder="请输入入库单号" name="cate_name" id="nameC">
                                             </div>
 
                                             <div class="layui-inline">
                                                 <label class="layui-form-label">日期范围</label>
                                                 <div class="layui-input-inline">
-                                                    <input type="text" class="layui-input" id="time" placeholder=" - ">
+                                                    <input type="text" class="layui-input" id="timeC" placeholder=" - ">
                                                 </div>
                                             </div>
 
@@ -281,8 +281,29 @@
             laydate.render({
                 elem: '#time'
                 , range: true
+                , format: 'yyyy/MM/dd'
             });
+
+            laydate.render({
+                elem: '#timeA'
+                , range: true
+                , format: 'yyyy/MM/dd'
+            });
+
+            laydate.render({
+                elem: '#timeB'
+                , range: true
+                , format: 'yyyy/MM/dd'
+            });
+
+            laydate.render({
+                elem: '#timeC'
+                , range: true
+                , format: 'yyyy/MM/dd'
+            });
+
         });
+        
         var pageIndex = 1;
         var pageSize = 10;
         var pageCount = 0;
@@ -291,16 +312,17 @@
             var time = new Date(parseInt(op.substr(6)));
             return time.toLocaleString();
         }
+
         $(function () {
             GetRows();
 
             PageList(pageIndex, pageSize);
-            GetRowsDSH();
-
             PageListDSH(pageIndex, pageSize);
+            GetRowsDSH();
+            PageListSHCG(pageIndex, pageSize);
             GetRowsSHCG();
 
-            PageListSHCG(pageIndex, pageSize);
+            
             GetRowsSHSB();
 
             PageListSHSB(pageIndex, pageSize);
@@ -324,7 +346,6 @@
                 }
             });
         }
-
         function GetRows() {
             $.ajax({
                 type: "POST",
@@ -371,9 +392,11 @@
                 url: "/Yu/SelectRuKuDSH",
                 data: "{pageIndex:" + pIndex + ",pageSize:" + pSize + "}",
                 dataType: "json",
+                async: false,
                 contentType: "application/json",
                 success: function (re) {
-                    $("#boxA tr").remove();
+                    $("#boxA tr").empty();
+                    pageCount = re.PageCount;
                     $.each(re.DataList, function (index, data) {
 
                         $("#boxA").append("<tr><td><input type='checkbox' style='display: block;' lay-skin='primary'></td><td>" + data.wid + "</td><td>" + data.tname + "</td><td>" + data.sname + "</td><td>" + data.rid + "</td><td>" + data.num + "</td><td>" + (data.num) * (data.price) + "</td><td>" + data.state + "</td><td>" + data.user + "</td><td>" + GetTime(data.time) + "</td><td><div class='layui - btn - group'><button type='button' class='layui-btn layui-btn-warm'><i class='layui-icon'>&#xe642;</i>查看</button><button type='button' class='layui-btn  layui-btn-danger'><i class='layui-icon'>&#xe640;</i>删除</button></div ></td></tr>");
@@ -385,43 +408,23 @@
                 }
             });
         }
-
         function GetRowsDSH() {
-            $.ajax({
-                type: "POST",
-                url: "/Yu/RuKuDSHRows",
-                data: "{}",
-                dataType: "json",
-                contentType: "application/json",
-                success: function (result) {
-                    //获取总条数
-                    rows = result;
-                    layui.use(['laypage', 'layer'], function () {
-                        var laypage = layui.laypage
-                            , layer = layui.layer;
-                        //完整功能
-                        laypage.render({
-                            elem: 'pagelistA'
-                            //设置总条数
-                            , count: rows
-                            , layout: ['count', 'prev', 'page', 'next', 'limit', 'refresh', 'skip']
-                            , jump: function (obj, first) {
-                                if (!first) {
-                                    //调用我们自己分页的方法
-                                    //obj.curr 当前页码
-                                    //obj.limit 每页显示条数
-                                    PageListDSH(obj.curr, obj.limit);
-                                }
+            layui.use(['laypage', 'layer'], function () {
+                var laypage = layui.laypage
+                    , layer = layui.layer;
+                laypage.render({
+                    elem: 'pagelistA'
+                    , count: pageCount
+                    , limit: pageSize
+                    , limits: [10, 15, 20, 25, 30,]
+                    , layout: ['count', 'prev', 'page', 'next', 'limit', 'refresh', 'skip']
+                    , jump: function (obj, first) {
+                        if (!first) {
+                            PageListDSH(obj.curr, obj.limit);
+                        }
+                    }
+                });
 
-                            }
-                        });
-
-                    });
-
-                },
-                error: function (ex) {
-                    alert(ex.responseText);
-                }
             });
         }
 
@@ -431,9 +434,11 @@
                 url: "/Yu/SelectRuKuSHCG",
                 data: "{pageIndex:" + pIndex + ",pageSize:" + pSize + "}",
                 dataType: "json",
+                   async: false,
                 contentType: "application/json",
                 success: function (re) {
-                    $("#boxB tr").remove();
+                    $("#boxB tr").empty();
+                    pageCount = re.PageCount;
                     $.each(re.DataList, function (index, data) {
 
                         $("#boxB").append("<tr><td><input type='checkbox' style='display: block;' lay-skin='primary'></td><td>" + data.wid + "</td><td>" + data.tname + "</td><td>" + data.sname + "</td><td>" + data.rid + "</td><td>" + data.num + "</td><td>" + (data.num) * (data.price) + "</td><td>" + data.state + "</td><td>" + data.user + "</td><td>" + GetTime(data.time) + "</td><td><div class='layui - btn - group'><button type='button' class='layui-btn layui-btn-warm'><i class='layui-icon'>&#xe642;</i>查看</button><button type='button' class='layui-btn  layui-btn-danger'><i class='layui-icon'>&#xe640;</i>删除</button></div ></td></tr>");
@@ -445,43 +450,23 @@
                 }
             });
         }
-
         function GetRowsSHCG() {
-            $.ajax({
-                type: "POST",
-                url: "/Yu/RuKuSHCGRows",
-                data: "{}",
-                dataType: "json",
-                contentType: "application/json",
-                success: function (result) {
-                    //获取总条数
-                    rows = result;
-                    layui.use(['laypage', 'layer'], function () {
-                        var laypage = layui.laypage
-                            , layer = layui.layer;
-                        //完整功能
-                        laypage.render({
-                            elem: 'pagelistB'
-                            //设置总条数
-                            , count: rows
-                            , layout: ['count', 'prev', 'page', 'next', 'limit', 'refresh', 'skip']
-                            , jump: function (obj, first) {
-                                if (!first) {
-                                    //调用我们自己分页的方法
-                                    //obj.curr 当前页码
-                                    //obj.limit 每页显示条数
-                                    PageListSHCG(obj.curr, obj.limit);
-                                }
+            layui.use(['laypage', 'layer'], function () {
+                var laypage = layui.laypage
+                    , layer = layui.layer;
+                laypage.render({
+                    elem: 'pagelistB'
+                    , count: pageCount
+                    , limit: pageSize
+                    , limits: [10, 15, 20, 25, 30,]
+                    , layout: ['count', 'prev', 'page', 'next', 'limit', 'refresh', 'skip']
+                    , jump: function (obj, first) {
+                        if (!first) {
+                            PageListSHCG(obj.curr, obj.limit);
+                        }
+                    }
+                });
 
-                            }
-                        });
-
-                    });
-
-                },
-                error: function (ex) {
-                    alert(ex.responseText);
-                }
             });
         }
 
@@ -491,9 +476,11 @@
                 url: "/Yu/SelectRuKuSHSB",
                 data: "{pageIndex:" + pIndex + ",pageSize:" + pSize + "}",
                 dataType: "json",
+                async: false,
                 contentType: "application/json",
                 success: function (re) {
                     $("#boxC tr").remove();
+                    pageCount = re.PageCount;
                     $.each(re.DataList, function (index, data) {
 
                         $("#boxC").append("<tr><td><input type='checkbox' style='display: block;' lay-skin='primary'></td><td>" + data.wid + "</td><td>" + data.tname + "</td><td>" + data.sname + "</td><td>" + data.rid + "</td><td>" + data.num + "</td><td>" + (data.num) * (data.price) + "</td><td>" + data.state + "</td><td>" + data.user + "</td><td>" + GetTime(data.time) + "</td><td><div class='layui - btn - group'><button type='button' class='layui-btn layui-btn-warm'><i class='layui-icon'>&#xe642;</i>查看</button><button type='button' class='layui-btn  layui-btn-danger'><i class='layui-icon'>&#xe640;</i>删除</button></div ></td></tr>");
@@ -505,17 +492,8 @@
                 }
             });
         }
-
         function GetRowsSHSB() {
-            $.ajax({
-                type: "POST",
-                url: "/Yu/RuKuSHSBRows",
-                data: "{}",
-                dataType: "json",
-                contentType: "application/json",
-                success: function (result) {
-                    //获取总条数
-                    rows = result;
+            
                     layui.use(['laypage', 'layer'], function () {
                         var laypage = layui.laypage
                             , layer = layui.layer;
@@ -523,100 +501,667 @@
                         laypage.render({
                             elem: 'pagelistC'
                             //设置总条数
-                            , count: rows
+                            , count: pageCount
+                            , limit: pageSize
+                            , limits: [10, 15, 20, 25, 30,]
                             , layout: ['count', 'prev', 'page', 'next', 'limit', 'refresh', 'skip']
                             , jump: function (obj, first) {
                                 if (!first) {
-                                    //调用我们自己分页的方法
-                                    //obj.curr 当前页码
-                                    //obj.limit 每页显示条数
                                     PageListSHSB(obj.curr, obj.limit);
                                 }
-
                             }
                         });
 
                     });
 
+                
+        }
+
+
+        function SelectRuKuID(pIndex, pSize) {
+            $.ajax({
+                type: "POST",
+                url: "/Yu/SelectRuKuID",
+                data: "{pageIndex:" + pIndex + ",pageSize:" + pSize + ",id:" + $("#name").val() + "}",
+                dataType: "json",
+                async: false,
+                contentType: "application/json",
+                success: function (re) {
+                    $("#box tr").remove();
+                    pageCount = re.PageCount;
+                    $.each(re.DataList, function (index, data) {
+
+                        $("#box").append("<tr><td><input type='checkbox' style='display: block;' lay-skin='primary'></td><td>" + data.wid + "</td><td>" + data.tname + "</td><td>" + data.sname + "</td><td>" + data.rid + "</td><td>" + data.num + "</td><td>" + (data.num) * (data.price) + "</td><td>" + data.state + "</td><td>" + data.user + "</td><td>" + GetTime(data.time) + "</td><td><div class='layui - btn - group'><button type='button' class='layui-btn layui-btn-warm'><i class='layui-icon'>&#xe642;</i>查看</button><button type='button' class='layui-btn  layui-btn-danger'><i class='layui-icon'>&#xe640;</i>删除</button></div ></td></tr>");
+
+                    });
                 },
                 error: function (ex) {
                     alert(ex.responseText);
                 }
             });
         }
+        function SelectRuKuTime(pIndex, pSize, timeL, timeR) {
+            //alert(pageIndex + "==========" + pageSize + "========" + timeL + "====" + timeR);
+            //return;
+            $.ajax({
+                type: "POST",
+                url: "/Yu/SelectRuKuTime",
+                data: "{pageIndex:" + pIndex + ",pageSize:" + pSize + ",timeL:'" + timeL + "',timeR:'" + timeR + "'}",
+                dataType: "json",
+                async: false,
+                contentType: "application/json",
+                success: function (re) {
+                    $("#box tr").remove();
+                    pageCount = re.PageCount;
+                    $.each(re.DataList, function (index, data) {
 
+                        $("#box").append("<tr><td><input type='checkbox' style='display: block;' lay-skin='primary'></td><td>" + data.wid + "</td><td>" + data.tname + "</td><td>" + data.sname + "</td><td>" + data.rid + "</td><td>" + data.num + "</td><td>" + (data.num) * (data.price) + "</td><td>" + data.state + "</td><td>" + data.user + "</td><td>" + GetTime(data.time) + "</td><td><div class='layui - btn - group'><button type='button' class='layui-btn layui-btn-warm'><i class='layui-icon'>&#xe642;</i>查看</button><button type='button' class='layui-btn  layui-btn-danger'><i class='layui-icon'>&#xe640;</i>删除</button></div ></td></tr>");
+
+                    });
+                },
+                error: function (ex) {
+                    alert(ex.responseText);
+                }
+            });
+        }
+        function SelectRuKuIDTime(pIndex, pSize, timeL, timeR,id) {
+            //alert(pageIndex + "==========" + pageSize + "========" + timeL + "====" + timeR);
+            //return;
+            $.ajax({
+                type: "POST",
+                url: "/Yu/SelectRuKuIDTime",
+                data: "{pageIndex:" + pIndex + ",pageSize:" + pSize + ",id:'"+id+"',timeL:'" + timeL + "',timeR:'" + timeR + "'}",
+                dataType: "json",
+                async: false,
+                contentType: "application/json",
+                success: function (re) {
+                    $("#box tr").remove();
+                    pageCount = re.PageCount;
+                    $.each(re.DataList, function (index, data) {
+
+                        $("#box").append("<tr><td><input type='checkbox' style='display: block;' lay-skin='primary'></td><td>" + data.wid + "</td><td>" + data.tname + "</td><td>" + data.sname + "</td><td>" + data.rid + "</td><td>" + data.num + "</td><td>" + (data.num) * (data.price) + "</td><td>" + data.state + "</td><td>" + data.user + "</td><td>" + GetTime(data.time) + "</td><td><div class='layui - btn - group'><button type='button' class='layui-btn layui-btn-warm'><i class='layui-icon'>&#xe642;</i>查看</button><button type='button' class='layui-btn  layui-btn-danger'><i class='layui-icon'>&#xe640;</i>删除</button></div ></td></tr>");
+
+                    });
+                },
+                error: function (ex) {
+                    alert(ex.responseText);
+                }
+            });
+        }
         function Search() {
             if ($("#name").val() == "" && $("#time").val() == "") {
                 alert("请输入你要查询的信息！！");
 
             } else if ($("#name").val() != "" && $("#time").val() == "") {
+                alert($("#name").val());
+                SelectRuKuID(pageIndex, pageSize);
+
+                layui.use(['laypage', 'layer'], function () {
+                    var laypage = layui.laypage
+                        , layer = layui.layer;
+                    //完整功能
+                    laypage.render({
+                        elem: 'pagelist'
+                        //设置总条数
+                        , count: pageCount
+                        , limit: pageSize
+                        , limits: [10, 15, 20, 25, 30,]
+                        , layout: ['count', 'prev', 'page', 'next', 'limit', 'refresh', 'skip']
+                        , jump: function (obj, first) {
+                            if (!first) {
+                                SelectRuKuID(obj.curr, obj.limit);
+                            }
+                        }
+                    });
+
+                });
+
+            } else if ($("#name").val() == "" && $("#time").val() != "") {
+                var time = $("#time").val();
+                var index = time.indexOf("-");
+                var timeL = time.substr(0, index).trim();
+                var timeR = time.substr(index + 1, time.length).trim();
+
+                console.log(timeL);
+                console.log(timeR);
+
+                SelectRuKuTime(pageIndex, pageSize, timeL, timeR);
+                layui.use(['laypage', 'layer'], function () {
+                    var laypage = layui.laypage
+                        , layer = layui.layer;
+                    //完整功能
+                    laypage.render({
+                        elem: 'pagelist'
+                        //设置总条数
+                        , count: pageCount
+                        , limit: pageSize
+                        , limits: [10, 15, 20, 25, 30,]
+                        , layout: ['count', 'prev', 'page', 'next', 'limit', 'refresh', 'skip']
+                        , jump: function (obj, first) {
+                            if (!first) {
+                                SelectRuKuTime(obj.curr, obj.limit);
+                            }
+                        }
+                    });
+
+                });
+
+            } else if ($("#name").val() != "" && $("#time").val() != "") {
+                var time = $("#time").val();
+                var index = time.indexOf("-");
+                var timeL = time.substr(0, index).trim();
+                var timeR = time.substr(index + 1, time.length).trim();
                 var id = $("#name").val();
-                //function PageListID(pIndex, pSize) {
-                //    $.ajax({
-                //        type: "POST",
-                //        url: "/Yu/SelectRuKuID",
-                //        data: "{pageIndex:" + pIndex + ",pageSize:" + pSize + ",id"+id+"}",
-                //        dataType: "json",
-                //        contentType: "application/json",
-                //        success: function (re) {
-                //            $("#box tr").remove();
-                //            $.each(re.DataList, function (index, data) {
+                console.log(id);
+                console.log(timeL);
+                console.log(timeR);
 
-                //                $("#box").append("<tr><td><input type='checkbox' style='display: block;' lay-skin='primary'></td><td>" + data.wid + "</td><td>" + data.tname + "</td><td>" + data.sname + "</td><td>" + data.rid + "</td><td>" + data.num + "</td><td>" + (data.num) * (data.price) + "</td><td>" + data.state + "</td><td>" + data.user + "</td><td>" + GetTime(data.time) + "</td><td><div class='layui - btn - group'><button type='button' class='layui-btn layui-btn-warm'><i class='layui-icon'>&#xe642;</i>查看</button><button type='button' class='layui-btn  layui-btn-danger'><i class='layui-icon'>&#xe640;</i>删除</button></div ></td></tr>");
+                SelectRuKuIDTime(pageIndex, pageSize, timeL, timeR,id);
+                layui.use(['laypage', 'layer'], function () {
+                    var laypage = layui.laypage
+                        , layer = layui.layer;
+                    //完整功能
+                    laypage.render({
+                        elem: 'pagelist'
+                        //设置总条数
+                        , count: pageCount
+                        , limit: pageSize
+                        , limits: [10, 15, 20, 25, 30,]
+                        , layout: ['count', 'prev', 'page', 'next', 'limit', 'refresh', 'skip']
+                        , jump: function (obj, first) {
+                            if (!first) {
+                                SelectRuKuIDTime(obj.curr, obj.limit);
+                            }
+                        }
+                    });
 
-                //            });
-                //        },
-                //        error: function (ex) {
-                //            alert(ex.responseText);
-                //        }
-                //    });
-                //}
-
-                //function GetRowsID() {
-                //    $.ajax({
-                //        type: "POST",
-                //        url: "/Yu/RuKuIDRows",
-                //        data: "{id:"+id+"}",
-                //        dataType: "json",
-                //        contentType: "application/json",
-                //        success: function (result) {
-                //            获取总条数
-                //            rows = result;
-                //            layui.use(['laypage', 'layer'], function () {
-                //                var laypage = layui.laypage
-                //                    , layer = layui.layer;
-                //                完整功能
-                //                laypage.render({
-                //                    elem: 'pagelist'
-                //                    设置总条数
-                //                    , count: rows
-                //                    , layout: ['count', 'prev', 'page', 'next', 'limit', 'refresh', 'skip']
-                //                    , jump: function (obj, first) {
-                //                        if (!first) {
-                //                            调用我们自己分页的方法
-                //                            obj.curr 当前页码
-                //                            obj.limit 每页显示条数
-                //                            PageListID(obj.curr, obj.limit);
-                //                        }
-
-                //                    }
-                //                });
-
-                //            });
-
-                //        },
-                //        error: function (ex) {
-                //            alert(ex.responseText);
-                //        }
-                //    });
-                //}
+                });
             }
         }
 
-        function SearchA() {
-            if ($("#nameA").val() == "") {
-                alert("请输入你要查询的入库单号！！");
 
+        function SelectRuKuDSHId(pIndex, pSize) {
+            $.ajax({
+                type: "POST",
+                url: "/Yu/SelectRuKuDSHId",
+                data: "{pageIndex:" + pIndex + ",pageSize:" + pSize + ",id:" + $("#nameA").val() + "}",
+                dataType: "json",
+                async: false,
+                contentType: "application/json",
+                success: function (re) {
+                    $("#boxA tr").remove();
+                    pageCount = re.PageCount;
+                    $.each(re.DataList, function (index, data) {
+
+                        $("#boxA").append("<tr><td><input type='checkbox' style='display: block;' lay-skin='primary'></td><td>" + data.wid + "</td><td>" + data.tname + "</td><td>" + data.sname + "</td><td>" + data.rid + "</td><td>" + data.num + "</td><td>" + (data.num) * (data.price) + "</td><td>" + data.state + "</td><td>" + data.user + "</td><td>" + GetTime(data.time) + "</td><td><div class='layui - btn - group'><button type='button' class='layui-btn layui-btn-warm'><i class='layui-icon'>&#xe642;</i>查看</button><button type='button' class='layui-btn  layui-btn-danger'><i class='layui-icon'>&#xe640;</i>删除</button></div ></td></tr>");
+
+                    });
+                },
+                error: function (ex) {
+                    alert(ex.responseText);
+                }
+            });
+        }
+        function SelectRuKuDSHTime(pIndex, pSize, timeL, timeR) {
+            //alert(pageIndex + "==========" + pageSize + "========" + timeL + "====" + timeR);
+            //return;
+            $.ajax({
+                type: "POST",
+                url: "/Yu/SelectRuKuDSHTime",
+                data: "{pageIndex:" + pIndex + ",pageSize:" + pSize + ",timeL:'" + timeL + "',timeR:'" + timeR + "'}",
+                dataType: "json",
+                async: false,
+                contentType: "application/json",
+                success: function (re) {
+                    $("#boxA tr").remove();
+                    pageCount = re.PageCount;
+                    $.each(re.DataList, function (index, data) {
+
+                        $("#boxA").append("<tr><td><input type='checkbox' style='display: block;' lay-skin='primary'></td><td>" + data.wid + "</td><td>" + data.tname + "</td><td>" + data.sname + "</td><td>" + data.rid + "</td><td>" + data.num + "</td><td>" + (data.num) * (data.price) + "</td><td>" + data.state + "</td><td>" + data.user + "</td><td>" + GetTime(data.time) + "</td><td><div class='layui - btn - group'><button type='button' class='layui-btn layui-btn-warm'><i class='layui-icon'>&#xe642;</i>查看</button><button type='button' class='layui-btn  layui-btn-danger'><i class='layui-icon'>&#xe640;</i>删除</button></div ></td></tr>");
+
+                    });
+                },
+                error: function (ex) {
+                    alert(ex.responseText);
+                }
+            });
+        }
+        function SelectRuKuDSHTimeId(pIndex, pSize, timeL, timeR, id) {
+            //alert(pageIndex + "==========" + pageSize + "========" + timeL + "====" + timeR);
+            //return;
+            $.ajax({
+                type: "POST",
+                url: "/Yu/SelectRuKuDSHTimeId",
+                data: "{pageIndex:" + pIndex + ",pageSize:" + pSize + ",id:'" + id + "',timeL:'" + timeL + "',timeR:'" + timeR + "'}",
+                dataType: "json",
+                async: false,
+                contentType: "application/json",
+                success: function (re) {
+                    $("#boxA tr").remove();
+                    pageCount = re.PageCount;
+                    $.each(re.DataList, function (index, data) {
+
+                        $("#boxA").append("<tr><td><input type='checkbox' style='display: block;' lay-skin='primary'></td><td>" + data.wid + "</td><td>" + data.tname + "</td><td>" + data.sname + "</td><td>" + data.rid + "</td><td>" + data.num + "</td><td>" + (data.num) * (data.price) + "</td><td>" + data.state + "</td><td>" + data.user + "</td><td>" + GetTime(data.time) + "</td><td><div class='layui - btn - group'><button type='button' class='layui-btn layui-btn-warm'><i class='layui-icon'>&#xe642;</i>查看</button><button type='button' class='layui-btn  layui-btn-danger'><i class='layui-icon'>&#xe640;</i>删除</button></div ></td></tr>");
+
+                    });
+                },
+                error: function (ex) {
+                    alert(ex.responseText);
+                }
+            });
+        }
+        function SearchA() {
+            if ($("#nameA").val() == "" && $("#timeA").val() == "") {
+                alert("请输入你要查询的信息！！");
+
+            } else if ($("#nameA").val() != "" && $("#timeA").val() == "") {
+                alert($("#nameA").val());
+                SelectRuKuDSHId(pageIndex, pageSize);
+
+                layui.use(['laypage', 'layer'], function () {
+                    var laypage = layui.laypage
+                        , layer = layui.layer;
+                    //完整功能
+                    laypage.render({
+                        elem: 'pagelistA'
+                        //设置总条数
+                        , count: pageCount
+                        , limit: pageSize
+                        , limits: [10, 15, 20, 25, 30,]
+                        , layout: ['count', 'prev', 'page', 'next', 'limit', 'refresh', 'skip']
+                        , jump: function (obj, first) {
+                            if (!first) {
+                                SelectRuKuDSHId(obj.curr, obj.limit);
+                            }
+                        }
+                    });
+
+                });
+
+            } else if ($("#nameA").val() == "" && $("#timeA").val() != "") {
+                var time = $("#timeA").val();
+                var index = time.indexOf("-");
+                var timeL = time.substr(0, index).trim();
+                var timeR = time.substr(index + 1, time.length).trim();
+
+                console.log(timeL);
+                console.log(timeR);
+
+                SelectRuKuDSHTime(pageIndex, pageSize, timeL, timeR);
+                layui.use(['laypage', 'layer'], function () {
+                    var laypage = layui.laypage
+                        , layer = layui.layer;
+                    //完整功能
+                    laypage.render({
+                        elem: 'pagelistA'
+                        //设置总条数
+                        , count: pageCount
+                        , limit: pageSize
+                        , limits: [10, 15, 20, 25, 30,]
+                        , layout: ['count', 'prev', 'page', 'next', 'limit', 'refresh', 'skip']
+                        , jump: function (obj, first) {
+                            if (!first) {
+                                SelectRuKuDSHTime(obj.curr, obj.limit);
+                            }
+                        }
+                    });
+
+                });
+
+            } else if ($("#nameA").val() != "" && $("#timeA").val() != "") {
+                var time = $("#timeA").val();
+                var index = time.indexOf("-");
+                var timeL = time.substr(0, index).trim();
+                var timeR = time.substr(index + 1, time.length).trim();
+                var id = $("#nameA").val();
+                console.log(id);
+                console.log(timeL);
+                console.log(timeR);
+
+                SelectRuKuDSHTimeId(pageIndex, pageSize, timeL, timeR, id);
+                layui.use(['laypage', 'layer'], function () {
+                    var laypage = layui.laypage
+                        , layer = layui.layer;
+                    //完整功能
+                    laypage.render({
+                        elem: 'pagelistA'
+                        //设置总条数
+                        , count: pageCount
+                        , limit: pageSize
+                        , limits: [10, 15, 20, 25, 30,]
+                        , layout: ['count', 'prev', 'page', 'next', 'limit', 'refresh', 'skip']
+                        , jump: function (obj, first) {
+                            if (!first) {
+                                SelectRuKuDSHTimeId(obj.curr, obj.limit);
+                            }
+                        }
+                    });
+
+                });
+            }
+        }
+
+
+        function SelectRuKuSHCGId(pIndex, pSize) {
+            $.ajax({
+                type: "POST",
+                url: "/Yu/SelectRuKuSHCGId",
+                data: "{pageIndex:" + pIndex + ",pageSize:" + pSize + ",id:" + $("#nameB").val() + "}",
+                dataType: "json",
+                async: false,
+                contentType: "application/json",
+                success: function (re) {
+                    $("#boxB tr").remove();
+                    pageCount = re.PageCount;
+                    $.each(re.DataList, function (index, data) {
+
+                        $("#boxB").append("<tr><td><input type='checkbox' style='display: block;' lay-skin='primary'></td><td>" + data.wid + "</td><td>" + data.tname + "</td><td>" + data.sname + "</td><td>" + data.rid + "</td><td>" + data.num + "</td><td>" + (data.num) * (data.price) + "</td><td>" + data.state + "</td><td>" + data.user + "</td><td>" + GetTime(data.time) + "</td><td><div class='layui - btn - group'><button type='button' class='layui-btn layui-btn-warm'><i class='layui-icon'>&#xe642;</i>查看</button><button type='button' class='layui-btn  layui-btn-danger'><i class='layui-icon'>&#xe640;</i>删除</button></div ></td></tr>");
+
+                    });
+                },
+                error: function (ex) {
+                    alert(ex.responseText);
+                }
+            });
+        }
+        function SelectRuKuSHCGTime(pIndex, pSize, timeL, timeR) {
+            //alert(pageIndex + "==========" + pageSize + "========" + timeL + "====" + timeR);
+            //return;
+            $.ajax({
+                type: "POST",
+                url: "/Yu/SelectRuKuSHCGTime",
+                data: "{pageIndex:" + pIndex + ",pageSize:" + pSize + ",timeL:'" + timeL + "',timeR:'" + timeR + "'}",
+                dataType: "json",
+                async: false,
+                contentType: "application/json",
+                success: function (re) {
+                    $("#boxB tr").remove();
+                    pageCount = re.PageCount;
+                    $.each(re.DataList, function (index, data) {
+
+                        $("#boxB").append("<tr><td><input type='checkbox' style='display: block;' lay-skin='primary'></td><td>" + data.wid + "</td><td>" + data.tname + "</td><td>" + data.sname + "</td><td>" + data.rid + "</td><td>" + data.num + "</td><td>" + (data.num) * (data.price) + "</td><td>" + data.state + "</td><td>" + data.user + "</td><td>" + GetTime(data.time) + "</td><td><div class='layui - btn - group'><button type='button' class='layui-btn layui-btn-warm'><i class='layui-icon'>&#xe642;</i>查看</button><button type='button' class='layui-btn  layui-btn-danger'><i class='layui-icon'>&#xe640;</i>删除</button></div ></td></tr>");
+
+                    });
+                },
+                error: function (ex) {
+                    alert(ex.responseText);
+                }
+            });
+        }
+        function SelectRuKuSHCGTimeId(pIndex, pSize, timeL, timeR, id) {
+            //alert(pageIndex + "==========" + pageSize + "========" + timeL + "====" + timeR);
+            //return;
+            $.ajax({
+                type: "POST",
+                url: "/Yu/SelectRuKuSHCGTimeId",
+                data: "{pageIndex:" + pIndex + ",pageSize:" + pSize + ",id:'" + id + "',timeL:'" + timeL + "',timeR:'" + timeR + "'}",
+                dataType: "json",
+                async: false,
+                contentType: "application/json",
+                success: function (re) {
+                    $("#boxB tr").remove();
+                    pageCount = re.PageCount;
+                    $.each(re.DataList, function (index, data) {
+
+                        $("#boxB").append("<tr><td><input type='checkbox' style='display: block;' lay-skin='primary'></td><td>" + data.wid + "</td><td>" + data.tname + "</td><td>" + data.sname + "</td><td>" + data.rid + "</td><td>" + data.num + "</td><td>" + (data.num) * (data.price) + "</td><td>" + data.state + "</td><td>" + data.user + "</td><td>" + GetTime(data.time) + "</td><td><div class='layui - btn - group'><button type='button' class='layui-btn layui-btn-warm'><i class='layui-icon'>&#xe642;</i>查看</button><button type='button' class='layui-btn  layui-btn-danger'><i class='layui-icon'>&#xe640;</i>删除</button></div ></td></tr>");
+
+                    });
+                },
+                error: function (ex) {
+                    alert(ex.responseText);
+                }
+            });
+        }
+        function SearchB() {
+            if ($("#nameB").val() == "" && $("#timeB").val() == "") {
+                alert("请输入你要查询的信息！！");
+
+            } else if ($("#nameB").val() != "" && $("#timeB").val() == "") {
+                alert($("#nameB").val());
+                SelectRuKuSHCGId(pageIndex, pageSize);
+
+                layui.use(['laypage', 'layer'], function () {
+                    var laypage = layui.laypage
+                        , layer = layui.layer;
+                    //完整功能
+                    laypage.render({
+                        elem: 'pagelistB'
+                        //设置总条数
+                        , count: pageCount
+                        , limit: pageSize
+                        , limits: [10, 15, 20, 25, 30,]
+                        , layout: ['count', 'prev', 'page', 'next', 'limit', 'refresh', 'skip']
+                        , jump: function (obj, first) {
+                            if (!first) {
+                                SelectRuKuSHCGId(obj.curr, obj.limit);
+                            }
+                        }
+                    });
+
+                });
+
+            } else if ($("#nameB").val() == "" && $("#timeB").val() != "") {
+                var time = $("#timeB").val();
+                var index = time.indexOf("-");
+                var timeL = time.substr(0, index).trim();
+                var timeR = time.substr(index + 1, time.length).trim();
+
+                console.log(timeL);
+                console.log(timeR);
+
+                SelectRuKuSHCGTime(pageIndex, pageSize, timeL, timeR);
+                layui.use(['laypage', 'layer'], function () {
+                    var laypage = layui.laypage
+                        , layer = layui.layer;
+                    //完整功能
+                    laypage.render({
+                        elem: 'pagelistB'
+                        //设置总条数
+                        , count: pageCount
+                        , limit: pageSize
+                        , limits: [10, 15, 20, 25, 30,]
+                        , layout: ['count', 'prev', 'page', 'next', 'limit', 'refresh', 'skip']
+                        , jump: function (obj, first) {
+                            if (!first) {
+                                SelectRuKuSHCGTime(obj.curr, obj.limit);
+                            }
+                        }
+                    });
+
+                });
+
+            } else if ($("#nameB").val() != "" && $("#timeB").val() != "") {
+                var time = $("#timeB").val();
+                var index = time.indexOf("-");
+                var timeL = time.substr(0, index).trim();
+                var timeR = time.substr(index + 1, time.length).trim();
+                var id = $("#nameB").val();
+                console.log(id);
+                console.log(timeL);
+                console.log(timeR);
+
+                SelectRuKuSHCGTimeId(pageIndex, pageSize, timeL, timeR, id);
+                layui.use(['laypage', 'layer'], function () {
+                    var laypage = layui.laypage
+                        , layer = layui.layer;
+                    //完整功能
+                    laypage.render({
+                        elem: 'pagelistB'
+                        //设置总条数
+                        , count: pageCount
+                        , limit: pageSize
+                        , limits: [10, 15, 20, 25, 30,]
+                        , layout: ['count', 'prev', 'page', 'next', 'limit', 'refresh', 'skip']
+                        , jump: function (obj, first) {
+                            if (!first) {
+                                SelectRuKuSHCGTimeId(obj.curr, obj.limit);
+                            }
+                        }
+                    });
+
+                });
+            }
+        }
+
+
+        function SelectRuKuSHSBId(pIndex, pSize) {
+            $.ajax({
+                type: "POST",
+                url: "/Yu/SelectRuKuSHSBId",
+                data: "{pageIndex:" + pIndex + ",pageSize:" + pSize + ",id:" + $("#nameC").val() + "}",
+                dataType: "json",
+                async: false,
+                contentType: "application/json",
+                success: function (re) {
+                    $("#boxC tr").remove();
+                    pageCount = re.PageCount;
+                    $.each(re.DataList, function (index, data) {
+
+                        $("#boxC").append("<tr><td><input type='checkbox' style='display: block;' lay-skin='primary'></td><td>" + data.wid + "</td><td>" + data.tname + "</td><td>" + data.sname + "</td><td>" + data.rid + "</td><td>" + data.num + "</td><td>" + (data.num) * (data.price) + "</td><td>" + data.state + "</td><td>" + data.user + "</td><td>" + GetTime(data.time) + "</td><td><div class='layui - btn - group'><button type='button' class='layui-btn layui-btn-warm'><i class='layui-icon'>&#xe642;</i>查看</button><button type='button' class='layui-btn  layui-btn-danger'><i class='layui-icon'>&#xe640;</i>删除</button></div ></td></tr>");
+
+                    });
+                },
+                error: function (ex) {
+                    alert(ex.responseText);
+                }
+            });
+        }
+        function SelectRuKuSHSBTime(pIndex, pSize, timeL, timeR) {
+            //alert(pageIndex + "==========" + pageSize + "========" + timeL + "====" + timeR);
+            //return;
+            $.ajax({
+                type: "POST",
+                url: "/Yu/SelectRuKuSHSBTime",
+                data: "{pageIndex:" + pIndex + ",pageSize:" + pSize + ",timeL:'" + timeL + "',timeR:'" + timeR + "'}",
+                dataType: "json",
+                async: false,
+                contentType: "application/json",
+                success: function (re) {
+                    $("#boxC tr").remove();
+                    pageCount = re.PageCount;
+                    $.each(re.DataList, function (index, data) {
+
+                        $("#boxC").append("<tr><td><input type='checkbox' style='display: block;' lay-skin='primary'></td><td>" + data.wid + "</td><td>" + data.tname + "</td><td>" + data.sname + "</td><td>" + data.rid + "</td><td>" + data.num + "</td><td>" + (data.num) * (data.price) + "</td><td>" + data.state + "</td><td>" + data.user + "</td><td>" + GetTime(data.time) + "</td><td><div class='layui - btn - group'><button type='button' class='layui-btn layui-btn-warm'><i class='layui-icon'>&#xe642;</i>查看</button><button type='button' class='layui-btn  layui-btn-danger'><i class='layui-icon'>&#xe640;</i>删除</button></div ></td></tr>");
+
+                    });
+                },
+                error: function (ex) {
+                    alert(ex.responseText);
+                }
+            });
+        }
+        function SelectRuKuSHSBTimeId(pIndex, pSize, timeL, timeR, id) {
+            //alert(pageIndex + "==========" + pageSize + "========" + timeL + "====" + timeR);
+            //return;
+            $.ajax({
+                type: "POST",
+                url: "/Yu/SelectRuKuSHSBTimeId",
+                data: "{pageIndex:" + pIndex + ",pageSize:" + pSize + ",id:'" + id + "',timeL:'" + timeL + "',timeR:'" + timeR + "'}",
+                dataType: "json",
+                async: false,
+                contentType: "application/json",
+                success: function (re) {
+                    $("#boxC tr").remove();
+                    pageCount = re.PageCount;
+                    $.each(re.DataList, function (index, data) {
+
+                        $("#boxC").append("<tr><td><input type='checkbox' style='display: block;' lay-skin='primary'></td><td>" + data.wid + "</td><td>" + data.tname + "</td><td>" + data.sname + "</td><td>" + data.rid + "</td><td>" + data.num + "</td><td>" + (data.num) * (data.price) + "</td><td>" + data.state + "</td><td>" + data.user + "</td><td>" + GetTime(data.time) + "</td><td><div class='layui - btn - group'><button type='button' class='layui-btn layui-btn-warm'><i class='layui-icon'>&#xe642;</i>查看</button><button type='button' class='layui-btn  layui-btn-danger'><i class='layui-icon'>&#xe640;</i>删除</button></div ></td></tr>");
+
+                    });
+                },
+                error: function (ex) {
+                    alert(ex.responseText);
+                }
+            });
+        }
+        function SearchC() {
+            if ($("#nameC").val() == "" && $("#timeC").val() == "") {
+                alert("请输入你要查询的信息！！");
+
+            } else if ($("#nameC").val() != "" && $("#timeC").val() == "") {
+                alert($("#nameC").val());
+                SelectRuKuSHSBId(pageIndex, pageSize);
+
+                layui.use(['laypage', 'layer'], function () {
+                    var laypage = layui.laypage
+                        , layer = layui.layer;
+                    //完整功能
+                    laypage.render({
+                        elem: 'pagelistC'
+                        //设置总条数
+                        , count: pageCount
+                        , limit: pageSize
+                        , limits: [10, 15, 20, 25, 30,]
+                        , layout: ['count', 'prev', 'page', 'next', 'limit', 'refresh', 'skip']
+                        , jump: function (obj, first) {
+                            if (!first) {
+                                SelectRuKuSHSBId(obj.curr, obj.limit);
+                            }
+                        }
+                    });
+
+                });
+
+            } else if ($("#nameC").val() == "" && $("#timeC").val() != "") {
+                var time = $("#timeC").val();
+                var index = time.indexOf("-");
+                var timeL = time.substr(0, index).trim();
+                var timeR = time.substr(index + 1, time.length).trim();
+
+                console.log(timeL);
+                console.log(timeR);
+
+                SelectRuKuSHSBTime(pageIndex, pageSize, timeL, timeR);
+                layui.use(['laypage', 'layer'], function () {
+                    var laypage = layui.laypage
+                        , layer = layui.layer;
+                    //完整功能
+                    laypage.render({
+                        elem: 'pagelistC'
+                        //设置总条数
+                        , count: pageCount
+                        , limit: pageSize
+                        , limits: [10, 15, 20, 25, 30,]
+                        , layout: ['count', 'prev', 'page', 'next', 'limit', 'refresh', 'skip']
+                        , jump: function (obj, first) {
+                            if (!first) {
+                                SelectRuKuSHSBTime(obj.curr, obj.limit);
+                            }
+                        }
+                    });
+
+                });
+
+            } else if ($("#nameC").val() != "" && $("#timeC").val() != "") {
+                var time = $("#timeC").val();
+                var index = time.indexOf("-");
+                var timeL = time.substr(0, index).trim();
+                var timeR = time.substr(index + 1, time.length).trim();
+                var id = $("#nameC").val();
+                console.log(id);
+                console.log(timeL);
+                console.log(timeR);
+
+                SelectRuKuSHSBTimeId(pageIndex, pageSize, timeL, timeR, id);
+                layui.use(['laypage', 'layer'], function () {
+                    var laypage = layui.laypage
+                        , layer = layui.layer;
+                    //完整功能
+                    laypage.render({
+                        elem: 'pagelistC'
+                        //设置总条数
+                        , count: pageCount
+                        , limit: pageSize
+                        , limits: [10, 15, 20, 25, 30,]
+                        , layout: ['count', 'prev', 'page', 'next', 'limit', 'refresh', 'skip']
+                        , jump: function (obj, first) {
+                            if (!first) {
+                                SelectRuKuSHSBTimeId(obj.curr, obj.limit);
+                            }
+                        }
+                    });
+
+                });
             }
         }
     </script>
