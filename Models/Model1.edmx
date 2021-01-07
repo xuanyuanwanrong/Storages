@@ -45,6 +45,7 @@
           <Property Name="Ctid" Type="int" />
           <Property Name="Wid" Type="int" />
           <Property Name="Ftime" Type="datetime" />
+          <Property Name="DeCount" Type="int" />
         </EntityType>
         <EntityType Name="Department">
           <Key>
@@ -887,6 +888,7 @@
           <NavigationProperty Name="User" Relationship="Self.FK_Delivery_User" FromRole="Delivery" ToRole="User" />
           <NavigationProperty Name="Warehousing" Relationship="Self.FK_Delivery_Warehousing" FromRole="Delivery" ToRole="Warehousing" />
           <NavigationProperty Name="WareState" Relationship="Self.FK_Delivery_WareState" FromRole="Delivery" ToRole="WareState" />
+          <Property Name="DeCount" Type="Int32" />
         </EntityType>
         <EntityType Name="Department">
           <Key>
@@ -1774,6 +1776,7 @@
           <EntitySetMapping Name="Delivery">
             <EntityTypeMapping TypeName="StorageModel.Delivery">
               <MappingFragment StoreEntitySet="Delivery">
+                <ScalarProperty Name="DeCount" ColumnName="DeCount" />
                 <ScalarProperty Name="DeId" ColumnName="DeId" />
                 <ScalarProperty Name="Dtid" ColumnName="Dtid" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />

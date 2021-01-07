@@ -4,8 +4,6 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Models;
-
-
 namespace Storage.Controllers.Qin
 {
     public class QinController : Controller

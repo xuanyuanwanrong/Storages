@@ -6,6 +6,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using BLL.MaBLL;
+using Git.Storage.Common.Excel;
 //using Git.Storage.Common.Excel;
 using Models;
 
@@ -17,6 +18,10 @@ namespace Storage.Controllers.Ma
         public ActionResult Index()
         {
             return Redirect("Ma/index.html");
+        }
+        public ActionResult Index1()
+        {
+            return View();
         }
         //查询库存清单
         public ActionResult WhAll(int PageIndex, int PageSize, int typeid, string name)
@@ -104,5 +109,17 @@ namespace Storage.Controllers.Ma
             fs.Close();
             return pathname;
         }
+        //查询出库表
+        public ActionResult DeliveryAll(int PageIndex,int PageSize,int Day) {
+
+            return Json(DeliveryManager.DeliveryAll(PageIndex,PageSize,Day),JsonRequestBehavior.AllowGet);
+        }
+
+        //查询排行前五
+        public ActionResult paihang(int Day) {
+            return Json(DeliveryManager.PaiHang(Day), JsonRequestBehavior.AllowGet);
+        }
+
+
     }
 }
