@@ -41,10 +41,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Kevin\CustomerManger.cs" />
+    <Compile Include="Kevin\MeteringManager.cs" />
     <Compile Include="Kevin\ProductCategoryManager.cs" />
+    <Compile Include="Kevin\ProductManager.cs" />
+    <Compile Include="Kevin\WareHouseManager.cs" />
     <Compile Include="Lxy\RuKumanager.cs" />
     <Compile Include="MaBLL\DeliveryManager.cs" />
     <Compile Include="MaBLL\ProductManager.cs" />
+    <Compile Include="MaBLL\UserManager.cs" />
     <Compile Include="MaBLL\WarehousingManager.cs" />
     <Compile Include="MaBLL\WareStateTypeManager.cs" />
     <Compile Include="Peng\CustomerMangeng.cs" />
