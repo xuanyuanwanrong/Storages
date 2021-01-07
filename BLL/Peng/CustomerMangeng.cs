@@ -21,5 +21,17 @@ namespace BLL.Peng
         {
             return CustomerServicer.CustomerAdd(C);
         }
+        public static IQueryable CustomerCxx(string CtName)
+        {
+
+            return CustomerServicer.CustomerCxx(CtName);
+
+        }
+       
+
+        //public static int Del(int id)
+        //{
+        //    return CustomerServicer.Del(id);
+        //}
     }
 }

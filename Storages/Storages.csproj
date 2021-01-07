@@ -291,6 +291,7 @@
     <Content Include="Ma\M_supplier.html" />
     <Content Include="Peng\O_KeHuList.html" />
     <Content Include="Peng\O_KeHuListAdd.html" />
+    <Content Include="Peng\O_KeHuListUpdate.html" />
     <Content Include="Peng\O_Measuring.html" />
     <Content Include="Peng\O_MeasuringAdd.html" />
     <Content Include="Qin\Q_order-list.html" />
