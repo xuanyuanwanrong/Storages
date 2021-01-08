@@ -134,10 +134,9 @@
       
         $.ajax({
             url: "/Ma/WhAll",
-            data: "{PageIndex:" + PageIndex + ",PageSize:" + PageSize + ",typeid:" + typeid + ",name:'" + name + "'}",
+            data: "{PageIndex:" + PageIndex + ",PageSize:" + PageSize + ",typeid:" + TypeId + ",name:'" + Name + "'}",
             type: "post",
             dataType: "json",
-            async: false,
             contentType: "application/json",
             success: function (result) {
                 $("#tbl").empty();
@@ -179,7 +178,7 @@
             }
         });
     }
-    //点击查询按钮
+
     $("#chaxun").click(function () {
         name = $("#cpname").val();
         typeid = $("#leixing").val();
