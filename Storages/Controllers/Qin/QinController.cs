@@ -72,7 +72,7 @@ namespace Storage.Controllers.Qin
         /// <param name="pageIndex"></param>
         /// <param name="pageSize"></param>
         /// <returns></returns>
-        public ActionResult PageListDemo(int pageIndex, int pageSize, string SlrName)
+        public ActionResult PageListDemo(int pageIndex=1, int pageSize=5, string SlrName="")
         {
             return Json(SupplierManager.PageListDemo(pageIndex,pageSize, SlrName),JsonRequestBehavior.AllowGet);
         }

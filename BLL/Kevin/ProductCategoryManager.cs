@@ -10,10 +10,10 @@ namespace BLL.Kevin
 {
     public class ProductCategoryManager
     {
-        public static PageList ProductCategoryList(int PageIndex, int PageSize, string PcName)
-        {
-            return ProductCategoryService.ProductCategoryList(PageIndex, PageSize, PcName);
-        }
+        //public static PageList ProductCategoryList(int PageIndex, int PageSize, string PcName)
+        //{
+        //    return ProductCategoryService.ProductCategoryList(PageIndex, PageSize, PcName);
+        //}
         public static int ProductCategoryAdd(ProductCategory pro)
         {
             return ProductCategoryService.ProductCategoryAdd(pro);

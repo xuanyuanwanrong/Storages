@@ -78,7 +78,7 @@ namespace DAL.Qin
         /// <param name="pageIndex"></param>
         /// <param name="PageSize"></param>
         /// <returns></returns>
-        public static PageList PageListDemo(int pageIndex, int PageSize,string SlrName)
+        public static PageList PageListDemo(int pageIndex=1, int PageSize=5,string SlrName="")
         {
             StorageEntities entity = new StorageEntities();
             //实例化分页类
