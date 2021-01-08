@@ -50,6 +50,5 @@ namespace Models
         public virtual DbSet<WareState> WareState { get; set; }
         public virtual DbSet<WareStateType> WareStateType { get; set; }
         public virtual DbSet<WhState> WhState { get; set; }
-        public virtual DbSet<WhereDepot> WhereDepot { get; set; }
     }
 }

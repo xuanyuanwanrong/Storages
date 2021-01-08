@@ -33,7 +33,6 @@
           <Property Name="CtIphone" Type="char" MaxLength="11" />
           <Property Name="CtAddress" Type="nvarchar(max)" />
           <Property Name="Time" Type="datetime" />
-          <Property Name="CtState" Type="int" />
         </EntityType>
         <EntityType Name="Delivery">
           <Key>
@@ -68,7 +67,6 @@
           </Key>
           <Property Name="Mid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Mname" Type="varchar" MaxLength="50" />
-          <Property Name="Mstate" Type="int" />
         </EntityType>
         <EntityType Name="MoveBank">
           <Key>
@@ -154,7 +152,6 @@
           <Property Name="SlContacts" Type="varchar" MaxLength="50" />
           <Property Name="SlIphone" Type="char" MaxLength="11" />
           <Property Name="SlAddress" Type="varchar" MaxLength="255" />
-          <Property Name="eamil" Type="varchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="SupplierType">
           <Key>
@@ -241,13 +238,6 @@
           </Key>
           <Property Name="Tid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="TName" Type="varchar" MaxLength="50" />
-        </EntityType>
-        <EntityType Name="WhereDepot">
-          <Key>
-            <PropertyRef Name="Wdid" />
-          </Key>
-          <Property Name="Wdid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Inwarehouse" Type="varchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="WhState">
           <Key>
@@ -556,18 +546,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_WareHouse_WareHouse">
-          <End Role="WareHouse" Type="Self.WareHouse" Multiplicity="1" />
-          <End Role="WareHouse1" Type="Self.WareHouse" Multiplicity="0..1" />
-          <ReferentialConstraint>
-            <Principal Role="WareHouse">
-              <PropertyRef Name="WhId" />
-            </Principal>
-            <Dependent Role="WareHouse1">
-              <PropertyRef Name="WhId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_WareHouse_WareHouseType">
           <End Role="WareHouseType" Type="Self.WareHouseType" Multiplicity="0..1" />
           <End Role="WareHouse" Type="Self.WareHouse" Multiplicity="*" />
@@ -577,18 +555,6 @@
             </Principal>
             <Dependent Role="WareHouse">
               <PropertyRef Name="WhTypeId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_WareHouse_WhereDepot">
-          <End Role="WhereDepot" Type="Self.WhereDepot" Multiplicity="0..1" />
-          <End Role="WareHouse" Type="Self.WareHouse" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="WhereDepot">
-              <PropertyRef Name="Wdid" />
-            </Principal>
-            <Dependent Role="WareHouse">
-              <PropertyRef Name="Stid" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -725,7 +691,6 @@
           <EntitySet Name="WareProduct" EntityType="Self.WareProduct" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="WareState" EntityType="Self.WareState" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="WareStateType" EntityType="Self.WareStateType" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="WhereDepot" EntityType="Self.WhereDepot" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="WhState" EntityType="Self.WhState" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_Bad_BadType" Association="Self.FK_Bad_BadType">
             <End Role="BadType" EntitySet="BadType" />
@@ -827,16 +792,8 @@
             <End Role="Storehouse" EntitySet="Storehouse" />
             <End Role="WareHouse" EntitySet="WareHouse" />
           </AssociationSet>
-          <AssociationSet Name="FK_WareHouse_WareHouse" Association="Self.FK_WareHouse_WareHouse">
-            <End Role="WareHouse" EntitySet="WareHouse" />
-            <End Role="WareHouse1" EntitySet="WareHouse" />
-          </AssociationSet>
           <AssociationSet Name="FK_WareHouse_WareHouseType" Association="Self.FK_WareHouse_WareHouseType">
             <End Role="WareHouseType" EntitySet="WareHouseType" />
-            <End Role="WareHouse" EntitySet="WareHouse" />
-          </AssociationSet>
-          <AssociationSet Name="FK_WareHouse_WhereDepot" Association="Self.FK_WareHouse_WhereDepot">
-            <End Role="WhereDepot" EntitySet="WhereDepot" />
             <End Role="WareHouse" EntitySet="WareHouse" />
           </AssociationSet>
           <AssociationSet Name="FK_WareHouse_WhState" Association="Self.FK_WareHouse_WhState">
@@ -915,7 +872,6 @@
           <Property Name="Time" Type="DateTime" Precision="3" />
           <NavigationProperty Name="Delivery" Relationship="Self.FK_Delivery_Customer" FromRole="Customer" ToRole="Delivery" />
           <NavigationProperty Name="Product" Relationship="Self.FK_Product_Customer" FromRole="Customer" ToRole="Product" />
-          <Property Name="CtState" Type="Int32" />
         </EntityType>
         <EntityType Name="Delivery">
           <Key>
@@ -957,7 +913,6 @@
           <Property Name="Mid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Mname" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Product" Relationship="Self.FK_Product_Metering" FromRole="Metering" ToRole="Product" />
-          <Property Name="Mstate" Type="Int32" />
         </EntityType>
         <EntityType Name="MoveBank">
           <Key>
@@ -1064,7 +1019,6 @@
           <Property Name="SlAddress" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="SupplierType" Relationship="Self.FK_Supplier_SupplierType" FromRole="Supplier" ToRole="SupplierType" />
           <NavigationProperty Name="Warehousing" Relationship="Self.FK_Warehousing_Supplier" FromRole="Supplier" ToRole="Warehousing" />
-          <Property Name="eamil" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="SupplierType">
           <Key>
@@ -1119,9 +1073,6 @@
           <NavigationProperty Name="WareHouseType" Relationship="Self.FK_WareHouse_WareHouseType" FromRole="WareHouse" ToRole="WareHouseType" />
           <NavigationProperty Name="WhState" Relationship="Self.FK_WareHouse_WhState" FromRole="WareHouse" ToRole="WhState" />
           <NavigationProperty Name="WareProduct" Relationship="Self.FK_WareProduct_WareHouse" FromRole="WareHouse" ToRole="WareProduct" />
-          <NavigationProperty Name="WareHouse1" Relationship="StorageModel.FK_WareHouse_WareHouse" FromRole="WareHouse" ToRole="WareHouse1" />
-          <NavigationProperty Name="WareHouse2" Relationship="StorageModel.FK_WareHouse_WareHouse" FromRole="WareHouse1" ToRole="WareHouse" />
-          <NavigationProperty Name="WhereDepot" Relationship="StorageModel.FK_WareHouse_WhereDepot" FromRole="WareHouse" ToRole="WhereDepot" />
         </EntityType>
         <EntityType Name="WareHouseType">
           <Key>
@@ -1771,15 +1722,6 @@
             <End Role="Product" EntitySet="Product" />
             <End Role="Warehousing" EntitySet="Warehousing" />
           </AssociationSet>
-          <EntitySet Name="WhereDepot" EntityType="StorageModel.WhereDepot" />
-          <AssociationSet Name="FK_WareHouse_WareHouse" Association="StorageModel.FK_WareHouse_WareHouse">
-            <End Role="WareHouse" EntitySet="WareHouse" />
-            <End Role="WareHouse1" EntitySet="WareHouse" />
-          </AssociationSet>
-          <AssociationSet Name="FK_WareHouse_WhereDepot" Association="StorageModel.FK_WareHouse_WhereDepot">
-            <End Role="WhereDepot" EntitySet="WhereDepot" />
-            <End Role="WareHouse" EntitySet="WareHouse" />
-          </AssociationSet>
         </EntityContainer>
         <Association Name="FK_Warehousing_Product">
           <End Type="StorageModel.Product" Role="Product" Multiplicity="0..1" />
@@ -1790,38 +1732,6 @@
             </Principal>
             <Dependent Role="Warehousing">
               <PropertyRef Name="Pid" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityType Name="WhereDepot">
-          <Key>
-            <PropertyRef Name="Wdid" />
-          </Key>
-          <Property Name="Wdid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Inwarehouse" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="WareHouse" Relationship="StorageModel.FK_WareHouse_WhereDepot" FromRole="WhereDepot" ToRole="WareHouse" />
-        </EntityType>
-        <Association Name="FK_WareHouse_WareHouse">
-          <End Type="StorageModel.WareHouse" Role="WareHouse" Multiplicity="1" />
-          <End Type="StorageModel.WareHouse" Role="WareHouse1" Multiplicity="0..1" />
-          <ReferentialConstraint>
-            <Principal Role="WareHouse">
-              <PropertyRef Name="WhId" />
-            </Principal>
-            <Dependent Role="WareHouse1">
-              <PropertyRef Name="WhId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_WareHouse_WhereDepot">
-          <End Type="StorageModel.WhereDepot" Role="WhereDepot" Multiplicity="0..1" />
-          <End Type="StorageModel.WareHouse" Role="WareHouse" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="WhereDepot">
-              <PropertyRef Name="Wdid" />
-            </Principal>
-            <Dependent Role="WareHouse">
-              <PropertyRef Name="Stid" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1855,7 +1765,6 @@
           <EntitySetMapping Name="Customer">
             <EntityTypeMapping TypeName="StorageModel.Customer">
               <MappingFragment StoreEntitySet="Customer">
-                <ScalarProperty Name="CtState" ColumnName="CtState" />
                 <ScalarProperty Name="CtId" ColumnName="CtId" />
                 <ScalarProperty Name="CtName" ColumnName="CtName" />
                 <ScalarProperty Name="CtIphone" ColumnName="CtIphone" />
@@ -1897,7 +1806,6 @@
           <EntitySetMapping Name="Metering">
             <EntityTypeMapping TypeName="StorageModel.Metering">
               <MappingFragment StoreEntitySet="Metering">
-                <ScalarProperty Name="Mstate" ColumnName="Mstate" />
                 <ScalarProperty Name="Mid" ColumnName="Mid" />
                 <ScalarProperty Name="Mname" ColumnName="Mname" />
               </MappingFragment>
@@ -1986,7 +1894,6 @@
           <EntitySetMapping Name="Supplier">
             <EntityTypeMapping TypeName="StorageModel.Supplier">
               <MappingFragment StoreEntitySet="Supplier">
-                <ScalarProperty Name="eamil" ColumnName="eamil" />
                 <ScalarProperty Name="SlId" ColumnName="SlId" />
                 <ScalarProperty Name="SlTypeId" ColumnName="SlTypeId" />
                 <ScalarProperty Name="SlrName" ColumnName="SlrName" />
@@ -2097,14 +2004,6 @@
               <MappingFragment StoreEntitySet="WhState">
                 <ScalarProperty Name="WhStateId" ColumnName="WhStateId" />
                 <ScalarProperty Name="WhStateName" ColumnName="WhStateName" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="WhereDepot">
-            <EntityTypeMapping TypeName="StorageModel.WhereDepot">
-              <MappingFragment StoreEntitySet="WhereDepot">
-                <ScalarProperty Name="Inwarehouse" ColumnName="Inwarehouse" />
-                <ScalarProperty Name="Wdid" ColumnName="Wdid" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -139,9 +139,6 @@
     <Compile Include="WareStateType.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="WhereDepot.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
     <Compile Include="WhState.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>

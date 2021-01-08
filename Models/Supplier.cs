@@ -27,7 +27,6 @@ namespace Models
         public string SlContacts { get; set; }
         public string SlIphone { get; set; }
         public string SlAddress { get; set; }
-        public string eamil { get; set; }
     
         public virtual SupplierType SupplierType { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

@@ -26,7 +26,6 @@ namespace Models
         public string CtIphone { get; set; }
         public string CtAddress { get; set; }
         public Nullable<System.DateTime> Time { get; set; }
-        public Nullable<int> CtState { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Delivery> Delivery { get; set; }
