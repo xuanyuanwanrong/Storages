@@ -21,6 +21,7 @@ namespace Models
         public Nullable<int> Ctid { get; set; }
         public Nullable<int> Wid { get; set; }
         public Nullable<System.DateTime> Ftime { get; set; }
+        public Nullable<int> DeCount { get; set; }
     
         public virtual Customer Customer { get; set; }
         public virtual User User { get; set; }

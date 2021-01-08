@@ -78,8 +78,8 @@
                             <thead>
                                 <tr>
                                     <th>编号</th>
-                                    <th>名称</th>
                                     <th>计量单位</th>
+                                    <th>名称</th>
                                     <th>操作</th>
                                 </tr>
                             </thead>
@@ -129,7 +129,8 @@
                 $("#td1 th").remove();
                 $.each(result.DataList, function (index, data) {
 
-                    $("#td1").append("<tr><th>" + data.Mid + "</th><th>" + data.Mname + "</th><th>" + data.MId + "</th><th><button type='button' class='layui-btn layui-btn-normal layui-btn-sm'><i class='layui-icon'></i></button><button type='button' class='layui-btn layui-btn-danger'><i class='layui-icon'></i></button></th></tr>");
+                    $("#td1").append("<tr><th>" + data.Mid + "</th><th>" + data.MId + "</th><th>" + data.Mname
+                        + "</th><th><button class='layui-btn layui-btn-normal layui-btn-sm' onclick=xadmin.open('修改单位','/Peng/O_MeasuringUpdate.html',800,600)> <i class='layui-icon'></i></button></button><button type='button' class='layui-btn layui-btn-danger'><i class='layui-icon'></i></button></th></th ></tr>");
                 });
             },
             error: function (ex) {

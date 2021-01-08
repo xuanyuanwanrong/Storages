@@ -17,7 +17,10 @@
     <body>
         <div class="x-nav">
             <span class="layui-breadcrumb">
-                
+                <a href="">首页</a>
+                <a href="">演示</a>
+                <a>
+                    <cite>导航元素</cite></a>
             </span>
             <a class="layui-btn layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right" onclick="location.reload()" title="刷新">
                 <i class="layui-icon layui-icon-refresh" style="line-height:30px"></i>
@@ -28,7 +31,7 @@
                 <div class="layui-col-md12">
                     <div class="layui-card">
                         <div class="layui-card-body ">
-                            
+                            <form class="layui-form layui-col-space5">
                                <!-- <div class="layui-input-inline layui-show-xs-block">
                                     <input class="layui-input" placeholder="开始日" name="start" id="start"></div>
                                 <div class="layui-input-inline layui-show-xs-block">
@@ -51,18 +54,18 @@
                                         <option value="5">已作废</option></select>
                                 </div> -->
                                 <div class="layui-input-inline layui-show-xs-block">
-                                    <input type="text" id="PcName" name="username" placeholder="请输入产品类别名" autocomplete="off" class="layui-input"></div>
+                                    <input type="text" name="username" placeholder="请输入订单号" autocomplete="off" class="layui-input"></div>
                                 <div class="layui-input-inline layui-show-xs-block">
-                                    <button class="layui-btn" id="mhcx">
-                                        <i class="layui-icon">&#xe615;</i>
-                                    </button>
-                                    <button class="layui-btn" onclick="Add()">
-                                        <i class="layui-icon"></i>添加
-                                    </button>
+                                    <button class="layui-btn" lay-submit="" lay-filter="sreach">
+                                        <i class="layui-icon">&#xe615;</i></button>
                                 </div>
-                            
+                            </form>
                         </div>
-                        
+                        <div class="layui-card-header">
+                            <button class="layui-btn layui-btn-danger" onclick="delAll()">
+                                <i class="layui-icon"></i>批量删除</button>
+                            <button class="layui-btn" onclick="Add()">
+                                <i class="layui-icon"></i>添加</button></div>
                         <div class="layui-card-body ">
                             <table class="layui-table layui-form">
                                 <thead>
@@ -109,10 +112,9 @@
     var pageIndex = 1;
     var pageSize = 10;
     var count = 0;
-    var pcName = "";
     $(function () {
 
-        ProductCategoryList(pageIndex, pageSize, pcName);
+        ProductCategoryList(pageIndex, pageSize);
         layui.use(['laypage', 'layer'], function () {
             var laypage = layui.laypage
                 , layer = layui.layer;
@@ -124,26 +126,7 @@
                 , layout: ['count', 'prev', 'page', 'next', 'limit', 'refresh', 'skip']
                 , jump: function (obj, first) {
                     if (!first) {
-                        ProductCategoryList(obj.curr, obj.limit, pcName);
-                    }
-                }
-            });
-        });
-    });
-    $("#mhcx").click(function () {
-        ProductCategoryListGet();
-        layui.use(['laypage', 'layer'], function () {
-            var laypage = layui.laypage
-                , layer = layui.layer;
-            laypage.render({
-                elem: 'fengYe'
-                , count: count
-                , limit: pageSize
-                , limits: [5, 10, 15, 20, 25, 30,]
-                , layout: ['count', 'prev', 'page', 'next', 'limit', 'refresh', 'skip']
-                , jump: function (obj, first) {
-                    if (!first) {
-                        ProductCategoryList(obj.curr, obj.limit, pcName);
+                        ProductCategoryList(obj.curr, obj.limit);
                     }
                 }
             });
@@ -176,11 +159,11 @@
     }
     
   
-    function ProductCategoryList(index,size,name) {
+    function ProductCategoryList(index,size) {
         $.ajax({
             type: "POST",
             url: "/Kevin/ProductCategoryList",
-            data: "{PageIndex:" + index + ",PageSize:" + size + ",PcName:'" + name + "'}",
+            data: "{PageIndex:" + index + ",PageSize:" + size + "}",
             dataType: "json",
             async: false,
             contentType: "application/json",
@@ -225,27 +208,10 @@
         parent.layer.open({//占坑！
             type: 2,
             title: "添加产品类别",
-            content: "/Kevin/K_LeiBieAdd.html",
+            content: "./K_LeiBieAdd.html",
             area: ["450px", "350px"],
             end: function () {
-                $("#PcName").val("");
-                ProductCategoryListGet(pageIndex, pageSize, name);
-                layui.use(['laypage', 'layer'], function () {
-                    var laypage = layui.laypage
-                        , layer = layui.layer;
-                    laypage.render({
-                        elem: 'fengYe'
-                        , count: count
-                        , limit: pageSize
-                        , limits: [5, 10, 15, 20, 25, 30,]
-                        , layout: ['count', 'prev', 'page', 'next', 'limit', 'refresh', 'skip']
-                        , jump: function (obj, first) {
-                            if (!first) {
-                                ProductCategoryList(obj.curr, obj.limit, pcName);
-                            }
-                        }
-                    });
-                });
+                window.parent.location.reload();
             }
         });
     }
@@ -254,17 +220,11 @@
         parent.layer.open({//占坑！
             type: 2,
             title: "修改  产品类别",
-            content: "/Kevin/K_LeiBieUpd.html?Pcid=" + Pcid,
+            content: "./K_LeiBieUpd.html?Pcid=" + Pcid,
             area: ["450px", "350px"],
             end: function () {
-                
-                ProductCategoryListGet(pageIndex, pageSize, name);
-                
+                window.parent.location.reload();
             }
         });
-    }
-    function ProductCategoryListGet() {
-        pcName = $("#PcName").val();
-        ProductCategoryList(pageIndex, pageSize, pcName);
     }
 </script>

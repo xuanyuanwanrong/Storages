@@ -7,18 +7,25 @@ using System.Web;
 using System.Web.Mvc;
 using BLL.MaBLL;
 using Git.Storage.Common.Excel;
-//using Git.Storage.Common.Excel;
 using Models;
 
 namespace Storage.Controllers.Ma
 {
     public class MaController : Controller
     {
-        //跳转主页
-        public ActionResult Index()
-        {
-            return Redirect("Ma/index.html");
-        }
+        //protected override void OnActionExecuting(ActionExecutingContext filterContext)
+        //{
+        //    if (Session["jurisdiction"] == null) //判断session是否为空
+        //    {
+        //        //filterContext.Result = new RedirectResult(Url.Action("Index", "Home"));//方法名，控制器名
+        //        filterContext.Result =new RedirectResult("/Ma/Index.html");//方法名，控制器名
+                 
+        //        return;
+        //    }
+
+        //    base.OnActionExecuting(filterContext);
+        //}
+
         //查询库存清单
         public ActionResult WhAll(int PageIndex, int PageSize, int typeid, string name)
         {
@@ -98,12 +105,24 @@ namespace Storage.Controllers.Ma
             var name = string.Format("货品清单报表{0}.xls", DateTime.Now.ToString("yyyyMMddHHmmss"));
             string path = Server.MapPath("~/Excel/");
             var pathname = string.Format("/Excel/{0}", name);
-            AsposeExcel excel = new AsposeExcel(System.IO.Path.Combine(path, name), "");
-            excel.DatatableToExcel(dt, "货品清单报表", "货品清单报表");
+            //AsposeExcel excel = new AsposeExcel(System.IO.Path.Combine(path, name), "");
+            //excel.DatatableToExcel(dt, "货品清单报表", "货品清单报表");
             FileStream fs = new FileStream(System.IO.Path.Combine(path, name), FileMode.Open, FileAccess.Read);
             File(fs, "application/vnd.ms-excel", name);
             fs.Close();
             return pathname;
         }
+        //查询出库表
+        public ActionResult DeliveryAll(int PageIndex,int PageSize,int Day) {
+
+            return Json(DeliveryManager.DeliveryAll(PageIndex,PageSize,Day),JsonRequestBehavior.AllowGet);
+        }
+
+        //查询排行前五
+        public ActionResult paihang(int Day) {
+            return Json(DeliveryManager.PaiHang(Day), JsonRequestBehavior.AllowGet);
+        }
+
+
     }
 }

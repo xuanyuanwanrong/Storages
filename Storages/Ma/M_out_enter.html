@@ -10,10 +10,19 @@
 		<link rel="stylesheet" href="../css/xadmin.css">
 		<script src="../lib/layui/layui.js" charset="utf-8"></script>
 		<script type="text/javascript" src="../js/xadmin.js"></script>
+		<script src="../Scripts/jquery-3.4.1.min.js"></script>
 		<!--[if lt IE 9]>
           <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
           <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
         <![endif]-->
+		<style type="text/css">
+			#Date ul li{
+				float:left;
+				margin-left:20px;
+				
+			}
+           
+		</style>
 	</head>
 	<body>
 		<div class="x-nav">
@@ -24,185 +33,153 @@
 			<div class="layui-row layui-col-space15">
 				<div class="layui-col-md12">
 					<div class="layui-card">
-						<div class="layui-card-body ">
-							<form class="layui-form layui-col-space5">
-
-								<div class="layui-inline layui-show-xs-block">
-									<a href="#">近10天</a>&nbsp;&nbsp;
-									<a href="#">近30天</a>&nbsp;&nbsp;
-									<a href="#">近60天</a>&nbsp;&nbsp;
-									<a href="#">历史&gt;&gt;</a>
+						<div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
+								<div class="layui-tab-title" id="Date">
+									<ul>
+                                        <li onclick="time('10')">近10天</li>
+                                        <li onclick="time('30')">近30天</li>
+										<li onclick="time('60')">近60天</li>
+										<li  class="layui-this" onclick="time('0')">历史</li>
+									</ul>
 								</div>
-							</form>
 						</div>
 						<div class="layui-card-body layui-table-body layui-table-main" style="width:45%;float: left;">
-							<table class="layui-table" style="border: 1px solid rgb(205,205,205);">
+							<fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+								<legend>入库排行</legend>
+							</fieldset>
+
+							<table class="layui-table" style="border: 1px solid rgb(205,205,205); width:100%;margin:0px auto;">
 								<thead>
 									<tr>
-										<th>产品入库排行</th>
+										<th>排名</th>
+										<th>序号</th>
+										<th>数量</th>
+										<th>出库时间</th>
 									</tr>
-									
-									</thead>
-									<tbody>
-											<tr>
-												<td>产品出库排行</td>
-											</tr>
-									</tbody>
+								</thead>
+								<tbody id="paihang">
+								</tbody>
 							</table>
 						</div>
-						<div class="layui-card-body layui-table-body layui-table-main" style="width:45%;float: right;">
-							<table class="layui-table" style="border: 1px solid rgb(205,205,205);">
-								<thead>
-									<tr>
-										<th>产品出库排行</th>
-									</tr>
-							</thead>
-							<tbody>
-									<tr>
-										<td>产品出库排行</td>
-									</tr>
-							</tbody>
-							</table>
-						</div>
+						
 						<div class="layui-card-body layui-table-body layui-table-main" style="clear: both;">
 							<table class="layui-table layui-form">
 								<thead>
 									<tr>
 										
-										<th>产品编号</th>
-										<th>产品条码</th>
-										<th>产品名称</th>
-										<th>类别</th>
-										<th>预警值下线</th>
-										<th>预警值上线</th>
-										<th>规格</th>
-										<th>库位数</th>
-										<th>进货总数</th>
-										<th>出货总数</th>
-										<th>报损总数</th>
+										<th>出库编号</th>
+										<th>出库时间</th>
+										<th>客户名</th>
+										<th>入库单号</th>
+										<th>发货时间</th>
+										<th>出库数量</th>
+										<th>制单人</th>
+										
 									</tr>
 								</thead>
-								<tbody>
+								<tbody id="DeTbl">
 									<tr>
 										
-										<td>1</td>
-										<td>小明</td>
-										<td>男</td>
-										<td>13000000000</td>
-										<td>北京市 海淀区</td>
-										<td>北京市 海淀区</td>
-										<td>北京市 海淀区</td>
-										<td>北京市 海淀区</td>
-										<td>北京市 海淀区</td>
-										<td>北京市 海淀区</td>
-										<td>北京市 海淀区</td>
+										
 									</tr>
 								</tbody>
 							</table>
 						</div>
 						<div class="layui-card-body ">
-							<div class="page">
-								<div>
-
-								</div>
+							<div id="page">
+								
+								
 							</div>
+							<!--<button class="layui-btn layui-btn-primary" onclick="aa()">啊啊啊啊</button>-->
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 	</body>
-	<script>
-		layui.use(['laydate', 'form'], function() {
-			var laydate = layui.laydate;
-			var form = layui.form;
-
-
-			// 监听全选
-			form.on('checkbox(checkall)', function(data) {
-
-				if (data.elem.checked) {
-					$('tbody input').prop('checked', true);
-				} else {
-					$('tbody input').prop('checked', false);
-				}
-				form.render('checkbox');
-			});
-
-			//执行一个laydate实例
-			laydate.render({
-				elem: '#start' //指定元素
-			});
-
-			//执行一个laydate实例
-			laydate.render({
-				elem: '#end' //指定元素
-			});
-
-
-		});
-
-		/*用户-停用*/
-		function member_stop(obj, id) {
-			layer.confirm('确认要停用吗？', function(index) {
-
-				if ($(obj).attr('title') == '启用') {
-
-					//发异步把用户状态进行更改
-					$(obj).attr('title', '停用')
-					$(obj).find('i').html('&#xe62f;');
-
-					$(obj).parents("tr").find(".td-status").find('span').addClass('layui-btn-disabled').html('已停用');
-					layer.msg('已停用!', {
-						icon: 5,
-						time: 1000
-					});
-
-				} else {
-					$(obj).attr('title', '启用')
-					$(obj).find('i').html('&#xe601;');
-
-					$(obj).parents("tr").find(".td-status").find('span').removeClass('layui-btn-disabled').html('已启用');
-					layer.msg('已启用!', {
-						icon: 5,
-						time: 1000
-					});
-				}
-
-			});
-		}
-
-		/*用户-删除*/
-		function member_del(obj, id) {
-			layer.confirm('确认要删除吗？', function(index) {
-				//发异步删除数据
-				$(obj).parents("tr").remove();
-				layer.msg('已删除!', {
-					icon: 1,
-					time: 1000
-				});
-			});
-		}
-
-
-
-		function delAll(argument) {
-			var ids = [];
-
-			// 获取选中的id 
-			$('tbody input').each(function(index, el) {
-				if ($(this).prop('checked')) {
-					ids.push($(this).val())
-				}
-			});
-
-			layer.confirm('确认要删除吗？' + ids.toString(), function(index) {
-				//捉到所有被选中的，发异步进行删除
-				layer.msg('删除成功', {
-					icon: 1
-				});
-				$(".layui-form-checked").not('.header').parents('tr').remove();
-			});
-		}
-	</script>
 </html>
+<script type="text/javascript">
+	var PageInde = 1;
+	var PageSize = 5;
+	var Count = 0;
+	var Day = 0;
+	function time(time) {
+		DeliveryAll(PageInde, PageSize, time);
+		paihang(time);
+	}
+	//function aa() {
+	//	parent.layer.open({
+	//		type: 2,
+	//		title: "啊啊啊啊",
+ //           content: "/View/Index1.cshtml",
+	//		area: ["500px", "300px"],
+	//		end: function () {
+	//			alert(1);
+	//		}
+	//	});
+	//}
+	function paihang(time) {
+        $.ajax({
+            url: "/Ma/paihang",
+			type: "post",
+			async: false,
+			dataType: "json",
+            data: "{Day:" + time + "}",
+            contentType: "application/json",
+            success: function (result) {
+                $("#paihang").empty();
+				Count = result.PageCount;
+				var shu = 1;
+				$.each(result.DataList, function (index, data) {
+                    $("#paihang").append("<tr><td>" + (shu++) + "</td><td>" + data.deid + "</td><td>" + data.deount + "</td><td>" + GetTime(data.time) + "</td></tr>");
+                });
+            }, error: function (ex) {
+                alert("Error:" + ex.responseText);
+            }
+        });
+	}
+	function GetTime(op) {
+			var date = new Date(parseInt(op.substring(6)));
+			return date.toLocaleDateString();
+	}
+	$(function () {
+		paihang(Day);
+		DeliveryAll(PageInde, PageSize,Day);
+        layui.use(['laypage', 'layer'], function () {
+            var laypage = layui.laypage
+                , layer = layui.layer;
+            laypage.render({
+                elem: 'page'
+				, count: Count
+				, limit: PageSize
+                , limits: [5, 10, 15, 20, 25, 30,]
+                , layout: ['count', 'prev', 'page', 'next', 'limit', 'refresh', 'skip']
+                , jump: function (obj, first) {
+                    if (!first) {
+                        DeliveryAll(obj.curr, obj.limit,Day);
+                    }
+                }
+            });
+
+        });
+	});
+	function DeliveryAll(index,size,time) {
+		$.ajax({
+            url: "/Ma/DeliveryAll",
+			type: "post",
+			async: false,
+			dataType: "json",
+			data: "{PageIndex:" + index + ",PageSize:" + size + ",Day:" + time + "}",
+			contentType: "application/json",
+			success: function (result) {
+				$("#DeTbl").empty();
+				Count = result.PageCount;
+				$.each(result.DataList, function (index, data) {
+                    $("#DeTbl").append("<tr><td>" + data.deid + "</td><td>" + data.ctname + "</td><td>" + data.wid + "</td><td>" + GetTime(data.time) + "</td><td>" + GetTime(data.ftime) + "</td><td>" + data.decount + "</td><td>" + data.username +"</td></tr>");
+				});
+			}, error: function (ex) {
+				alert("Error:" + ex.responseText);
+			}
+		});
+	}
+</script>
