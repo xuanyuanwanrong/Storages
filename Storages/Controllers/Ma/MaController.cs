@@ -38,7 +38,7 @@ namespace Storage.Controllers.Ma
         }
 
         //库存导出Excel
-        public string Excel(int typeid, string cname)
+        public string Excel(int typeid=1, string cname="")
         {
             DataTable dt = new DataTable();
             dt.Columns.Add(new DataColumn("序号 "));
