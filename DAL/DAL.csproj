@@ -58,6 +58,7 @@
     <Compile Include="Peng\MeteringServicer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Qin\SupplierService.cs" />
+    <Compile Include="Qin\SupplierTypeService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Models\Models.csproj">
